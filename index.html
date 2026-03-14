@@ -1,0 +1,2163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RBLL AA Lineup Card</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brown-dark: #1e160f;
+      --brown: #2F241D;
+      --brown-mid: #3d2e22;
+      --brown-light: #5a4535;
+      --gold: #FFC425;
+      --gold-dim: #b8922a;
+      --sand: #F5E6C8;
+      --sand-light: #faf3e6;
+      --white: #fff;
+      --cream: #f0e4cc;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--brown-dark);
+      background-image:
+        radial-gradient(ellipse at 20% 0%, rgba(255,196,37,0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, rgba(255,196,37,0.05) 0%, transparent 50%);
+      color: var(--sand);
+      min-height: 100vh;
+      padding: 16px;
+      width: 100%;
+      max-width: none;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      padding: 24px 16px 20px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .header::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 10%;
+      right: 10%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .header h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 42px;
+      color: var(--gold);
+      letter-spacing: 6px;
+      text-shadow: 0 2px 8px rgba(255,196,37,0.3);
+    }
+
+    .header .subtitle {
+      font-size: 13px;
+      color: var(--brown-light);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-top: 4px;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--brown);
+      border: 1px solid var(--brown-mid);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    /* Game Info */
+    .game-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px;
+    }
+
+    .game-info input {
+      padding: 10px 14px;
+      border: 1px solid var(--brown-mid);
+      border-radius: 8px;
+      background: var(--brown-dark);
+      color: var(--sand);
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .game-info input::placeholder { color: var(--brown-light); }
+    .game-info input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 2px rgba(255,196,37,0.15); }
+
+    /* Section titles */
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px;
+      color: var(--gold);
+      letter-spacing: 3px;
+      margin-bottom: 12px;
+    }
+
+    /* Controls */
+    .controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 10px 18px;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--brown-dark);
+    }
+
+    .btn-primary:hover { background: #ffe066; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(255,196,37,0.3); }
+    .btn-primary:active { transform: translateY(0); }
+
+    .btn-secondary {
+      background: var(--brown-mid);
+      color: var(--sand);
+    }
+
+    .btn-secondary:hover { background: var(--brown-light); }
+
+    .btn-danger {
+      background: transparent;
+      color: #e74c3c;
+      border: 1px solid #c0392b;
+    }
+
+    .btn-danger:hover { background: #c0392b; color: #fff; }
+
+    .current-inning-display {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 24px;
+      color: var(--gold);
+      margin-left: auto;
+      letter-spacing: 2px;
+    }
+
+    /* Batter spotlight */
+    .batter-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--brown) 0%, var(--brown-mid) 100%);
+      border-left: 4px solid var(--gold);
+    }
+
+    .batter-info .now-batting {
+      font-size: 11px;
+      color: var(--brown-light);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 600;
+    }
+
+    .batter-info .batter-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      color: var(--gold);
+      letter-spacing: 2px;
+    }
+
+    .batter-info .batter-pos {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--sand);
+      background: var(--brown-dark);
+      padding: 6px 14px;
+      border-radius: 6px;
+      letter-spacing: 1px;
+    }
+
+    /* Pitch counter */
+    .pitch-counter {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .pitch-label {
+      font-size: 11px;
+      color: var(--brown-light);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .pitch-dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .pitch-dot {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2.5px solid var(--brown-light);
+      cursor: pointer;
+      transition: all 0.15s;
+      position: relative;
+    }
+
+    .pitch-dot:hover {
+      border-color: var(--gold-dim);
+      transform: scale(1.1);
+    }
+
+    .pitch-dot.used {
+      background: var(--gold);
+      border-color: var(--gold);
+      box-shadow: 0 0 8px rgba(255,196,37,0.4);
+    }
+
+    .pitch-dot.last-pitch {
+      background: #e74c3c;
+      border-color: #e74c3c;
+      box-shadow: 0 0 10px rgba(231,76,60,0.5);
+    }
+
+    .pitch-reset {
+      font-size: 11px;
+      color: var(--brown-light);
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: all 0.15s;
+      margin-left: auto;
+    }
+
+    .pitch-reset:hover {
+      color: var(--gold);
+      background: var(--brown-dark);
+    }
+
+    /* Score Table */
+    .score-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 3px;
+    }
+
+    .score-table th {
+      background: transparent;
+      color: var(--brown-light);
+      font-weight: 700;
+      font-size: 12px;
+      text-transform: uppercase;
+      padding: 6px 4px;
+      letter-spacing: 1px;
+    }
+
+    .score-table td {
+      text-align: center;
+      font-size: 14px;
+      padding: 8px 4px;
+    }
+
+    .score-table .team-label {
+      text-align: left;
+      padding-left: 8px;
+      font-weight: 800;
+      font-size: 13px;
+      color: var(--gold);
+      min-width: 60px;
+      letter-spacing: 1px;
+    }
+
+    .score-table td.score-cell {
+      background: var(--brown-dark);
+      cursor: pointer;
+      min-width: 38px;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--sand);
+      border-radius: 6px;
+      transition: all 0.15s;
+      user-select: none;
+    }
+
+    .score-table td.score-cell:hover { background: var(--brown-mid); transform: scale(1.05); }
+
+    .score-table td.score-cell.capped {
+      color: #ff9b90;
+      position: relative;
+    }
+
+    .score-table td.score-cell.capped::after {
+      content: "MAX";
+      position: absolute;
+      bottom: 1px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 7px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: #e74c3c;
+      opacity: 0.7;
+    }
+
+    .run-cap-bar {
+      display: flex;
+      gap: 3px;
+      justify-content: center;
+      margin-top: 3px;
+    }
+
+    .run-pip {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      border: 1.5px solid var(--brown-light);
+      transition: all 0.15s;
+    }
+
+    .run-pip.scored {
+      background: var(--gold);
+      border-color: var(--gold);
+    }
+
+    .score-table td.total-cell {
+      background: var(--gold);
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--brown-dark);
+      border-radius: 6px;
+      min-width: 48px;
+    }
+
+    /* Outs tracker */
+    .outs-cell {
+      cursor: pointer;
+      user-select: none;
+      padding: 6px 4px;
+    }
+
+    .out-dot {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 2px solid var(--brown-light);
+      margin: 0 2px;
+      vertical-align: middle;
+      transition: all 0.2s;
+    }
+
+    .out-dot.filled {
+      background: var(--gold);
+      border-color: var(--gold);
+      box-shadow: 0 0 6px rgba(255,196,37,0.4);
+    }
+
+    /* Lineup Table */
+    .lineup-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+
+    .lineup-table th {
+      background: var(--brown-dark);
+      color: var(--brown-light);
+      padding: 10px 6px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 700;
+      border-bottom: 2px solid var(--brown-mid);
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    .lineup-table th.inning-header {
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .lineup-table th.inning-header:hover { color: var(--gold); }
+
+    .lineup-table th.inning-header.active {
+      color: var(--gold);
+      background: var(--brown-mid);
+      box-shadow: inset 0 -2px 0 var(--gold);
+    }
+
+    .lineup-table td {
+      padding: 10px 6px;
+      text-align: center;
+      font-size: 14px;
+      border-bottom: 1px solid rgba(93,69,53,0.3);
+      transition: background 0.15s;
+    }
+
+    .lineup-table tr:nth-child(even) td { background: var(--brown); }
+    .lineup-table tr:nth-child(odd) td { background: rgba(45,34,26,0.6); }
+
+    .lineup-table tr:hover td { background: var(--brown-mid) !important; }
+
+    .lineup-table td.player-num {
+      font-weight: 800;
+      color: var(--gold-dim);
+      width: 32px;
+      font-size: 13px;
+    }
+
+    .lineup-table td.player-name {
+      text-align: left;
+      font-weight: 700;
+      padding-left: 12px;
+      color: var(--sand-light);
+      white-space: nowrap;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .lineup-table td.position-cell {
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+    }
+
+    .name-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .lineup-table td.bench {
+      background: rgba(30,22,15,0.8) !important;
+      color: var(--brown-light);
+      font-style: italic;
+      font-weight: 500;
+    }
+
+    .lineup-table td.bench::after {
+      content: "BENCH";
+      font-size: 9px;
+      letter-spacing: 1px;
+    }
+
+    /* Position colors — vibrant but cohesive */
+    .pos-P { color: #ff7675; }
+    .pos-C { color: var(--gold); }
+    .pos-1B { color: #55efc4; }
+    .pos-2B { color: #74b9ff; }
+    .pos-3B { color: #ff9f43; }
+    .pos-SS { color: #ffeaa7; }
+    .pos-LF { color: #a29bfe; }
+    .pos-LCF { color: #dfe6e9; }
+    .pos-RCF { color: #81ecec; }
+    .pos-RF { color: #00cec9; }
+
+    /* Current batter highlight */
+    .lineup-table tr.current-batter td {
+      background: rgba(255,196,37,0.1) !important;
+      box-shadow: inset 0 0 0 1px rgba(255,196,37,0.3);
+    }
+
+    .lineup-table tr.current-batter td.player-name {
+      color: var(--gold);
+    }
+
+    .lineup-table tr.current-batter td.player-name::before {
+      content: "\25B8 ";
+      color: var(--gold);
+      font-size: 12px;
+    }
+
+    /* Active inning column glow */
+    .lineup-table td.active-inning {
+      box-shadow: inset 0 0 0 1px rgba(255,196,37,0.2);
+    }
+
+    .table-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Mandatory play */
+    .mandatory-note {
+      margin-top: -4px;
+      margin-bottom: 14px;
+      color: var(--brown-light);
+      font-size: 12px;
+      letter-spacing: 0.4px;
+    }
+
+    .mandatory-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .rule-chip {
+      border-radius: 10px;
+      border: 1px solid var(--brown-mid);
+      padding: 12px;
+      background: rgba(30,22,15,0.6);
+    }
+
+    .rule-chip.pass {
+      border-color: rgba(85, 239, 196, 0.35);
+      box-shadow: inset 0 0 0 1px rgba(85, 239, 196, 0.1);
+    }
+
+    .rule-chip.fail {
+      border-color: rgba(231, 76, 60, 0.45);
+      box-shadow: inset 0 0 0 1px rgba(231, 76, 60, 0.12);
+    }
+
+    .rule-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .rule-id {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 18px;
+      letter-spacing: 1.5px;
+      color: var(--gold);
+    }
+
+    .rule-status,
+    .player-status {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border-radius: 999px;
+      padding: 4px 8px;
+    }
+
+    .rule-status.pass,
+    .player-status.pass {
+      background: rgba(85, 239, 196, 0.12);
+      color: #55efc4;
+    }
+
+    .rule-status.fail,
+    .player-status.fail {
+      background: rgba(231, 76, 60, 0.14);
+      color: #ff9b90;
+    }
+
+    .rule-title {
+      font-weight: 700;
+      color: var(--sand-light);
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    .rule-detail {
+      color: var(--brown-light);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .tier-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 44px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.9px;
+      text-transform: uppercase;
+      border: 1px solid transparent;
+      flex-shrink: 0;
+    }
+
+    .tier-pill.tier-1 {
+      color: #ffb4a8;
+      background: rgba(231, 76, 60, 0.14);
+      border-color: rgba(231, 76, 60, 0.32);
+    }
+
+    .tier-pill.tier-2 {
+      color: #ffe082;
+      background: rgba(255, 196, 37, 0.12);
+      border-color: rgba(255, 196, 37, 0.3);
+    }
+
+    .tier-pill.tier-3 {
+      color: #9cefe8;
+      background: rgba(0, 206, 201, 0.12);
+      border-color: rgba(0, 206, 201, 0.28);
+    }
+
+    /* Availability toggle */
+    .avail-toggle {
+      margin-left: 6px;
+      padding: 1px 6px;
+      font-size: 9px;
+      font-weight: 700;
+      border-radius: 4px;
+      border: 1.5px solid;
+      cursor: pointer;
+      vertical-align: middle;
+      line-height: 1.4;
+      font-family: 'Inter', sans-serif;
+    }
+    .avail-toggle.active {
+      color: #2ecc71;
+      border-color: rgba(46, 204, 113, 0.3);
+      background: rgba(46, 204, 113, 0.1);
+    }
+    .avail-toggle.active:hover {
+      background: rgba(231, 76, 60, 0.15);
+      border-color: rgba(231, 76, 60, 0.3);
+      color: #e74c3c;
+    }
+    .avail-toggle.out {
+      color: #e74c3c;
+      border-color: rgba(231, 76, 60, 0.3);
+      background: rgba(231, 76, 60, 0.15);
+    }
+    .avail-toggle.out:hover {
+      background: rgba(46, 204, 113, 0.15);
+      border-color: rgba(46, 204, 113, 0.3);
+      color: #2ecc71;
+    }
+
+    /* Inactive player row */
+    .inactive-player td {
+      opacity: 0.35;
+    }
+    .inactive-player td.player-name {
+      opacity: 0.5;
+      text-decoration: line-through;
+    }
+    .inactive-player .avail-toggle {
+      opacity: 1 !important;
+    }
+    .position-cell.inactive {
+      color: #555 !important;
+      font-style: italic;
+    }
+
+    .compliance-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+
+    .compliance-table th {
+      background: var(--brown-dark);
+      color: var(--brown-light);
+      padding: 10px 8px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 700;
+      text-align: left;
+    }
+
+    .compliance-table td {
+      padding: 10px 8px;
+      font-size: 13px;
+      border-bottom: 1px solid rgba(93,69,53,0.3);
+      background: rgba(45,34,26,0.6);
+    }
+
+    .compliance-table tr:nth-child(even) td {
+      background: var(--brown);
+    }
+
+    .compliance-table td.count-cell {
+      text-align: center;
+      font-weight: 700;
+      min-width: 54px;
+    }
+
+    .compliance-table td.player-cell {
+      font-weight: 700;
+      color: var(--sand-light);
+      white-space: nowrap;
+    }
+
+    .compliance-table td.tier-cell {
+      text-align: center;
+      min-width: 72px;
+    }
+
+    .compliance-table td.detail-cell {
+      color: var(--brown-light);
+      min-width: 150px;
+    }
+
+    /* Legend */
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      padding: 12px 16px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--brown-light);
+    }
+
+    .legend-swatch {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      body { padding: 8px; }
+      .header h1 { font-size: 28px; letter-spacing: 3px; }
+      .batter-info .batter-name { font-size: 22px; }
+      .lineup-table td, .lineup-table th { padding: 7px 3px; font-size: 12px; }
+      .lineup-table td.position-cell { font-size: 11px; }
+      .lineup-table td.player-name { font-size: 13px; padding-left: 8px; }
+      .score-table td, .score-table th { padding: 6px 2px; font-size: 12px; }
+      .score-table td.score-cell { font-size: 14px; }
+      .btn { padding: 8px 12px; font-size: 11px; }
+      .controls { gap: 6px; }
+      .tier-pill { min-width: 40px; padding: 2px 6px; font-size: 9px; }
+    }
+
+    /* Smooth animations */
+    @keyframes pulse-gold {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .current-inning-display {
+      animation: pulse-gold 2s ease-in-out infinite;
+    }
+
+    /* ===== PRINT STYLESHEET ===== */
+    @media print {
+      @page {
+        size: landscape;
+        margin: 0.4in;
+      }
+
+      /* Reset all colors to print-friendly */
+      * {
+        box-shadow: none !important;
+        text-shadow: none !important;
+      }
+
+      body {
+        background: #fff !important;
+        background-image: none !important;
+        color: #000 !important;
+        padding: 0 !important;
+        min-height: auto !important;
+        font-size: 11px;
+      }
+
+      /* ----- HIDE interactive / non-essential elements ----- */
+      .controls,
+      .batter-info,
+      .mandatory-play-section,
+      .legend,
+      .pitch-counter {
+        display: none !important;
+      }
+
+      /* ----- HEADER ----- */
+      .header {
+        padding: 8px 0 6px !important;
+        margin-bottom: 8px !important;
+      }
+      .header::after {
+        background: #000 !important;
+        height: 1px !important;
+        left: 0 !important;
+        right: 0 !important;
+      }
+      .header h1 {
+        color: #000 !important;
+        font-size: 24px !important;
+        letter-spacing: 4px !important;
+      }
+      .header .subtitle {
+        color: #333 !important;
+        font-size: 10px !important;
+      }
+
+      /* ----- CARDS: remove styling ----- */
+      .card {
+        background: #fff !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        padding: 4px 0 !important;
+        margin-bottom: 6px !important;
+      }
+
+      /* ----- GAME INFO: hide inputs, show values as text ----- */
+      .game-info {
+        display: flex !important;
+        gap: 16px !important;
+        flex-wrap: wrap;
+        border-bottom: 1px solid #000;
+        padding-bottom: 6px !important;
+      }
+      .game-info input {
+        border: none !important;
+        background: transparent !important;
+        color: #000 !important;
+        padding: 2px 0 !important;
+        font-size: 12px !important;
+        font-weight: 700 !important;
+        -webkit-appearance: none;
+        appearance: none;
+      }
+      .game-info input::placeholder {
+        color: #999 !important;
+      }
+
+      /* ----- SECTION TITLES ----- */
+      .section-title {
+        color: #000 !important;
+        font-size: 14px !important;
+        margin-bottom: 4px !important;
+        letter-spacing: 2px !important;
+      }
+
+      /* ----- SCOREBOARD ----- */
+      .score-section {
+        page-break-inside: avoid;
+      }
+      .score-table {
+        border-collapse: collapse !important;
+        border-spacing: 0 !important;
+      }
+      .score-table th {
+        color: #000 !important;
+        font-size: 10px !important;
+        padding: 4px 6px !important;
+        border: 1px solid #000 !important;
+        background: #eee !important;
+      }
+      .score-table td {
+        border: 1px solid #000 !important;
+        padding: 6px 4px !important;
+        color: #000 !important;
+        font-size: 12px !important;
+      }
+      .score-table .team-label {
+        color: #000 !important;
+        font-size: 11px !important;
+        background: #eee !important;
+      }
+      /* Empty score cells for hand-writing */
+      .score-table td.score-cell {
+        background: #fff !important;
+        color: transparent !important;
+        min-width: 32px !important;
+        min-height: 24px;
+        border-radius: 0 !important;
+        cursor: default;
+        font-size: 0 !important;
+      }
+      .score-table td.score-cell::after {
+        display: none !important;
+      }
+      .score-table td.total-cell {
+        background: #eee !important;
+        color: transparent !important;
+        font-size: 0 !important;
+        border-radius: 0 !important;
+      }
+      /* Hide run-cap pips in print */
+      .run-cap-bar {
+        display: none !important;
+      }
+
+      /* ----- OUTS ROW: empty bordered circles for hand-marking ----- */
+      .outs-row td {
+        border: 1px solid #000 !important;
+      }
+      .outs-row td:first-child {
+        color: #000 !important;
+        font-size: 10px !important;
+      }
+      .outs-cell {
+        cursor: default !important;
+      }
+      .out-dot,
+      .out-dot.filled {
+        background: #fff !important;
+        border-color: #000 !important;
+        box-shadow: none !important;
+        width: 10px !important;
+        height: 10px !important;
+      }
+
+      /* ----- LINEUP TABLE ----- */
+      .lineup-section {
+        page-break-inside: avoid;
+      }
+      .table-scroll {
+        overflow: visible !important;
+      }
+      .lineup-table {
+        border-collapse: collapse !important;
+        border-radius: 0 !important;
+      }
+      .lineup-table th {
+        background: #eee !important;
+        color: #000 !important;
+        border: 1px solid #000 !important;
+        padding: 4px 4px !important;
+        font-size: 9px !important;
+        position: static !important;
+      }
+      .lineup-table th.inning-header {
+        cursor: default !important;
+      }
+      .lineup-table th.inning-header.active {
+        background: #eee !important;
+        color: #000 !important;
+        box-shadow: none !important;
+      }
+      .lineup-table td {
+        border: 1px solid #000 !important;
+        padding: 4px 4px !important;
+        font-size: 11px !important;
+        background: #fff !important;
+      }
+      .lineup-table tr:nth-child(even) td,
+      .lineup-table tr:nth-child(odd) td {
+        background: #fff !important;
+      }
+      .lineup-table tr:hover td {
+        background: #fff !important;
+      }
+      .lineup-table td.player-num {
+        color: #000 !important;
+        font-size: 11px !important;
+      }
+      .lineup-table td.player-name {
+        color: #000 !important;
+        font-size: 11px !important;
+        padding-left: 6px !important;
+      }
+      /* Hide tier pills and toggle buttons in lineup */
+      .tier-pill, .avail-toggle {
+        display: none !important;
+      }
+      .inactive-player {
+        display: none !important;
+      }
+      /* Current batter - remove highlight for print */
+      .lineup-table tr.current-batter td {
+        background: #fff !important;
+        box-shadow: none !important;
+      }
+      .lineup-table tr.current-batter td.player-name {
+        color: #000 !important;
+      }
+      .lineup-table tr.current-batter td.player-name::before {
+        display: none !important;
+      }
+      .lineup-table td.active-inning {
+        box-shadow: none !important;
+      }
+
+      /* ----- Position colors: darker for print ----- */
+      .pos-P { color: #c0392b !important; }
+      .pos-C { color: #b8860b !important; }
+      .pos-1B { color: #1a8a5e !important; }
+      .pos-2B { color: #2471a3 !important; }
+      .pos-3B { color: #c0630a !important; }
+      .pos-SS { color: #8b7d00 !important; }
+      .pos-LF { color: #5b3fa3 !important; }
+      .pos-LCF { color: #555 !important; }
+      .pos-RCF { color: #0e7c7b !important; }
+      .pos-RF { color: #00807a !important; }
+
+      .lineup-table td.position-cell {
+        font-weight: 800 !important;
+        font-size: 10px !important;
+      }
+
+      /* Bench cells: show BENCH as regular text */
+      .lineup-table td.bench {
+        background: #f5f5f5 !important;
+        color: #666 !important;
+        font-style: normal !important;
+        font-weight: 600 !important;
+        font-size: 9px !important;
+      }
+      .lineup-table td.bench::after {
+        content: "BENCH" !important;
+        font-size: 9px !important;
+        letter-spacing: 0.5px !important;
+        display: inline !important;
+        position: static !important;
+        color: #666 !important;
+        font-style: normal !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>RBLL AA LINEUP CARD</h1>
+    <div class="subtitle">Little League Baseball</div>
+  </div>
+
+  <div class="card game-info">
+    <input type="date" id="gameDate" />
+    <input type="text" id="teamName" placeholder="Team Name" />
+    <input type="text" id="opponent" placeholder="Opponent" />
+    <input type="text" id="location" placeholder="Location" />
+  </div>
+
+  <!-- Controls -->
+  <div class="card controls">
+    <button class="btn btn-secondary" onclick="prevInning()">&larr; Prev</button>
+    <button class="btn btn-secondary" onclick="generateLineup()">Generate Lineup</button>
+    <button class="btn btn-primary" onclick="nextInning()">Next Inning &rarr;</button>
+    <button class="btn btn-secondary" onclick="nextBatter()">Next Batter</button>
+    <button class="btn btn-danger" onclick="resetGame()">Reset</button>
+    <button class="btn btn-secondary" onclick="openPrintPage()">Print Lineup</button>
+    <div class="current-inning-display" id="inningDisplay">Inning 1</div>
+  </div>
+
+  <!-- Current batter -->
+  <div class="card batter-info" id="batterInfo">
+    <div>
+      <div class="now-batting">Now Batting</div>
+      <div class="batter-name" id="batterName">#1 Oliver</div>
+    </div>
+    <div class="batter-pos" id="batterPos">SS</div>
+    <div class="pitch-counter">
+      <span class="pitch-label">Pitches</span>
+      <div class="pitch-dots" id="pitchDots">
+        <div class="pitch-dot" onclick="setPitch(1)"></div>
+        <div class="pitch-dot" onclick="setPitch(2)"></div>
+        <div class="pitch-dot" onclick="setPitch(3)"></div>
+        <div class="pitch-dot" onclick="setPitch(4)"></div>
+        <div class="pitch-dot" onclick="setPitch(5)"></div>
+      </div>
+      <span class="pitch-reset" onclick="resetPitches()">Clear</span>
+    </div>
+  </div>
+
+  <!-- Score + Outs -->
+  <div class="card score-section">
+    <div class="section-title">Scoreboard</div>
+    <table class="score-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th>
+          <th>R</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr id="homeScoreRow">
+          <td class="team-label">US</td>
+          <td class="score-cell" onclick="changeScore('home',0,1)" oncontextmenu="changeScore('home',0,-1);return false;">-</td>
+          <td class="score-cell" onclick="changeScore('home',1,1)" oncontextmenu="changeScore('home',1,-1);return false;">-</td>
+          <td class="score-cell" onclick="changeScore('home',2,1)" oncontextmenu="changeScore('home',2,-1);return false;">-</td>
+          <td class="score-cell" onclick="changeScore('home',3,1)" oncontextmenu="changeScore('home',3,-1);return false;">-</td>
+          <td class="score-cell" onclick="changeScore('home',4,1)" oncontextmenu="changeScore('home',4,-1);return false;">-</td>
+          <td class="score-cell" onclick="changeScore('home',5,1)" oncontextmenu="changeScore('home',5,-1);return false;">-</td>
+          <td class="total-cell" id="homeTotal">0</td>
+        </tr>
+        <tr id="awayScoreRow">
+          <td class="team-label">THEM</td>
+          <td class="score-cell" onclick="changeScore('away',0,1)" oncontextmenu="changeScore('away',0,-1);return false;">-</td>
+          <td class="score-cell" onclick="changeScore('away',1,1)" oncontextmenu="changeScore('away',1,-1);return false;">-</td>
+          <td class="score-cell" onclick="changeScore('away',2,1)" oncontextmenu="changeScore('away',2,-1);return false;">-</td>
+          <td class="score-cell" onclick="changeScore('away',3,1)" oncontextmenu="changeScore('away',3,-1);return false;">-</td>
+          <td class="score-cell" onclick="changeScore('away',4,1)" oncontextmenu="changeScore('away',4,-1);return false;">-</td>
+          <td class="score-cell" onclick="changeScore('away',5,1)" oncontextmenu="changeScore('away',5,-1);return false;">-</td>
+          <td class="total-cell" id="awayTotal">0</td>
+        </tr>
+        <tr class="outs-row">
+          <td style="font-size:11px;color:var(--brown-light);text-align:left;padding-left:8px;font-weight:700;letter-spacing:1px;">OUTS</td>
+          <td class="outs-cell" onclick="toggleOut(0)"><span class="out-dot" id="out-0-0"></span><span class="out-dot" id="out-0-1"></span><span class="out-dot" id="out-0-2"></span></td>
+          <td class="outs-cell" onclick="toggleOut(1)"><span class="out-dot" id="out-1-0"></span><span class="out-dot" id="out-1-1"></span><span class="out-dot" id="out-1-2"></span></td>
+          <td class="outs-cell" onclick="toggleOut(2)"><span class="out-dot" id="out-2-0"></span><span class="out-dot" id="out-2-1"></span><span class="out-dot" id="out-2-2"></span></td>
+          <td class="outs-cell" onclick="toggleOut(3)"><span class="out-dot" id="out-3-0"></span><span class="out-dot" id="out-3-1"></span><span class="out-dot" id="out-3-2"></span></td>
+          <td class="outs-cell" onclick="toggleOut(4)"><span class="out-dot" id="out-4-0"></span><span class="out-dot" id="out-4-1"></span><span class="out-dot" id="out-4-2"></span></td>
+          <td class="outs-cell" onclick="toggleOut(5)"><span class="out-dot" id="out-5-0"></span><span class="out-dot" id="out-5-1"></span><span class="out-dot" id="out-5-2"></span></td>
+          <td style="font-size:12px;color:var(--brown-mid);">-</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Lineup -->
+  <div class="card lineup-section">
+    <div class="section-title">Lineup & Positions</div>
+    <div class="table-scroll">
+      <table class="lineup-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Player</th>
+            <th class="inning-header" onclick="goToInning(0)">Inn 1</th>
+            <th class="inning-header" onclick="goToInning(1)">Inn 2</th>
+            <th class="inning-header" onclick="goToInning(2)">Inn 3</th>
+            <th class="inning-header" onclick="goToInning(3)">Inn 4</th>
+            <th class="inning-header" onclick="goToInning(4)">Inn 5</th>
+            <th class="inning-header" onclick="goToInning(5)">Inn 6</th>
+          </tr>
+        </thead>
+        <tbody id="lineupBody">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card mandatory-play-section">
+    <div class="section-title">Mandatory Play & Tiers</div>
+    <div class="mandatory-note">Rule 3.4 and the tier plan are calculated from the lineup below. Tier 3 players bench first, then Tier 2, while Tier 1 players stay off the bench, get exactly one outfield inning, and do not catch. Catcher counts toward only one inning of infield credit under 3.4.2.</div>
+    <div class="mandatory-grid" id="mandatorySummary"></div>
+    <div class="table-scroll">
+      <table class="compliance-table">
+        <thead>
+          <tr>
+            <th>Player</th>
+            <th>Tier</th>
+            <th>OF</th>
+            <th>IF thru 5</th>
+            <th>Bench</th>
+            <th>C</th>
+            <th>Status</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody id="mandatoryBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="card legend">
+    <div class="legend-item"><span class="legend-swatch" style="background:#ff7675"></span> P</div>
+    <div class="legend-item"><span class="legend-swatch" style="background:var(--gold)"></span> C</div>
+    <div class="legend-item"><span class="legend-swatch" style="background:#55efc4"></span> 1B</div>
+    <div class="legend-item"><span class="legend-swatch" style="background:#74b9ff"></span> 2B</div>
+    <div class="legend-item"><span class="legend-swatch" style="background:#ff9f43"></span> 3B</div>
+    <div class="legend-item"><span class="legend-swatch" style="background:#ffeaa7"></span> SS</div>
+    <div class="legend-item"><span class="legend-swatch" style="background:#a29bfe"></span> LF</div>
+    <div class="legend-item"><span class="legend-swatch" style="background:#dfe6e9"></span> LCF</div>
+    <div class="legend-item"><span class="legend-swatch" style="background:#81ecec"></span> RCF</div>
+    <div class="legend-item"><span class="legend-swatch" style="background:#00cec9"></span> RF</div>
+    <div class="legend-item"><span class="legend-swatch" style="background:var(--brown-dark);border:1px solid var(--brown-light)"></span> Bench</div>
+  </div>
+
+  <script>
+    const players = [
+      { num: 1,  name: "Oliver", positions: ["RF", "C", "SS", "C", "RCF", "RF"],      tier: 2 },
+      { num: 2,  name: "Braden", positions: ["RCF", "2B", "1B", "P", "SS", "P"],     tier: 1 },
+      { num: 3,  name: "Samuel", positions: ["3B", "1B", "LF", "SS", "1B", "SS"],    tier: 1 },
+      { num: 4,  name: "Luke",   positions: ["1B", "SS", "P", "1B", "LF", "1B"],     tier: 1 },
+      { num: 5,  name: "Nathan", positions: ["LCF", "3B", "C", null, "RF", "2B"],    tier: 3 },
+      { num: 6,  name: "Xander", positions: ["LF", "P", "3B", "2B", null, "RCF"],    tier: 2 },
+      { num: 7,  name: "Jordi",  positions: ["P", "RF", "2B", "LF", "LCF", null],    tier: 2 },
+      { num: 8,  name: "Otis",   positions: ["2B", "RCF", "RF", "LCF", "C", "LCF"],  tier: 2 },
+      { num: 9,  name: "Julian", positions: ["C", "LF", null, "RCF", "2B", "LF"],    tier: 3 },
+      { num: 10, name: "Jacob",  positions: ["SS", null, "LCF", "RF", "3B", "C"],     tier: 3 },
+      { num: 11, name: "Liana",  positions: [null, "LCF", "RCF", "3B", "P", "3B"],   tier: 3 },
+    ];
+
+    const INFIELD_POSITIONS = new Set(["P", "C", "1B", "2B", "3B", "SS"]);
+    const OUTFIELD_POSITIONS = new Set(["LF", "LCF", "RCF", "RF"]);
+    const ALL_POSITIONS = ["P", "C", "1B", "2B", "3B", "SS", "LF", "LCF", "RCF", "RF"];
+    const EARLY_INNING_LIMIT = 5;
+
+    // Dynamic positions based on active player count
+    // 10+: all 10 positions | 9: drop 4th OF (RCF) | 8: also drop C
+    function getActivePositions() {
+      const count = getActivePlayers().length;
+      if (count >= 10) return [...ALL_POSITIONS];
+      if (count === 9) return ALL_POSITIONS.filter(p => p !== "RCF");
+      if (count === 8) return ALL_POSITIONS.filter(p => p !== "RCF" && p !== "C");
+      if (count === 7) return ALL_POSITIONS.filter(p => p !== "RCF" && p !== "C" && p !== "LCF");
+      // Fallback: keep dropping OF then infield edges
+      return ALL_POSITIONS.slice(0, Math.max(count, 4));
+    }
+
+    // T1 Split rule only enforced when full roster (11) is active
+    function isT1SplitEnforced() {
+      return getActivePlayers().length >= 11;
+    }
+    const TIER_LABELS = { 1: "T1", 2: "T2", 3: "T3" };
+    const TIER_NOTES = {
+      1: "Tier 1 target met: 1 OF, 0 C, 0 bench.",
+      2: "Tier 2 picks up bench after Tier 3.",
+      3: "Tier 3 takes the first bench turns.",
+    };
+
+    const MAX_RUNS_PER_INNING = 4;
+    const UNCAPPED_INNING = 5; // 0-indexed, inning 6
+
+    let currentInning = 0;
+    let currentBatter = 0;
+    let currentPitchCount = 0;
+    let homeScores = [null, null, null, null, null, null];
+    let awayScores = [null, null, null, null, null, null];
+    let outs = [0, 0, 0, 0, 0, 0];
+
+    players.forEach((player) => {
+      player.allowedPositions = [...ALL_POSITIONS]; // Every player can play every position
+      player.active = true;
+    });
+
+    // When full roster: only T1 plays 1B, T1 never catches
+    function isFullRoster() {
+      return getActivePlayers().length >= 11;
+    }
+
+    function getActivePlayers() {
+      return players.filter(p => p.active);
+    }
+
+    function getActiveIndices() {
+      return players.map((p, i) => i).filter(i => players[i].active);
+    }
+
+    function togglePlayer(index) {
+      players[index].active = !players[index].active;
+      // Reset positions for inactive players
+      if (!players[index].active) {
+        players[index].positions = Array(6).fill(null);
+      }
+      // Reset batter if pointing at inactive player
+      const activeIndices = getActiveIndices();
+      if (!players[currentBatter]?.active && activeIndices.length > 0) {
+        currentBatter = activeIndices[0];
+      }
+      renderLineup();
+    }
+
+    function buildLineupSnapshot() {
+      return players.map((player) => [...player.positions]);
+    }
+
+    function shuffle(array) {
+      const clone = [...array];
+      for (let i = clone.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [clone[i], clone[j]] = [clone[j], clone[i]];
+      }
+      return clone;
+    }
+
+    function countFuturePlayableInnings(playerIndex, startInning, benchOrder, limit = 6) {
+      let total = 0;
+      for (let inning = startInning + 1; inning < limit; inning++) {
+        if (benchOrder[inning] !== playerIndex) total++;
+      }
+      return total;
+    }
+
+    function countFutureEarlyPlayableInnings(playerIndex, startInning, benchOrder) {
+      return countFuturePlayableInnings(playerIndex, startInning, benchOrder, EARLY_INNING_LIMIT);
+    }
+
+    function getPlayerMandatoryStats(player, positions) {
+      const activePositionSet = new Set(getActivePositions());
+      const playerCanPlayOF = player.allowedPositions.some(p => OUTFIELD_POSITIONS.has(p) && activePositionSet.has(p));
+      const playerCanPlayIF = player.allowedPositions.some(p => INFIELD_POSITIONS.has(p) && activePositionSet.has(p));
+      const catcherAvailable = activePositionSet.has("C");
+
+      const firstFive = positions.slice(0, EARLY_INNING_LIMIT);
+      const catcherCredit = Math.min(1, firstFive.filter((pos) => pos === "C").length);
+      const infieldCreditFirstFive =
+        firstFive.filter((pos) => INFIELD_POSITIONS.has(pos) && pos !== "C").length + catcherCredit;
+      const outfieldInnings = positions.filter((pos) => OUTFIELD_POSITIONS.has(pos)).length;
+      const benchInnings = positions.filter((pos) => pos === null).length;
+      const catcherInnings = positions.filter((pos) => pos === "C").length;
+      const mandatoryIssues = [];
+      const tierIssues = [];
+
+      // Only require OF if the player can actually play an active OF position
+      if (playerCanPlayOF && outfieldInnings < 1) mandatoryIssues.push("Needs 1 OF inning");
+      if (infieldCreditFirstFive < 2) mandatoryIssues.push("Needs 2 IF innings by inning 5");
+
+      if (player.tier === 1) {
+        if (playerCanPlayOF && outfieldInnings !== 1) tierIssues.push(`Tier 1 should have exactly 1 OF inning; has ${outfieldInnings}`);
+        if (!playerCanPlayOF && outfieldInnings > 0) tierIssues.push(`Tier 1 unexpected OF inning`);
+        if (catcherAvailable && catcherInnings > 0) tierIssues.push("Tier 1 should not play catcher");
+        if (benchInnings > 0) tierIssues.push("Tier 1 should not take a bench inning");
+      }
+
+      return {
+        name: player.name,
+        tier: player.tier,
+        tierLabel: TIER_LABELS[player.tier],
+        outfieldInnings,
+        infieldCreditFirstFive,
+        benchInnings,
+        catcherInnings,
+        mandatoryPassed: mandatoryIssues.length === 0,
+        tierPassed: tierIssues.length === 0,
+        passed: mandatoryIssues.length === 0 && tierIssues.length === 0,
+        notes: [...mandatoryIssues, ...(tierIssues.length ? tierIssues : [TIER_NOTES[player.tier]])].join(" • "),
+      };
+    }
+
+    function evaluateTierOneOutfieldOverlap(lineupPositions = buildLineupSnapshot()) {
+      const tierOneIndices = players
+        .map((player, index) => ({ player, index }))
+        .filter(({ player }) => player.active && player.tier === 1)
+        .map(({ index }) => index);
+      const violations = [];
+
+      for (let inning = 0; inning < lineupPositions[0].length; inning++) {
+        const tierOneInOutfield = tierOneIndices.filter(
+          (idx) => OUTFIELD_POSITIONS.has(lineupPositions[idx][inning])
+        );
+        if (tierOneInOutfield.length > 1) {
+          const names = tierOneInOutfield.map((idx) => players[idx].name).join(", ");
+          violations.push(`Inning ${inning + 1}: ${names} are both in the outfield`);
+        }
+      }
+
+      return {
+        passed: violations.length === 0,
+        detail: violations.length
+          ? violations.join(". ") + "."
+          : "No inning has more than one Tier 1 player in the outfield.",
+      };
+    }
+
+    function evaluateBenchProgression(lineupPositions = buildLineupSnapshot()) {
+      const active = players.filter(p => p.active);
+      const benchCounts = Object.fromEntries(active.map((player) => [player.name, 0]));
+      let secondBenchViolation = null;
+      let thirdBenchViolation = null;
+
+      for (let inning = 0; inning < lineupPositions[0].length; inning++) {
+        active.forEach((player) => {
+          const index = players.indexOf(player);
+          if (lineupPositions[index][inning] === null) {
+            benchCounts[player.name] += 1;
+          }
+        });
+
+        const playersWithSecondBench = active
+          .filter((player) => benchCounts[player.name] >= 2)
+          .map((player) => player.name);
+        const playersWithoutFirstBench = active
+          .filter((player) => benchCounts[player.name] === 0)
+          .map((player) => player.name);
+
+        if (!secondBenchViolation && playersWithSecondBench.length && playersWithoutFirstBench.length) {
+          secondBenchViolation = `After inning ${inning + 1}, ${playersWithSecondBench.join(", ")} reached a second bench inning before ${playersWithoutFirstBench.join(", ")} sat once.`;
+        }
+
+        const playersWithThirdBench = active
+          .filter((player) => benchCounts[player.name] >= 3)
+          .map((player) => player.name);
+        const playersWithoutSecondBench = active
+          .filter((player) => benchCounts[player.name] < 2)
+          .map((player) => player.name);
+
+        if (!thirdBenchViolation && playersWithThirdBench.length && playersWithoutSecondBench.length) {
+          thirdBenchViolation = `After inning ${inning + 1}, ${playersWithThirdBench.join(", ")} reached a third bench inning before ${playersWithoutSecondBench.join(", ")} sat twice.`;
+        }
+      }
+
+      return {
+        passed: !secondBenchViolation && !thirdBenchViolation,
+        detail: secondBenchViolation || thirdBenchViolation || "Bench sits stay in rule order through all six innings.",
+      };
+    }
+
+    function evaluateTierBenchPriority(lineupPositions = buildLineupSnapshot()) {
+      const active = players.filter(p => p.active);
+      const tierThreeRemaining = new Set(active.filter((player) => player.tier === 3).map((player) => player.name));
+      const tierTwoRemaining = new Set(active.filter((player) => player.tier === 2).map((player) => player.name));
+      let violation = null;
+      const benchSequence = [];
+
+      for (let inning = 0; inning < lineupPositions[0].length; inning++) {
+        const benchedIndex = lineupPositions.findIndex((positions, idx) => players[idx].active && positions[inning] === null);
+        if (benchedIndex === -1) continue;
+
+        const benchedPlayer = players[benchedIndex];
+        benchSequence.push(`${benchedPlayer.name} (${TIER_LABELS[benchedPlayer.tier]})`);
+
+        if (!violation && benchedPlayer.tier === 2 && tierThreeRemaining.size > 0) {
+          violation = `Inning ${inning + 1} benched ${benchedPlayer.name} before every Tier 3 player had a bench inning.`;
+        }
+
+        if (!violation && benchedPlayer.tier === 1 && (tierThreeRemaining.size > 0 || tierTwoRemaining.size > 0)) {
+          violation = `Inning ${inning + 1} benched ${benchedPlayer.name} before Tier 3 and Tier 2 bench turns were exhausted.`;
+        }
+
+        if (benchedPlayer.tier === 3) tierThreeRemaining.delete(benchedPlayer.name);
+        if (benchedPlayer.tier === 2) tierTwoRemaining.delete(benchedPlayer.name);
+      }
+
+      return {
+        passed: !violation,
+        detail: violation || `Bench order is ${benchSequence.join(" -> ")}.`,
+      };
+    }
+
+    function getMandatoryPlayReport(lineupPositions = buildLineupSnapshot()) {
+      const perPlayer = players
+        .filter(p => p.active)
+        .map((player) => getPlayerMandatoryStats(player, lineupPositions[players.indexOf(player)]));
+      // Only flag players who CAN play OF in the active position set
+      const activePos = new Set(getActivePositions());
+      const outfieldMissing = perPlayer.filter((player) => {
+        const fullPlayer = players.find(p => p.name === player.name);
+        const canOF = fullPlayer.allowedPositions.some(p => OUTFIELD_POSITIONS.has(p) && activePos.has(p));
+        return canOF && player.outfieldInnings < 1;
+      }).map((player) => player.name);
+      const infieldMissing = perPlayer
+        .filter((player) => player.infieldCreditFirstFive < 2)
+        .map((player) => player.name);
+      const benchProgression = evaluateBenchProgression(lineupPositions);
+      const tierBenchPriority = evaluateTierBenchPriority(lineupPositions);
+      const tierOneIssues = perPlayer.filter((player) => player.tier === 1 && !player.tierPassed);
+      const tierOneOverlap = evaluateTierOneOutfieldOverlap(lineupPositions);
+
+      // Check 1B restriction: only T1 at 1B when full roster
+      const firstBaseViolations = [];
+      if (isFullRoster()) {
+        for (let inning = 0; inning < 6; inning++) {
+          const active = players.filter(p => p.active);
+          active.forEach(player => {
+            const idx = players.indexOf(player);
+            if (lineupPositions[idx][inning] === "1B" && player.tier !== 1) {
+              firstBaseViolations.push(`Inning ${inning + 1}: ${player.name} at 1B`);
+            }
+          });
+        }
+      }
+
+      return {
+        rules: [
+          {
+            id: "3.4.1",
+            title: "Every player gets an outfield inning",
+            passed: outfieldMissing.length === 0,
+            detail: outfieldMissing.length
+              ? `${outfieldMissing.join(", ")} still need at least one outfield inning.`
+              : `All ${getActivePlayers().length} players log at least one outfield inning.`,
+          },
+          {
+            id: "3.4.2",
+            title: "Two infield innings are done by the end of inning 5",
+            passed: infieldMissing.length === 0,
+            detail: infieldMissing.length
+              ? `${infieldMissing.join(", ")} still need infield credit in the first five innings.`
+              : "Every player reaches two infield credits by inning 5. Catcher counts only once.",
+          },
+          {
+            id: "3.4.3",
+            title: "Bench turns do not advance early",
+            passed: benchProgression.passed,
+            detail: benchProgression.detail,
+          },
+          {
+            id: "Bench",
+            title: "Bench priority runs Tier 3, then Tier 2, never Tier 1",
+            passed: tierBenchPriority.passed,
+            detail: tierBenchPriority.detail,
+          },
+          {
+            id: "Tier 1",
+            title: "Tier 1 players stay out of catcher, stay off bench, and only log one OF inning",
+            passed: tierOneIssues.length === 0,
+            detail: tierOneIssues.length
+              ? `${tierOneIssues.map((player) => player.name).join(", ")} are outside the Tier 1 plan.`
+              : "All Tier 1 players are at exactly one outfield inning, zero catcher innings, and zero bench innings.",
+          },
+          {
+            id: "T1 Split",
+            title: "Never two Tier 1 players in the outfield at the same time",
+            passed: isT1SplitEnforced() ? tierOneOverlap.passed : true,
+            detail: isT1SplitEnforced()
+              ? tierOneOverlap.detail
+              : "Relaxed — fewer than 11 players active.",
+          },
+          {
+            id: "1B Lock",
+            title: "Only Tier 1 (Luke, Braden, Samuel) plays first base",
+            passed: isFullRoster() ? firstBaseViolations.length === 0 : true,
+            detail: isFullRoster()
+              ? (firstBaseViolations.length
+                ? firstBaseViolations.join(". ") + "."
+                : "Only Tier 1 players are assigned to 1B.")
+              : "Relaxed — fewer than 11 players active.",
+          },
+        ],
+        perPlayer,
+      };
+    }
+
+    function buildBenchOrder() {
+      const activeCount = getActivePlayers().length;
+      const posCount = getActivePositions().length;
+      const benchPerInning = Math.max(0, activeCount - posCount);
+      if (benchPerInning === 0) return Array(6).fill(-1); // No one sits
+
+      const tierThree = shuffle(players.map((player, index) => ({ player, index })).filter(({ player }) => player.active && player.tier === 3).map(({ index }) => index));
+      const tierTwo = shuffle(players.map((player, index) => ({ player, index })).filter(({ player }) => player.active && player.tier === 2).map(({ index }) => index));
+      const allBench = [...tierThree, ...tierTwo];
+      // Fill 6 inning slots; cycle if needed
+      const order = [];
+      for (let i = 0; i < 6; i++) {
+        order.push(allBench[i % allBench.length]);
+      }
+      return order;
+    }
+
+    function buildGenerationState(benchOrder) {
+      return players.map((player, index) => ({
+        player,
+        ofCount: 0,
+        infieldCreditFirstFive: 0,
+        catcherCreditedInFirstFive: false,
+        catcherInnings: 0,
+        benchInnings: benchOrder.filter((benchedIndex) => benchedIndex === index).length,
+      }));
+    }
+
+    function getCandidatePositions(playerIndex, inning, remainingPositions, state, benchOrder, lineupPositions) {
+      const player = players[playerIndex];
+      const playerState = state[playerIndex];
+      const futurePlayable = countFuturePlayableInnings(playerIndex, inning, benchOrder);
+      const futureEarlyPlayable = inning < EARLY_INNING_LIMIT ? countFutureEarlyPlayableInnings(playerIndex, inning, benchOrder) : 0;
+
+      // Check if player can play any OF position in the active set
+      const activePos = new Set(getActivePositions());
+      const canPlayOF = player.allowedPositions.some(p => OUTFIELD_POSITIONS.has(p) && activePos.has(p));
+      const catcherAvailable = activePos.has("C");
+
+      // Count how many Tier 1 players already assigned to outfield this inning
+      const tierOneInOFThisInning = players.filter((p, idx) =>
+        p.tier === 1 && idx !== playerIndex && OUTFIELD_POSITIONS.has(lineupPositions[idx][inning])
+      ).length;
+
+      return shuffle(remainingPositions)
+        .filter((position) => player.allowedPositions.includes(position))
+        .filter((position) => {
+          // Full roster: only T1 plays 1B; T1 never catches
+          if (isFullRoster() && position === "1B" && player.tier !== 1) return false;
+          if (player.tier === 1 && catcherAvailable && position === "C") return false;
+
+          // Block if this would put a 2nd Tier 1 in outfield this inning (only when full roster)
+          if (isT1SplitEnforced() && player.tier === 1 && OUTFIELD_POSITIONS.has(position) && tierOneInOFThisInning >= 1) return false;
+
+          const nextOutfieldCount = playerState.ofCount + (OUTFIELD_POSITIONS.has(position) ? 1 : 0);
+          if (player.tier === 1 && canPlayOF && nextOutfieldCount > 1) return false;
+          // Only require OF if player can actually play OF in active positions
+          if (canPlayOF && nextOutfieldCount === 0 && futurePlayable === 0) return false;
+
+          // IF forward-check: ensure player can still reach 2 IF by inning 5
+          if (inning < EARLY_INNING_LIMIT) {
+            const nextInfieldCredit = playerState.infieldCreditFirstFive
+              + (position === "C"
+                ? (playerState.catcherCreditedInFirstFive ? 0 : 1)
+                : (INFIELD_POSITIONS.has(position) ? 1 : 0));
+            if (nextInfieldCredit + futureEarlyPlayable < 2) return false;
+          }
+
+          return true;
+        })
+        .sort((left, right) => {
+          const prevPos = inning > 0 ? lineupPositions[playerIndex][inning - 1] : null;
+          const leftRepeat = (left === prevPos) ? 1 : 0;
+          const rightRepeat = (right === prevPos) ? 1 : 0;
+
+          // Urgent IF need: player behind on infield credits with few innings left
+          const ifNeeded = Math.max(0, 2 - playerState.infieldCreditFirstFive);
+          const ifUrgent = inning < EARLY_INNING_LIMIT && ifNeeded > futureEarlyPlayable;
+          const leftUrgentIF = ifUrgent && INFIELD_POSITIONS.has(left) ? -2 : 0;
+          const rightUrgentIF = ifUrgent && INFIELD_POSITIONS.has(right) ? -2 : 0;
+
+          const leftPreferred = playerState.ofCount === 0 && canPlayOF && OUTFIELD_POSITIONS.has(left) ? -1 : 0;
+          const rightPreferred = playerState.ofCount === 0 && canPlayOF && OUTFIELD_POSITIONS.has(right) ? -1 : 0;
+          const leftInfield = inning < EARLY_INNING_LIMIT && INFIELD_POSITIONS.has(left) ? -1 : 0;
+          const rightInfield = inning < EARLY_INNING_LIMIT && INFIELD_POSITIONS.has(right) ? -1 : 0;
+          return leftUrgentIF - rightUrgentIF || leftPreferred - rightPreferred || leftInfield - rightInfield || leftRepeat - rightRepeat;
+        });
+    }
+
+    function applyPosition(playerIndex, inning, position, lineupPositions, state) {
+      const playerState = state[playerIndex];
+      const undo = {
+        outfieldDelta: OUTFIELD_POSITIONS.has(position) ? 1 : 0,
+        catcherDelta: position === "C" ? 1 : 0,
+        creditedCatcher: false,
+        infieldDelta: 0,
+      };
+
+      lineupPositions[playerIndex][inning] = position;
+      playerState.ofCount += undo.outfieldDelta;
+      playerState.catcherInnings += undo.catcherDelta;
+
+      if (inning < EARLY_INNING_LIMIT) {
+        if (position === "C" && !playerState.catcherCreditedInFirstFive) {
+          playerState.catcherCreditedInFirstFive = true;
+          playerState.infieldCreditFirstFive += 1;
+          undo.creditedCatcher = true;
+          undo.infieldDelta = 1;
+        } else if (INFIELD_POSITIONS.has(position) && position !== "C") {
+          playerState.infieldCreditFirstFive += 1;
+          undo.infieldDelta = 1;
+        }
+      }
+
+      return undo;
+    }
+
+    function revertPosition(playerIndex, inning, lineupPositions, state, undo) {
+      const playerState = state[playerIndex];
+      lineupPositions[playerIndex][inning] = null;
+      playerState.ofCount -= undo.outfieldDelta;
+      playerState.catcherInnings -= undo.catcherDelta;
+      playerState.infieldCreditFirstFive -= undo.infieldDelta;
+      if (undo.creditedCatcher) playerState.catcherCreditedInFirstFive = false;
+    }
+
+    function assignInningPositions(inning, playerIndices, remainingPositions, lineupPositions, state, benchOrder) {
+      if (!playerIndices.length) return true;
+
+      const options = playerIndices
+        .map((playerIndex) => ({
+          playerIndex,
+          candidates: getCandidatePositions(playerIndex, inning, remainingPositions, state, benchOrder, lineupPositions),
+        }))
+        .sort((left, right) => left.candidates.length - right.candidates.length);
+
+      if (!options.length || !options[0].candidates.length) return false;
+
+      const { playerIndex, candidates } = options[0];
+      const nextPlayers = playerIndices.filter((index) => index !== playerIndex);
+
+      for (const position of candidates) {
+        const undo = applyPosition(playerIndex, inning, position, lineupPositions, state);
+        if (assignInningPositions(
+          inning,
+          nextPlayers,
+          remainingPositions.filter((value) => value !== position),
+          lineupPositions,
+          state,
+          benchOrder,
+        )) {
+          return true;
+        }
+        revertPosition(playerIndex, inning, lineupPositions, state, undo);
+      }
+
+      return false;
+    }
+
+    function tryGenerateLineup() {
+      const benchOrder = buildBenchOrder();
+      const lineupPositions = players.map(() => Array(6).fill(null));
+      const state = buildGenerationState(benchOrder);
+      const activeIndices = getActiveIndices();
+      const activeCount = activeIndices.length;
+
+      // Use dynamic position list based on active count
+      const positionsThisInning = getActivePositions();
+
+      for (let inning = 0; inning < 6; inning++) {
+        const benchedIndex = benchOrder[inning];
+        const availablePlayers = activeIndices
+          .filter((index) => index !== benchedIndex || benchedIndex === -1);
+
+        if (!assignInningPositions(inning, availablePlayers, positionsThisInning, lineupPositions, state, benchOrder)) {
+          return null;
+        }
+      }
+
+      return lineupPositions;
+    }
+
+    // Score a lineup: higher is worse. RBLL rules weighted heavier than tier rules.
+    function scoreLineup(report) {
+      const RBLL_IDS = new Set(["3.4.1", "3.4.2", "3.4.3"]);
+      let score = 0;
+      for (const rule of report.rules) {
+        if (!rule.passed) {
+          score += RBLL_IDS.has(rule.id) ? 10 : 1; // RBLL failures cost 10x
+        }
+      }
+      return score;
+    }
+
+    function buildValidLineup(maxAttempts = null) {
+      if (!maxAttempts) {
+        const active = getActivePlayers().length;
+        maxAttempts = active >= 11 ? 500 : active >= 10 ? 800 : 2000;
+      }
+      let bestCandidate = null;
+      let bestScore = Infinity;
+
+      for (let attempt = 0; attempt < maxAttempts; attempt++) {
+        const candidate = tryGenerateLineup();
+        if (!candidate) continue;
+
+        const report = getMandatoryPlayReport(candidate);
+        const s = scoreLineup(report);
+        if (s === 0) return candidate; // Perfect — all rules pass
+        if (s < bestScore) {
+          bestScore = s;
+          bestCandidate = candidate;
+        }
+      }
+
+      // Return best effort if no perfect lineup found
+      return bestCandidate;
+    }
+
+    function generateLineup() {
+      const candidate = buildValidLineup();
+      if (candidate) {
+        players.forEach((player, index) => {
+          player.positions = [...candidate[index]];
+        });
+        renderLineup();
+        return;
+      }
+
+      alert("Unable to generate any valid lineup. Check that enough players are active.");
+    }
+
+    function renderMandatoryPlay() {
+      const report = getMandatoryPlayReport();
+      const summary = document.getElementById("mandatorySummary");
+      const tbody = document.getElementById("mandatoryBody");
+
+      summary.innerHTML = "";
+      tbody.innerHTML = "";
+
+      report.rules.forEach((rule) => {
+        const card = document.createElement("div");
+        card.className = `rule-chip ${rule.passed ? "pass" : "fail"}`;
+        card.innerHTML = `
+          <div class="rule-head">
+            <div class="rule-id">${rule.id}</div>
+            <div class="rule-status ${rule.passed ? "pass" : "fail"}">${rule.passed ? "Pass" : "Fail"}</div>
+          </div>
+          <div class="rule-title">${rule.title}</div>
+          <div class="rule-detail">${rule.detail}</div>
+        `;
+        summary.appendChild(card);
+      });
+
+      report.perPlayer.forEach((player) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td class="player-cell">${player.name}</td>
+          <td class="tier-cell"><span class="tier-pill tier-${player.tier}">${player.tierLabel}</span></td>
+          <td class="count-cell">${player.outfieldInnings}</td>
+          <td class="count-cell">${player.infieldCreditFirstFive}</td>
+          <td class="count-cell">${player.benchInnings}</td>
+          <td class="count-cell">${player.catcherInnings}</td>
+          <td><span class="player-status ${player.passed ? "pass" : "fail"}">${player.passed ? "Ready" : "Fix"}</span></td>
+          <td class="detail-cell">${player.notes}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function renderLineup() {
+      const tbody = document.getElementById("lineupBody");
+      tbody.innerHTML = "";
+
+      players.forEach((p, idx) => {
+        const tr = document.createElement("tr");
+        if (!p.active) tr.classList.add("inactive-player");
+        if (idx === currentBatter && p.active) tr.classList.add("current-batter");
+
+        const numTd = document.createElement("td");
+        numTd.className = "player-num";
+        numTd.textContent = p.num;
+        tr.appendChild(numTd);
+
+        const nameTd = document.createElement("td");
+        nameTd.className = "player-name";
+        nameTd.innerHTML = `<span class="name-text">${p.name}</span><span class="tier-pill tier-${p.tier}">${TIER_LABELS[p.tier]}</span><button class="avail-toggle ${p.active ? 'active' : 'out'}" onclick="togglePlayer(${idx})" title="${p.active ? 'Mark unavailable' : 'Mark available'}">${p.active ? '✓' : 'OUT'}</button>`;
+        tr.appendChild(nameTd);
+
+        for (let i = 0; i < 6; i++) {
+          const td = document.createElement("td");
+          if (!p.active) {
+            td.className = "position-cell inactive";
+            td.textContent = "—";
+          } else {
+            const pos = p.positions[i];
+            if (pos === null) {
+              td.className = "position-cell bench";
+            } else {
+              td.className = "position-cell pos-" + pos;
+              td.textContent = pos;
+            }
+            if (i === currentInning) {
+              td.classList.add("active-inning");
+            }
+          }
+          tr.appendChild(td);
+        }
+
+        tbody.appendChild(tr);
+      });
+
+      document.querySelectorAll(".inning-header").forEach((th, i) => {
+        th.classList.toggle("active", i === currentInning);
+      });
+
+      document.getElementById("inningDisplay").textContent = "Inning " + (currentInning + 1);
+
+      const batter = players[currentBatter];
+      document.getElementById("batterName").textContent = "#" + batter.num + " " + batter.name;
+      const pos = batter.positions[currentInning];
+      document.getElementById("batterPos").textContent = pos || "BENCH";
+      renderMandatoryPlay();
+    }
+
+    function goToInning(i) {
+      currentInning = Math.max(0, Math.min(5, i));
+      renderLineup();
+    }
+
+    function nextInning() {
+      if (currentInning < 5) { currentInning++; renderLineup(); }
+    }
+
+    function prevInning() {
+      if (currentInning > 0) { currentInning--; renderLineup(); }
+    }
+
+    function nextBatter() {
+      let next = (currentBatter + 1) % players.length;
+      while (!players[next].active && next !== currentBatter) {
+        next = (next + 1) % players.length;
+      }
+      currentBatter = next;
+      currentPitchCount = 0;
+      renderLineup();
+      renderPitches();
+    }
+
+    function setPitch(n) {
+      currentPitchCount = currentPitchCount === n ? n - 1 : n;
+      renderPitches();
+    }
+
+    function resetPitches() {
+      currentPitchCount = 0;
+      renderPitches();
+    }
+
+    function renderPitches() {
+      const dots = document.querySelectorAll("#pitchDots .pitch-dot");
+      dots.forEach((dot, i) => {
+        dot.classList.toggle("used", i < currentPitchCount);
+        dot.classList.toggle("last-pitch", i === 4 && currentPitchCount === 5);
+      });
+    }
+
+    function openPrintPage() {
+      const gameDate = document.getElementById("gameDate").value || "";
+      const teamName = document.getElementById("teamName").value || "";
+      const opponent = document.getElementById("opponent").value || "";
+      const location = document.getElementById("location").value || "";
+
+      // Build lineup rows (active players only, renumbered sequentially)
+      let lineupRows = "";
+      let printOrder = 0;
+      players.filter(p => p.active).forEach(p => {
+        printOrder++;
+        let cells = "";
+        for (let i = 0; i < 6; i++) {
+          const pos = p.positions[i];
+          if (pos === null) {
+            cells += `<td class="pos bench">BENCH</td>`;
+          } else {
+            cells += `<td class="pos pos-${pos}">${pos}</td>`;
+          }
+        }
+        lineupRows += `<tr><td class="num">${printOrder}</td><td class="name">${p.name}</td>${cells}</tr>`;
+      });
+
+      // Build scoreboard with run boxes per inning
+      let scoreHTML = "";
+      for (let i = 0; i < 6; i++) {
+        const isUncapped = i === 5;
+        const boxCount = isUncapped ? 0 : 4;
+        let boxes = "";
+        if (isUncapped) {
+          boxes = `<div class="run-boxes uncapped"><span class="uncapped-label">∞</span></div>`;
+        } else {
+          for (let b = 0; b < boxCount; b++) {
+            boxes += `<div class="run-box"></div>`;
+          }
+          boxes = `<div class="run-boxes">${boxes}</div>`;
+        }
+        const outBubbles = `<div class="out-bubbles"><div class="out-bubble"></div><div class="out-bubble"></div><div class="out-bubble"></div></div>`;
+        scoreHTML += `<div class="inning-col"><div class="inning-num">${i + 1}</div><div class="team-row"><span class="team-lbl">US</span>${boxes}</div><div class="outs-row"><span class="outs-lbl">OUTS</span>${outBubbles}</div><div class="team-row"><span class="team-lbl">THEM</span>${isUncapped ? `<div class="run-boxes uncapped"><span class="uncapped-label">∞</span></div>` : `<div class="run-boxes">${Array(4).fill('<div class="run-box"></div>').join("")}</div>`}</div><div class="outs-row"><span class="outs-lbl">OUTS</span>${outBubbles}</div></div>`;
+      }
+
+      const html = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Lineup Card - ${teamName || "Print"}</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; padding: 0.4in; color: #000; font-size: 11px; }
+
+  .header { text-align: center; margin-bottom: 10px; border-bottom: 2px solid #000; padding-bottom: 6px; }
+  .header h1 { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 4px; margin: 0; }
+  .header .sub { font-size: 10px; color: #555; letter-spacing: 3px; text-transform: uppercase; }
+
+  .game-info { display: flex; gap: 20px; margin-bottom: 12px; font-size: 12px; font-weight: 600; flex-wrap: wrap; border-bottom: 1px solid #ccc; padding-bottom: 8px; }
+  .game-info .field { }
+  .game-info .label { font-size: 9px; text-transform: uppercase; color: #888; letter-spacing: 1px; }
+  .game-info .value { font-size: 13px; min-width: 80px; border-bottom: 1px solid #aaa; padding-bottom: 1px; min-height: 18px; }
+
+  /* --- Scoreboard --- */
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: 16px; letter-spacing: 2px; margin-bottom: 6px; }
+  .scoreboard { display: flex; gap: 0; margin-bottom: 14px; border: 1.5px solid #000; border-radius: 4px; overflow: hidden; }
+  .inning-col { flex: 1; border-right: 1px solid #999; padding: 4px 0; text-align: center; }
+  .inning-col:last-child { border-right: none; }
+  .inning-num { font-family: 'Bebas Neue', sans-serif; font-size: 15px; font-weight: 700; border-bottom: 1.5px solid #000; padding-bottom: 2px; margin-bottom: 4px; background: #f0f0f0; }
+  .team-row { display: flex; align-items: center; justify-content: center; gap: 3px; padding: 3px 2px; min-height: 26px; border-bottom: 1px solid #ddd; }
+  .team-lbl { font-size: 8px; font-weight: 800; letter-spacing: 0.5px; width: 28px; text-align: right; flex-shrink: 0; }
+  .run-boxes { display: flex; gap: 2px; }
+  .run-box { width: 14px; height: 14px; border: 1.5px solid #000; border-radius: 2px; background: #fff; }
+  .run-boxes.uncapped { align-items: center; justify-content: center; min-width: 60px; }
+  .uncapped-label { font-size: 16px; font-weight: 700; color: #555; }
+  .outs-row { display: flex; align-items: center; justify-content: center; gap: 3px; padding: 2px 2px; border-bottom: 1px solid #ddd; background: #f8f8f8; }
+  .outs-lbl { font-size: 7px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: #888; width: 28px; text-align: right; flex-shrink: 0; }
+  .out-bubbles { display: flex; gap: 3px; }
+  .out-bubble { width: 11px; height: 11px; border: 1.5px solid #000; border-radius: 50%; background: #fff; }
+
+  /* Total column */
+  .total-col { flex: 0.7; padding: 4px 0; text-align: center; background: #f5f5f5; }
+  .total-col .inning-num { background: #e0e0e0; }
+  .total-col .team-row { justify-content: center; }
+  .total-box { width: 36px; height: 14px; border-bottom: 1.5px solid #000; }
+
+  /* --- Lineup Table --- */
+  .lineup-table { width: 100%; border-collapse: collapse; margin-top: 2px; }
+  .lineup-table th { background: #f0f0f0; border: 1.5px solid #000; padding: 5px 4px; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; }
+  .lineup-table td { border: 1px solid #000; padding: 5px 4px; font-size: 12px; }
+  .lineup-table td.num { text-align: center; font-weight: 700; width: 30px; }
+  .lineup-table td.name { font-weight: 700; padding-left: 8px; min-width: 90px; }
+  .lineup-table td.pos { text-align: center; font-weight: 800; font-size: 11px; }
+  .lineup-table td.bench { text-align: center; font-style: italic; color: #888; font-weight: 600; font-size: 9px; background: #fafafa; }
+  .lineup-table tr:nth-child(even) { background: #fafafa; }
+
+  /* Position colors */
+  .pos-P { color: #c0392b; }
+  .pos-C { color: #b8860b; }
+  .pos-1B { color: #1a8a5e; }
+  .pos-2B { color: #2471a3; }
+  .pos-3B { color: #c0630a; }
+  .pos-SS { color: #8b7d00; }
+  .pos-LF { color: #5b3fa3; }
+  .pos-LCF { color: #555; }
+  .pos-RCF { color: #0e7c7b; }
+  .pos-RF { color: #00807a; }
+
+  .print-btn { position: fixed; top: 12px; right: 12px; padding: 8px 18px; font-size: 13px; font-weight: 700; background: #2d1810; color: #f5c542; border: none; border-radius: 6px; cursor: pointer; font-family: 'Inter', sans-serif; }
+  .print-btn:hover { background: #1a0e08; }
+
+  @media print {
+    .print-btn { display: none !important; }
+    @page { size: landscape; margin: 0.3in; }
+    body { padding: 0; }
+  }
+</style>
+</head>
+<body>
+  <button class="print-btn" onclick="window.print()">🖨 Print</button>
+  <div class="header">
+    <h1>RBLL AA LINEUP CARD</h1>
+    <div class="sub">Little League Baseball</div>
+  </div>
+  <div class="game-info">
+    <div class="field"><div class="label">Date</div><div class="value">${gameDate || "&nbsp;"}</div></div>
+    <div class="field"><div class="label">Team</div><div class="value">${teamName || "&nbsp;"}</div></div>
+    <div class="field"><div class="label">Opponent</div><div class="value">${opponent || "&nbsp;"}</div></div>
+    <div class="field"><div class="label">Location</div><div class="value">${location || "&nbsp;"}</div></div>
+  </div>
+
+  <div class="section-title">Scoreboard</div>
+  <div class="scoreboard">
+    ${scoreHTML}
+    <div class="total-col">
+      <div class="inning-num">R</div>
+      <div class="team-row"><span class="team-lbl">US</span><div class="total-box"></div></div>
+      <div class="outs-row spacer"><span class="outs-lbl">&nbsp;</span></div>
+      <div class="team-row"><span class="team-lbl">THEM</span><div class="total-box"></div></div>
+      <div class="outs-row spacer"><span class="outs-lbl">&nbsp;</span></div>
+    </div>
+  </div>
+
+  <div class="section-title">Lineup &amp; Positions</div>
+  <table class="lineup-table">
+    <thead>
+      <tr>
+        <th>#</th><th>Player</th><th>Inn 1</th><th>Inn 2</th><th>Inn 3</th><th>Inn 4</th><th>Inn 5</th><th>Inn 6</th>
+      </tr>
+    </thead>
+    <tbody>${lineupRows}</tbody>
+  </table>
+</body>
+</html>`;
+
+      const printWindow = window.open("", "_blank");
+      printWindow.document.write(html);
+      printWindow.document.close();
+    }
+
+    function getRunCap(inning) {
+      return inning === UNCAPPED_INNING ? Infinity : MAX_RUNS_PER_INNING;
+    }
+
+    function changeScore(team, inning, delta) {
+      const scores = team === "home" ? homeScores : awayScores;
+      const cap = getRunCap(inning);
+      if (scores[inning] === null) {
+        scores[inning] = Math.max(0, Math.min(cap, delta));
+      } else {
+        scores[inning] = Math.max(0, Math.min(cap, scores[inning] + delta));
+      }
+      renderScores();
+    }
+
+    function renderScores() {
+      const homeRow = document.getElementById("homeScoreRow");
+      const awayRow = document.getElementById("awayScoreRow");
+      for (let i = 0; i < 6; i++) {
+        const cap = getRunCap(i);
+        // Home
+        const homeCell = homeRow.children[i + 1];
+        const homeVal = homeScores[i];
+        homeCell.classList.toggle("capped", homeVal !== null && homeVal >= cap && cap !== Infinity);
+        // Build content: score + run pips for capped innings
+        if (cap !== Infinity && homeVal !== null) {
+          let pips = '<div class="run-cap-bar">';
+          for (let r = 0; r < cap; r++) {
+            pips += `<span class="run-pip${r < homeVal ? ' scored' : ''}"></span>`;
+          }
+          pips += '</div>';
+          homeCell.innerHTML = homeVal + pips;
+        } else {
+          homeCell.textContent = homeVal !== null ? homeVal : "-";
+        }
+        // Away
+        const awayCell = awayRow.children[i + 1];
+        const awayVal = awayScores[i];
+        awayCell.classList.toggle("capped", awayVal !== null && awayVal >= cap && cap !== Infinity);
+        if (cap !== Infinity && awayVal !== null) {
+          let pips = '<div class="run-cap-bar">';
+          for (let r = 0; r < cap; r++) {
+            pips += `<span class="run-pip${r < awayVal ? ' scored' : ''}"></span>`;
+          }
+          pips += '</div>';
+          awayCell.innerHTML = awayVal + pips;
+        } else {
+          awayCell.textContent = awayVal !== null ? awayVal : "-";
+        }
+      }
+      document.getElementById("homeTotal").textContent = homeScores.reduce((s, v) => s + (v || 0), 0);
+      document.getElementById("awayTotal").textContent = awayScores.reduce((s, v) => s + (v || 0), 0);
+    }
+
+    function toggleOut(inning) {
+      outs[inning] = (outs[inning] + 1) % 4;
+      renderOuts();
+    }
+
+    function renderOuts() {
+      for (let i = 0; i < 6; i++) {
+        for (let j = 0; j < 3; j++) {
+          document.getElementById("out-" + i + "-" + j).classList.toggle("filled", j < outs[i]);
+        }
+      }
+    }
+
+    function resetGame() {
+      if (!confirm("Reset the entire game?")) return;
+      currentInning = 0;
+      currentBatter = 0;
+      homeScores = [null, null, null, null, null, null];
+      awayScores = [null, null, null, null, null, null];
+      outs = [0, 0, 0, 0, 0, 0];
+      currentPitchCount = 0;
+      renderLineup();
+      renderScores();
+      renderOuts();
+      renderPitches();
+    }
+
+    document.getElementById("gameDate").valueAsDate = new Date();
+    renderLineup();
+    renderScores();
+    renderOuts();
+    renderPitches();
+  </script>
+</body>
+</html>
