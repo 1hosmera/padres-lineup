@@ -1829,50 +1829,99 @@
       });
     }
 
-    function loadSharedState() {
-      if (!SHARE_PARAM) return false;
+    function decodeShareData() {
+      if (!SHARE_PARAM) return null;
       try {
         const json = decodeURIComponent(escape(atob(SHARE_PARAM)));
-        const d = JSON.parse(json);
+        return JSON.parse(json);
+      } catch (e) {
+        console.warn('Failed to decode share data:', e);
+        return null;
+      }
+    }
 
-        d.p.forEach((sp, i) => {
-          if (i < players.length) {
-            players[i].positions = [...sp.pos];
-            players[i].active = sp.a;
-          }
-        });
+    function applyShareData(d) {
+      d.p.forEach((sp, i) => {
+        if (i < players.length) {
+          players[i].positions = [...sp.pos];
+          players[i].active = sp.a;
+        }
+      });
 
-        homeScores = [...d.hs];
-        awayScores = [...d.as];
-        homeOuts = [...(d.ho || [0,0,0,0,0,0])];
-        awayOuts = [...(d.ao || [0,0,0,0,0,0])];
-        currentInning = d.ci;
-        currentBatter = d.cb;
-        halfInning = d.hi || 'us';
-        isHome = d.ih !== undefined ? d.ih : true;
-        battingStats = d.bs ? JSON.parse(JSON.stringify(d.bs)) : {};
-        initBattingStats();
+      homeScores = [...d.hs];
+      awayScores = [...d.as];
+      homeOuts = [...(d.ho || [0,0,0,0,0,0])];
+      awayOuts = [...(d.ao || [0,0,0,0,0,0])];
+      currentInning = d.ci;
+      currentBatter = d.cb;
+      halfInning = d.hi || 'us';
+      isHome = d.ih !== undefined ? d.ih : true;
+      battingStats = d.bs ? JSON.parse(JSON.stringify(d.bs)) : {};
+      initBattingStats();
 
-        document.getElementById("gameDate").value = d.gd || '';
-        document.getElementById("teamName").value = d.tn || '';
-        document.getElementById("opponent").value = d.op || '';
-        document.getElementById("location").value = d.loc || '';
+      document.getElementById("gameDate").value = d.gd || '';
+      document.getElementById("teamName").value = d.tn || '';
+      document.getElementById("opponent").value = d.op || '';
+      document.getElementById("location").value = d.loc || '';
 
+      renderLineup();
+      renderScores();
+      renderOuts();
+      renderPitches();
+      renderBatterCard();
+      renderHomeAway();
+    }
+
+    function loadSharedState() {
+      if (!SHARE_PARAM) return false;
+      const d = decodeShareData();
+      if (!d) return false;
+
+      // Apply the shared data to display it
+      applyShareData(d);
+
+      if (COACH_MODE) {
+        // Coach viewing a share link — show import button instead of read-only
+        const dateStr = d.gd ? new Date(d.gd + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : 'Game Day';
+        const banner = document.createElement('div');
+        banner.className = 'shared-banner';
+        banner.innerHTML = `<strong>📋 Shared Lineup</strong> — ${d.op || 'TBD'} · ${dateStr}<br>` +
+          `<button onclick="importSharedLineup()" style="margin-top:8px;padding:8px 20px;background:var(--gold);color:var(--brown-dark);border:none;border-radius:8px;font-weight:800;font-size:14px;cursor:pointer;letter-spacing:1px;">📥 IMPORT TO MY LINEUP</button>`;
+        document.querySelector('.header').after(banner);
+
+        // Hide controls until they import
+        document.querySelector('.controls').style.display = 'none';
+        document.querySelector('.game-tabs-container').style.display = 'none';
+        return true;
+      } else {
+        // Regular viewer — full read-only
         const dateStr = d.gd ? new Date(d.gd + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : 'Game Day';
         enterReadOnlyMode(`<strong>📋 ${d.tn || 'Gold Padres'}</strong> vs <strong>${d.op || 'TBD'}</strong> — ${dateStr}<br><span style="font-size:11px;color:var(--brown-light);">Read-only view · Shared by coach</span>`);
-
-        renderLineup();
-        renderScores();
-        renderOuts();
-        renderPitches();
-        renderBatterCard();
-        renderHomeAway();
-
         return true;
-      } catch (e) {
-        console.warn('Failed to load shared state:', e);
-        return false;
       }
+    }
+
+    function importSharedLineup() {
+      // Remove the banner
+      const banner = document.querySelector('.shared-banner');
+      if (banner) banner.remove();
+
+      // Show controls and tabs
+      document.querySelector('.controls').style.display = '';
+      document.querySelector('.game-tabs-container').style.display = '';
+
+      // Initialize games from localStorage
+      initializeGames();
+
+      // Save imported lineup into the active game
+      saveCurrentGameToMemory();
+      saveAllGamesToStorage();
+
+      // Lock the lineup
+      if (!lineupLocked) toggleLock();
+
+      // Navigate to coach mode without the share param
+      window.location.href = window.location.origin + window.location.pathname + '?coach=1';
     }
 
     async function loadPublicState() {
