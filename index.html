@@ -2678,10 +2678,12 @@
         p.tier === 1 && idx !== playerIndex && OUTFIELD_POSITIONS.has(lineupPositions[idx][inning])
       ).length;
 
-      return shuffle(remainingPositions)
+      const priorPositions = lineupPositions[playerIndex].slice(0, inning);
+
+      let candidates = shuffle(remainingPositions)
         .filter((position) => player.allowedPositions.includes(position))
         .filter((position) => {
-          // Full roster: only T1 plays 1B; T1 never catches
+          // Full roster: only designated players play 1B; T1 never catches
           const FIRST_BASE_PLAYERS = new Set(["Braden", "Luke", "Samuel", "Xander"]);
           if (isFullRoster() && position === "1B" && !FIRST_BASE_PLAYERS.has(player.name)) return false;
           if (player.tier === 1 && catcherAvailable && position === "C") return false;
@@ -2704,13 +2706,14 @@
           }
 
           return true;
-        })
-        .sort((left, right) => {
-          // Count how many previous innings the player already played this position
-          const priorPositions = lineupPositions[playerIndex].slice(0, inning);
-          const leftAlreadyPlayed = priorPositions.includes(left) ? 3 : 0;
-          const rightAlreadyPlayed = priorPositions.includes(right) ? 3 : 0;
+        });
 
+      // Hard filter: remove positions already played if fresh options exist
+      const freshCandidates = candidates.filter(p => !priorPositions.includes(p));
+      if (freshCandidates.length > 0) candidates = freshCandidates;
+
+      return candidates
+        .sort((left, right) => {
           // Urgent IF need: player behind on infield credits with few innings left
           const ifNeeded = Math.max(0, 2 - playerState.infieldCreditFirstFive);
           const ifUrgent = inning < EARLY_INNING_LIMIT && ifNeeded > futureEarlyPlayable;
@@ -2721,7 +2724,7 @@
           const rightPreferred = playerState.ofCount === 0 && canPlayOF && OUTFIELD_POSITIONS.has(right) ? -1 : 0;
           const leftInfield = inning < EARLY_INNING_LIMIT && INFIELD_POSITIONS.has(left) ? -1 : 0;
           const rightInfield = inning < EARLY_INNING_LIMIT && INFIELD_POSITIONS.has(right) ? -1 : 0;
-          return leftAlreadyPlayed - rightAlreadyPlayed || leftUrgentIF - rightUrgentIF || leftPreferred - rightPreferred || leftInfield - rightInfield;
+          return leftUrgentIF - rightUrgentIF || leftPreferred - rightPreferred || leftInfield - rightInfield;
         });
     }
 
