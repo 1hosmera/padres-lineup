@@ -435,6 +435,20 @@
       font-weight: 600;
     }
 
+    /* Them batting state */
+    .batter-info.them-batting {
+      border-left: 4px solid #e74c3c;
+    }
+    .batter-info.them-batting .now-batting {
+      color: #e74c3c;
+    }
+    .batter-info.them-batting .batter-name {
+      color: #e74c3c;
+    }
+    .batter-info.them-batting .batter-pos {
+      background: #e74c3c;
+    }
+
     .score-separator td {
       height: 3px;
       padding: 0;
@@ -1538,6 +1552,9 @@
 
     // Batting stats: { playerIndex: { ab: 0, hits: 0 } }
     let battingStats = {};
+    // Half-inning: 'us' = our team batting, 'them' = their team batting (we're fielding)
+    let halfInning = 'us';
+
     function initBattingStats() {
       players.forEach((p, i) => {
         if (!battingStats[i]) battingStats[i] = { ab: 0, hits: 0 };
@@ -1545,7 +1562,15 @@
     }
     initBattingStats();
 
+    function switchHalf(half) {
+      halfInning = half;
+      currentPitchCount = 0;
+      renderBatterCard();
+      renderPitches();
+    }
+
     function recordHit() {
+      if (halfInning !== 'us') return;
       const idx = currentBatter;
       if (!battingStats[idx]) battingStats[idx] = { ab: 0, hits: 0 };
       battingStats[idx].ab++;
@@ -1555,21 +1580,74 @@
     }
 
     function recordOut() {
-      const idx = currentBatter;
-      if (!battingStats[idx]) battingStats[idx] = { ab: 0, hits: 0 };
-      battingStats[idx].ab++;
-      // Increment the US outs for the current inning
-      if (homeOuts[currentInning] < 3) {
-        homeOuts[currentInning]++;
-        renderOuts();
+      if (halfInning === 'us') {
+        // Our batter made an out
+        const idx = currentBatter;
+        if (!battingStats[idx]) battingStats[idx] = { ab: 0, hits: 0 };
+        battingStats[idx].ab++;
+        if (homeOuts[currentInning] < 3) {
+          homeOuts[currentInning]++;
+          renderOuts();
+        }
+        updateBatterStat();
+        // If 3 outs, switch to their half
+        if (homeOuts[currentInning] >= 3) {
+          switchHalf('them');
+          return;
+        }
+        nextBatter();
+      } else {
+        // Their batter made an out
+        if (awayOuts[currentInning] < 3) {
+          awayOuts[currentInning]++;
+          renderOuts();
+        }
+        currentPitchCount = 0;
+        renderPitches();
+        // If 3 outs, advance to next inning
+        if (awayOuts[currentInning] >= 3) {
+          if (currentInning < 5) {
+            currentInning++;
+            renderLineup();
+          }
+          switchHalf('us');
+          return;
+        }
+        renderBatterCard();
       }
-      updateBatterStat();
-      nextBatter();
+    }
+
+    function renderBatterCard() {
+      const card = document.getElementById("batterInfo");
+      const nowBatting = document.querySelector(".now-batting");
+      const nameEl = document.getElementById("batterName");
+      const posEl = document.getElementById("batterPos");
+      const hitBtn = document.querySelector(".ab-hit");
+      const statEl = document.getElementById("batterStat");
+
+      if (halfInning === 'us') {
+        card.classList.remove("them-batting");
+        nowBatting.textContent = "Now Batting";
+        const batter = players[currentBatter];
+        nameEl.textContent = "#" + batter.num + " " + batter.name;
+        const pos = batter.positions[currentInning];
+        posEl.textContent = pos || "BENCH";
+        if (hitBtn) { hitBtn.style.display = ''; }
+        updateBatterStat();
+      } else {
+        card.classList.add("them-batting");
+        nowBatting.textContent = "Them Batting";
+        nameEl.textContent = "Opponent At Bat";
+        posEl.textContent = `${awayOuts[currentInning]}/3 OUT`;
+        if (hitBtn) { hitBtn.style.display = 'none'; }
+        if (statEl) { statEl.textContent = ''; }
+      }
     }
 
     function updateBatterStat() {
       const el = document.getElementById("batterStat");
       if (!el) return;
+      if (halfInning !== 'us') { el.textContent = ''; return; }
       const idx = currentBatter;
       const s = battingStats[idx] || { ab: 0, hits: 0 };
       if (s.ab === 0) {
@@ -2225,10 +2303,7 @@
       document.getElementById("inningDisplay").textContent = "Inning " + (currentInning + 1);
 
       const batter = players[currentBatter];
-      document.getElementById("batterName").textContent = "#" + batter.num + " " + batter.name;
-      const pos = batter.positions[currentInning];
-      document.getElementById("batterPos").textContent = pos || "BENCH";
-      updateBatterStat();
+      renderBatterCard();
       renderMandatoryPlay();
 
       // Re-apply lock state to newly rendered toggle buttons
@@ -2559,6 +2634,7 @@
       awayOuts = [0, 0, 0, 0, 0, 0];
       currentPitchCount = 0;
       battingStats = {};
+      halfInning = 'us';
       initBattingStats();
       renderLineup();
       renderScores();
@@ -2614,6 +2690,7 @@
         currentPitchCount: currentPitchCount,
         lineupLocked: lineupLocked,
         battingStats: JSON.parse(JSON.stringify(battingStats)),
+        halfInning: halfInning,
         gameDate: document.getElementById("gameDate").value,
         teamName: document.getElementById("teamName").value,
         opponent: document.getElementById("opponent").value,
@@ -2642,6 +2719,7 @@
       currentBatter = state.currentBatter;
       currentPitchCount = state.currentPitchCount;
       battingStats = state.battingStats ? JSON.parse(JSON.stringify(state.battingStats)) : {};
+      halfInning = state.halfInning || 'us';
       initBattingStats();
 
       // Restore lock state
