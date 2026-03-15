@@ -123,6 +123,12 @@
       border: none !important;
     }
 
+    .btn-endgame {
+      background: #27ae60 !important;
+      color: #fff !important;
+      border: none !important;
+    }
+
     /* Shared (read-only) mode */
     .shared-mode .controls,
     .shared-mode .game-tabs-container,
@@ -1439,6 +1445,7 @@
     <button class="btn btn-danger" onclick="resetGame()">Reset</button>
     <button class="btn btn-secondary" onclick="openPrintPage()">Print Lineup</button>
     <button class="btn btn-share" onclick="shareLineup()">📤 Share</button>
+    <button class="btn btn-endgame" onclick="endGame()">🏁 End Game</button>
     <div class="current-inning-display" id="inningDisplay">Inning 1</div>
   </div>
 
@@ -1864,6 +1871,124 @@
         console.warn('Failed to load shared state:', e);
         return false;
       }
+    }
+
+    // ===== CLOUD SAVE (GITHUB) =====
+    const GH_REPO = '1hosmera/padres-lineup';
+    const GH_DATA_PATH = 'data/games.json';
+    const GH_TOKEN_KEY = 'rbll_gh_token';
+
+    function getGitHubToken() {
+      let token = localStorage.getItem(GH_TOKEN_KEY);
+      if (!token) {
+        token = prompt(
+          'One-time setup: Paste your GitHub Personal Access Token.\n\n' +
+          'Create one at: github.com/settings/tokens\n' +
+          'Scope: Only needs "Contents" read/write for padres-lineup repo.'
+        );
+        if (token) {
+          localStorage.setItem(GH_TOKEN_KEY, token.trim());
+        }
+      }
+      return token ? token.trim() : null;
+    }
+
+    async function endGame() {
+      const token = getGitHubToken();
+      if (!token) return;
+
+      // Lock lineup
+      if (!lineupLocked) toggleLock();
+
+      // Mark current game as completed
+      const game = games.find(g => g.id === activeGameId);
+      if (game) {
+        game.state = captureCurrentGameState();
+      }
+
+      // Build save payload: all games
+      const saveData = {
+        savedAt: new Date().toISOString(),
+        games: games.map(g => ({
+          id: g.id,
+          date: g.date,
+          opponent: g.opponent,
+          state: g.state
+        }))
+      };
+
+      const content = btoa(unescape(encodeURIComponent(JSON.stringify(saveData, null, 2))));
+
+      try {
+        // Get existing file SHA (needed for updates)
+        let sha = null;
+        const getResp = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_DATA_PATH}`, {
+          headers: { 'Authorization': `token ${token}` }
+        });
+        if (getResp.ok) {
+          const existing = await getResp.json();
+          sha = existing.sha;
+        }
+
+        // Create or update the file
+        const body = {
+          message: `Save game data — ${new Date().toLocaleDateString()}`,
+          content: content
+        };
+        if (sha) body.sha = sha;
+
+        const putResp = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_DATA_PATH}`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        });
+
+        if (putResp.ok) {
+          alert('✅ Game saved! Data is backed up to GitHub.');
+          saveAllGamesToStorage();
+        } else {
+          const err = await putResp.json();
+          if (putResp.status === 401) {
+            localStorage.removeItem(GH_TOKEN_KEY);
+            alert('❌ Token expired or invalid. Cleared — try again.');
+          } else {
+            alert('❌ Save failed: ' + (err.message || 'Unknown error'));
+          }
+        }
+      } catch (e) {
+        alert('❌ Save failed: ' + e.message);
+      }
+    }
+
+    async function loadFromGitHub() {
+      try {
+        // Try fetching the data file from GitHub Pages (no auth needed)
+        const resp = await fetch(`data/games.json?_=${Date.now()}`);
+        if (!resp.ok) return null;
+        const data = await resp.json();
+        return data;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    // ===== SEASON BATTING AVERAGES =====
+    function getSeasonBattingStats() {
+      // Aggregate batting stats across ALL games
+      const seasonStats = {};
+      games.forEach(game => {
+        if (!game.state || !game.state.battingStats) return;
+        const bs = game.state.battingStats;
+        Object.keys(bs).forEach(idx => {
+          if (!seasonStats[idx]) seasonStats[idx] = { ab: 0, hits: 0 };
+          seasonStats[idx].ab += bs[idx].ab || 0;
+          seasonStats[idx].hits += bs[idx].hits || 0;
+        });
+      });
+      return seasonStats;
     }
 
     // ===== UNDO SYSTEM =====
@@ -2615,6 +2740,13 @@
       const tbody = document.getElementById("lineupBody");
       tbody.innerHTML = "";
 
+      // Compute season stats once (save current game first so it's included)
+      const currentGame = games ? games.find(g => g.id === activeGameId) : null;
+      if (currentGame && typeof captureCurrentGameState === 'function') {
+        try { currentGame.state = captureCurrentGameState(); } catch(e) {}
+      }
+      const seasonStats = (typeof getSeasonBattingStats === 'function') ? getSeasonBattingStats() : {};
+
       players.forEach((p, idx) => {
         const tr = document.createElement("tr");
         if (!p.active) tr.classList.add("inactive-player");
@@ -2632,10 +2764,10 @@
 
         const avgTd = document.createElement("td");
         avgTd.className = "avg-cell";
-        const s = battingStats[idx] || { ab: 0, hits: 0 };
+        const s = seasonStats[idx] || { ab: 0, hits: 0 };
         if (s.ab > 0) {
           avgTd.textContent = (s.hits / s.ab).toFixed(3).replace(/^0/, '');
-          avgTd.title = `${s.hits}/${s.ab}`;
+          avgTd.title = `Season: ${s.hits}/${s.ab}`;
         } else {
           avgTd.textContent = '—';
         }
@@ -3473,6 +3605,28 @@
     // Initialize: shared mode or multi-game system
     if (!loadSharedState()) {
       initializeGames();
+
+      // Try loading from GitHub if localStorage was empty
+      if (games.length === 0 || !localStorage.getItem(GAMES_STORAGE_KEY)) {
+        loadFromGitHub().then(data => {
+          if (data && data.games && data.games.length > 0) {
+            // Only use cloud data if we don't already have localStorage data
+            if (!localStorage.getItem(GAMES_STORAGE_KEY)) {
+              games = data.games;
+              const today = new Date();
+              today.setHours(0,0,0,0);
+              const nextGame = games.find(g => new Date(g.date + 'T00:00:00') >= today);
+              activeGameId = nextGame ? nextGame.id : games[0].id;
+              const activeGame = games.find(g => g.id === activeGameId);
+              if (activeGame && activeGame.state) {
+                restoreGameState(activeGame.state);
+              }
+              renderGameTabs();
+              saveAllGamesToStorage();
+            }
+          }
+        });
+      }
     }
 
     // Re-wrap with auto-save
