@@ -98,6 +98,24 @@
     }
 
     .game-info input::placeholder { color: var(--brown-light); }
+
+    .home-away-toggle {
+      background: var(--brown-dark) !important;
+      border: 2px solid var(--gold) !important;
+      color: var(--gold) !important;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+      letter-spacing: 1px;
+    }
+    .home-away-toggle.away {
+      border-color: #e74c3c !important;
+      color: #e74c3c !important;
+    }
     .game-info input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 2px rgba(255,196,37,0.15); }
 
     /* Section titles */
@@ -1369,6 +1387,7 @@
     <input type="text" id="teamName" placeholder="Team Name" />
     <input type="text" id="opponent" placeholder="Opponent" />
     <input type="text" id="location" placeholder="Location" />
+    <button class="btn home-away-toggle" id="homeAwayBtn" onclick="toggleHomeAway()">🏠 HOME</button>
   </div>
 
   <!-- Controls -->
@@ -1617,6 +1636,7 @@
     let battingStats = {};
     // Half-inning: 'us' = our team batting, 'them' = their team batting (we're fielding)
     let halfInning = 'us';
+    let isHome = true;
 
     function initBattingStats() {
       players.forEach((p, i) => {
@@ -1630,6 +1650,30 @@
       currentPitchCount = 0;
       renderBatterCard();
       renderPitches();
+    }
+
+    function toggleHomeAway() {
+      isHome = !isHome;
+      // If game hasn't started (inning 0, no outs), set the correct starting half
+      if (currentInning === 0 && homeOuts[0] === 0 && awayOuts[0] === 0) {
+        halfInning = isHome ? 'them' : 'us';
+        renderBatterCard();
+        renderPitches();
+      }
+      renderHomeAway();
+      saveCurrentGameToMemory();
+      renderGameTabs();
+    }
+
+    function renderHomeAway() {
+      const btn = document.getElementById("homeAwayBtn");
+      if (isHome) {
+        btn.textContent = '🏠 HOME';
+        btn.classList.remove('away');
+      } else {
+        btn.textContent = '@ AWAY';
+        btn.classList.add('away');
+      }
     }
 
     function recordPitch() {
@@ -1666,9 +1710,18 @@
           renderOuts();
         }
         updateBatterStat();
-        // If 3 outs, switch to their half
         if (homeOuts[currentInning] >= 3) {
-          switchHalf('them');
+          if (isHome) {
+            // HOME: we bat bottom → 3 US outs ends the inning
+            if (currentInning < 5) {
+              currentInning++;
+              renderLineup();
+            }
+            switchHalf('them');
+          } else {
+            // AWAY: we bat top → 3 US outs switches to them
+            switchHalf('them');
+          }
           return;
         }
         nextBatter();
@@ -1680,13 +1733,18 @@
         }
         currentPitchCount = 0;
         renderPitches();
-        // If 3 outs, advance to next inning
         if (awayOuts[currentInning] >= 3) {
-          if (currentInning < 5) {
-            currentInning++;
-            renderLineup();
+          if (isHome) {
+            // HOME: they bat top → 3 THEM outs switches to us
+            switchHalf('us');
+          } else {
+            // AWAY: they bat bottom → 3 THEM outs ends the inning
+            if (currentInning < 5) {
+              currentInning++;
+              renderLineup();
+            }
+            switchHalf('us');
           }
-          switchHalf('us');
           return;
         }
         renderBatterCard();
@@ -2710,12 +2768,13 @@
       awayOuts = [0, 0, 0, 0, 0, 0];
       currentPitchCount = 0;
       battingStats = {};
-      halfInning = 'us';
+      halfInning = isHome ? 'them' : 'us';
       initBattingStats();
       renderLineup();
       renderScores();
       renderOuts();
       renderPitches();
+      renderBatterCard();
     }
 
     // ===== MULTI-GAME MANAGEMENT =====
@@ -2767,6 +2826,7 @@
         lineupLocked: lineupLocked,
         battingStats: JSON.parse(JSON.stringify(battingStats)),
         halfInning: halfInning,
+        isHome: isHome,
         gameDate: document.getElementById("gameDate").value,
         teamName: document.getElementById("teamName").value,
         opponent: document.getElementById("opponent").value,
@@ -2795,7 +2855,16 @@
       currentBatter = state.currentBatter;
       currentPitchCount = state.currentPitchCount;
       battingStats = state.battingStats ? JSON.parse(JSON.stringify(state.battingStats)) : {};
-      halfInning = state.halfInning || 'us';
+      isHome = state.isHome !== undefined ? state.isHome : true;
+      // For games that haven't started, set correct starting half based on home/away
+      const gameNotStarted = (state.homeOuts || [0]).every(o => o === 0) &&
+                              (state.awayOuts || [0]).every(o => o === 0) &&
+                              state.currentInning === 0;
+      if (gameNotStarted) {
+        halfInning = isHome ? 'them' : 'us';
+      } else {
+        halfInning = state.halfInning || 'us';
+      }
       initBattingStats();
 
       // Restore lock state
@@ -2829,6 +2898,7 @@
       renderScores();
       renderOuts();
       renderPitches();
+      renderHomeAway();
       _restoring = false;
     }
 
@@ -2906,6 +2976,8 @@
         currentPitchCount: 0,
         lineupLocked: false,
         battingStats: {},
+        halfInning: 'us',
+        isHome: true,
         gameDate: date || '',
         teamName: document.getElementById("teamName").value || '',
         opponent: opponent || '',
@@ -2989,7 +3061,8 @@
 
         const oppDiv = document.createElement('div');
         oppDiv.className = 'game-tab-opponent';
-        oppDiv.textContent = game.opponent ? 'vs ' + game.opponent : 'TBD';
+        const awayPrefix = (game.state && game.state.isHome === false) ? '@ ' : 'vs ';
+        oppDiv.textContent = game.opponent ? awayPrefix + game.opponent : 'TBD';
         tab.appendChild(oppDiv);
 
         // Delete button (only if more than 1 game)
@@ -3117,6 +3190,8 @@
               currentPitchCount: 0,
               lineupLocked: g.completed || false,
               battingStats: {},
+              halfInning: 'us',
+              isHome: true,
               gameDate: g.date,
               teamName: 'Gold Padres',
               opponent: g.opponent,
