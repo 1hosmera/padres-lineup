@@ -511,6 +511,20 @@
       gap: 8px;
     }
 
+    .avg-header, .avg-cell {
+      text-align: center;
+      font-size: 11px;
+      min-width: 42px;
+      width: 42px;
+    }
+    .avg-cell {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      color: var(--sand);
+      font-size: 11px;
+      letter-spacing: 0.3px;
+    }
+
     .lineup-table td.position-cell {
       font-weight: 700;
       font-size: 13px;
@@ -1397,6 +1411,7 @@
           <tr>
             <th>#</th>
             <th>Player</th>
+            <th class="avg-header">AVG</th>
             <th class="inning-header" onclick="goToInning(0)">Inn 1</th>
             <th class="inning-header" onclick="goToInning(1)">Inn 2</th>
             <th class="inning-header" onclick="goToInning(2)">Inn 3</th>
@@ -2168,6 +2183,17 @@
         nameTd.className = "player-name";
         nameTd.innerHTML = `<span class="name-text">${p.name}</span><span class="tier-pill tier-${p.tier}">${TIER_LABELS[p.tier]}</span><button class="avail-toggle ${p.active ? 'active' : 'out'}" onclick="togglePlayer(${idx})" title="${p.active ? 'Mark unavailable' : 'Mark available'}">${p.active ? '✓' : 'OUT'}</button>`;
         tr.appendChild(nameTd);
+
+        const avgTd = document.createElement("td");
+        avgTd.className = "avg-cell";
+        const s = battingStats[idx] || { ab: 0, hits: 0 };
+        if (s.ab > 0) {
+          avgTd.textContent = (s.hits / s.ab).toFixed(3).replace(/^0/, '');
+          avgTd.title = `${s.hits}/${s.ab}`;
+        } else {
+          avgTd.textContent = '—';
+        }
+        tr.appendChild(avgTd);
 
         for (let i = 0; i < 6; i++) {
           const td = document.createElement("td");
