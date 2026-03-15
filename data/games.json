@@ -1,5 +1,5 @@
 {
-  "savedAt": "2026-03-15T03:18:22.277Z",
+  "savedAt": "2026-03-15T03:26:27.803Z",
   "games": [
     {
       "id": "game_1773535887119_c48eze_0",
@@ -722,12 +722,12 @@
             "num": 1,
             "name": "Oliver",
             "positions": [
-              "LF",
+              "RF",
+              "2B",
               "SS",
               "C",
-              "3B",
               "LCF",
-              "RCF"
+              "LF"
             ],
             "tier": 2,
             "active": true,
@@ -749,11 +749,11 @@
             "name": "Braden",
             "positions": [
               "LCF",
-              "3B",
-              "2B",
               "SS",
-              "2B",
-              "SS"
+              "3B",
+              "P",
+              "1B",
+              "2B"
             ],
             "tier": 1,
             "active": true,
@@ -774,12 +774,12 @@
             "num": 3,
             "name": "Samuel",
             "positions": [
-              "P",
-              "LF",
+              "2B",
+              "LCF",
               "1B",
-              "P",
               "3B",
-              "2B"
+              "P",
+              "SS"
             ],
             "tier": 1,
             "active": true,
@@ -802,9 +802,9 @@
             "positions": [
               "1B",
               "1B",
-              "LCF",
+              "LF",
               "1B",
-              "1B",
+              "3B",
               "1B"
             ],
             "tier": 1,
@@ -828,10 +828,10 @@
             "positions": [
               "RCF",
               "C",
-              null,
               "2B",
-              "RCF",
-              "P"
+              null,
+              "RF",
+              "3B"
             ],
             "tier": 3,
             "active": true,
@@ -852,12 +852,12 @@
             "num": 6,
             "name": "Xander",
             "positions": [
-              "RF",
+              "LF",
               "P",
-              "SS",
               "C",
-              "RF",
-              "LCF"
+              "SS",
+              null,
+              "RCF"
             ],
             "tier": 2,
             "active": true,
@@ -878,11 +878,11 @@
             "num": 7,
             "name": "Jordi",
             "positions": [
-              "C",
-              "RCF",
               "P",
               "LF",
-              null,
+              "RF",
+              "2B",
+              "RCF",
               "C"
             ],
             "tier": 2,
@@ -904,10 +904,10 @@
             "num": 8,
             "name": "Otis",
             "positions": [
-              "3B",
+              "C",
               "RF",
-              "3B",
-              "RF",
+              "P",
+              "RCF",
               "LF",
               null
             ],
@@ -931,9 +931,9 @@
             "name": "Julian",
             "positions": [
               "SS",
-              "LCF",
               "RCF",
               null,
+              "LCF",
               "C",
               "RF"
             ],
@@ -956,12 +956,12 @@
             "num": 10,
             "name": "Jacob",
             "positions": [
+              "3B",
               null,
-              "2B",
-              "LF",
               "LCF",
+              "RF",
               "SS",
-              "LF"
+              "P"
             ],
             "tier": 3,
             "active": true,
@@ -982,12 +982,12 @@
             "num": 11,
             "name": "Liana",
             "positions": [
-              "2B",
               null,
-              "RF",
+              "3B",
               "RCF",
-              "P",
-              "3B"
+              "LF",
+              "2B",
+              "LCF"
             ],
             "tier": 3,
             "active": true,
