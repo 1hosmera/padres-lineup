@@ -116,6 +116,37 @@
       border-color: #e74c3c !important;
       color: #e74c3c !important;
     }
+
+    .btn-share {
+      background: #3498db !important;
+      color: #fff !important;
+      border: none !important;
+    }
+
+    /* Shared (read-only) mode */
+    .shared-mode .controls,
+    .shared-mode .game-tabs-container,
+    .shared-mode .avail-toggle,
+    .shared-mode .mandatory-play-section,
+    .shared-mode .home-away-toggle,
+    .shared-mode .legend {
+      display: none !important;
+    }
+
+    .shared-banner {
+      text-align: center;
+      padding: 10px 16px;
+      background: linear-gradient(135deg, var(--brown-mid), var(--brown));
+      border: 1px solid var(--gold-dim);
+      border-radius: 10px;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: var(--sand);
+      letter-spacing: 1px;
+    }
+    .shared-banner strong {
+      color: var(--gold);
+    }
     .game-info input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 2px rgba(255,196,37,0.15); }
 
     /* Section titles */
@@ -259,6 +290,14 @@
     .action-out:active {
       background: rgba(231,76,60,0.15);
       border-color: #e74c3c;
+    }
+
+    .action-undo {
+      border-color: var(--brown-light);
+      flex: 0.5;
+    }
+    .action-undo:active {
+      background: rgba(255,255,255,0.05);
     }
 
     .action-icon {
@@ -1399,6 +1438,7 @@
     <button class="btn btn-secondary" onclick="nextBatter()">Next Batter</button>
     <button class="btn btn-danger" onclick="resetGame()">Reset</button>
     <button class="btn btn-secondary" onclick="openPrintPage()">Print Lineup</button>
+    <button class="btn btn-share" onclick="shareLineup()">📤 Share</button>
     <div class="current-inning-display" id="inningDisplay">Inning 1</div>
   </div>
 
@@ -1423,6 +1463,10 @@
       <button class="action-btn action-out" onclick="recordOut()">
         <span class="action-icon">✋</span>
         <span class="action-label">Out</span>
+      </button>
+      <button class="action-btn action-undo" id="undoBtn" onclick="undoLast()" style="display:none;">
+        <span class="action-icon">↩️</span>
+        <span class="action-label">Undo</span>
       </button>
     </div>
     <div class="batter-status">
@@ -1567,6 +1611,10 @@
       document.documentElement.classList.add('public-mode');
     }
 
+    // Shared mode: ?share=<base64data> for read-only view
+    const SHARE_PARAM = new URLSearchParams(window.location.search).get('share');
+    const SHARED_MODE = !!SHARE_PARAM;
+
     const players = [
       { num: 1,  name: "Oliver", positions: ["RF", "C", "SS", "C", "RCF", "RF"],      tier: 2 },
       { num: 2,  name: "Braden", positions: ["RCF", "2B", "1B", "P", "SS", "P"],     tier: 1 },
@@ -1699,6 +1747,167 @@
       }
     }
 
+    // ===== SHARE LINEUP =====
+    function shareLineup() {
+      // Lock the lineup before sharing
+      if (!lineupLocked) {
+        toggleLock();
+      }
+      const state = captureCurrentGameState();
+      // Build a compact share payload
+      const shareData = {
+        p: state.players.map(pl => ({
+          n: pl.num,
+          nm: pl.name,
+          pos: pl.positions,
+          a: pl.active
+        })),
+        hs: state.homeScores,
+        as: state.awayScores,
+        ho: state.homeOuts,
+        ao: state.awayOuts,
+        ci: state.currentInning,
+        cb: state.currentBatter,
+        hi: state.halfInning,
+        ih: state.isHome,
+        bs: state.battingStats,
+        gd: state.gameDate,
+        tn: state.teamName,
+        op: state.opponent,
+        loc: state.location
+      };
+      const json = JSON.stringify(shareData);
+      const encoded = btoa(unescape(encodeURIComponent(json)));
+      const url = window.location.origin + window.location.pathname + '?share=' + encoded;
+
+      const shareTitle = `${state.teamName || 'Gold Padres'} vs ${state.opponent || 'TBD'} — Lineup`;
+
+      // Try native share API (mobile), fall back to clipboard
+      if (navigator.share) {
+        navigator.share({ title: shareTitle, url: url }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(url).then(() => {
+          alert('Share link copied to clipboard!');
+        }).catch(() => {
+          // Fallback: show the URL
+          prompt('Copy this link to share:', url);
+        });
+      }
+    }
+
+    function loadSharedState() {
+      if (!SHARE_PARAM) return false;
+      try {
+        const json = decodeURIComponent(escape(atob(SHARE_PARAM)));
+        const d = JSON.parse(json);
+
+        // Restore players
+        d.p.forEach((sp, i) => {
+          if (i < players.length) {
+            players[i].positions = [...sp.pos];
+            players[i].active = sp.a;
+          }
+        });
+
+        homeScores = [...d.hs];
+        awayScores = [...d.as];
+        homeOuts = [...(d.ho || [0,0,0,0,0,0])];
+        awayOuts = [...(d.ao || [0,0,0,0,0,0])];
+        currentInning = d.ci;
+        currentBatter = d.cb;
+        halfInning = d.hi || 'us';
+        isHome = d.ih !== undefined ? d.ih : true;
+        battingStats = d.bs ? JSON.parse(JSON.stringify(d.bs)) : {};
+        initBattingStats();
+
+        document.getElementById("gameDate").value = d.gd || '';
+        document.getElementById("teamName").value = d.tn || '';
+        document.getElementById("opponent").value = d.op || '';
+        document.getElementById("location").value = d.loc || '';
+
+        // Enter shared (read-only) mode
+        document.documentElement.classList.add('shared-mode');
+
+        // Add shared banner
+        const banner = document.createElement('div');
+        banner.className = 'shared-banner';
+        banner.innerHTML = `<strong>📋 ${d.tn || 'Gold Padres'}</strong> vs <strong>${d.op || 'TBD'}</strong> — ${d.gd ? new Date(d.gd + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : 'Game Day'}<br><span style="font-size:11px;color:var(--brown-light);">Read-only view · Shared by coach</span>`;
+        document.querySelector('.header').after(banner);
+
+        // Disable all interactive elements
+        document.querySelectorAll('.score-cell').forEach(el => {
+          el.style.pointerEvents = 'none';
+        });
+        document.querySelectorAll('.outs-cell').forEach(el => {
+          el.style.pointerEvents = 'none';
+        });
+        document.querySelectorAll('.action-btn').forEach(el => {
+          el.style.display = 'none';
+        });
+        document.querySelectorAll('.pitch-reset').forEach(el => {
+          el.style.display = 'none';
+        });
+        document.querySelectorAll('.game-info input, .game-info button').forEach(el => {
+          el.disabled = true;
+          el.style.opacity = '0.7';
+        });
+
+        renderLineup();
+        renderScores();
+        renderOuts();
+        renderPitches();
+        renderBatterCard();
+        renderHomeAway();
+
+        return true;
+      } catch (e) {
+        console.warn('Failed to load shared state:', e);
+        return false;
+      }
+    }
+
+    // ===== UNDO SYSTEM =====
+    let undoStack = [];
+
+    function saveUndoState(action) {
+      undoStack.push({
+        action: action,
+        currentBatter: currentBatter,
+        currentInning: currentInning,
+        halfInning: halfInning,
+        currentPitchCount: currentPitchCount,
+        homeOuts: [...homeOuts],
+        awayOuts: [...awayOuts],
+        battingStats: JSON.parse(JSON.stringify(battingStats))
+      });
+      // Keep only last 10 actions
+      if (undoStack.length > 10) undoStack.shift();
+      renderUndoBtn();
+    }
+
+    function undoLast() {
+      if (undoStack.length === 0) return;
+      const prev = undoStack.pop();
+      currentBatter = prev.currentBatter;
+      currentInning = prev.currentInning;
+      halfInning = prev.halfInning;
+      currentPitchCount = prev.currentPitchCount;
+      homeOuts = [...prev.homeOuts];
+      awayOuts = [...prev.awayOuts];
+      battingStats = JSON.parse(JSON.stringify(prev.battingStats));
+      renderLineup();
+      renderOuts();
+      renderPitches();
+      renderBatterCard();
+      renderUndoBtn();
+    }
+
+    function renderUndoBtn() {
+      const btn = document.getElementById('undoBtn');
+      if (!btn) return;
+      btn.style.display = undoStack.length > 0 ? '' : 'none';
+    }
+
     function recordPitch() {
       if (currentPitchCount < 5) {
         currentPitchCount++;
@@ -1708,6 +1917,7 @@
 
     function recordHit() {
       if (halfInning === 'us') {
+        saveUndoState('hit');
         const idx = currentBatter;
         if (!battingStats[idx]) battingStats[idx] = { ab: 0, hits: 0 };
         battingStats[idx].ab++;
@@ -1723,6 +1933,7 @@
     }
 
     function recordOut() {
+      saveUndoState('out');
       if (halfInning === 'us') {
         // Our batter made an out
         const idx = currentBatter;
@@ -2431,6 +2642,7 @@
         tr.appendChild(avgTd);
 
         for (let i = 0; i < 6; i++) {
+          if (SHARED_MODE && i !== currentInning) continue;
           const td = document.createElement("td");
           if (!p.active) {
             td.className = "position-cell inactive";
@@ -2455,6 +2667,9 @@
 
       document.querySelectorAll(".inning-header").forEach((th, i) => {
         th.classList.toggle("active", i === currentInning);
+        if (SHARED_MODE) {
+          th.style.display = (i === currentInning) ? '' : 'none';
+        }
       });
 
       document.getElementById("inningDisplay").textContent = "Inning " + (currentInning + 1);
@@ -3255,8 +3470,10 @@
       setupScoreLongPress(el, el.dataset.team, parseInt(el.dataset.inning));
     });
 
-    // Initialize the multi-game system BEFORE enabling auto-save
-    initializeGames();
+    // Initialize: shared mode or multi-game system
+    if (!loadSharedState()) {
+      initializeGames();
+    }
 
     // Re-wrap with auto-save
     renderLineup = function() { _origRenderLineup(); autoSave(); };
