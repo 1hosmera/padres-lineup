@@ -123,7 +123,7 @@
       border: none !important;
     }
 
-    .btn-endgame {
+    .btn-publish {
       background: #27ae60 !important;
       color: #fff !important;
       border: none !important;
@@ -1128,7 +1128,7 @@
     .public-mode .tier-pill,
     .public-mode .mandatory-play-section,
     .public-mode .avail-toggle,
-    .public-mode .btn-endgame,
+    .public-mode .btn-publish,
     .public-mode .btn-danger,
     .public-mode #generateBtn {
       display: none !important;
@@ -1448,7 +1448,7 @@
     <button class="btn btn-danger" onclick="resetGame()">Reset</button>
     <button class="btn btn-secondary" onclick="openPrintPage()">Print Lineup</button>
     <button class="btn btn-share" onclick="shareLineup()">📤 Share</button>
-    <button class="btn btn-endgame" onclick="endGame()">🏁 End Game</button>
+    <button class="btn btn-publish" onclick="publishToGitHub()">📡 Publish</button>
     <div class="current-inning-display" id="inningDisplay">Inning 1</div>
   </div>
 
@@ -1760,10 +1760,6 @@
 
     // ===== SHARE LINEUP =====
     function shareLineup() {
-      // Lock the lineup before sharing
-      if (!lineupLocked) {
-        toggleLock();
-      }
       const state = captureCurrentGameState();
       // Build a compact share payload
       const shareData = {
@@ -1931,14 +1927,11 @@
       return token ? token.trim() : null;
     }
 
-    async function endGame() {
+    async function publishToGitHub() {
       const token = getGitHubToken();
       if (!token) return;
 
-      // Lock lineup
-      if (!lineupLocked) toggleLock();
-
-      // Mark current game as completed
+      // Save current game state
       const game = games.find(g => g.id === activeGameId);
       if (game) {
         game.state = captureCurrentGameState();
@@ -1970,7 +1963,7 @@
 
         // Create or update the file
         const body = {
-          message: `Save game data — ${new Date().toLocaleDateString()}`,
+          message: `Publish lineup — ${new Date().toLocaleDateString()}`,
           content: content
         };
         if (sha) body.sha = sha;
@@ -1985,7 +1978,7 @@
         });
 
         if (putResp.ok) {
-          alert('✅ Game saved! Data is backed up to GitHub.');
+          alert('✅ Published! Parents will see the update on refresh.');
           saveAllGamesToStorage();
         } else {
           const err = await putResp.json();
