@@ -123,6 +123,12 @@
       border: none !important;
     }
 
+    .btn-share-coach {
+      background: #8e44ad !important;
+      color: #fff !important;
+      border: none !important;
+    }
+
     .btn-publish {
       background: #27ae60 !important;
       color: #fff !important;
@@ -154,6 +160,16 @@
       color: var(--gold);
     }
     .game-info input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 2px rgba(255,196,37,0.15); }
+    .game-info input[readonly] {
+      border-color: transparent;
+      background: rgba(44,30,22,0.5);
+      cursor: default;
+      opacity: 0.95;
+    }
+    .game-info input[readonly]:focus {
+      border-color: transparent;
+      box-shadow: none;
+    }
 
     /* Section titles */
     .section-title {
@@ -1155,6 +1171,7 @@
     .public-mode .mandatory-play-section,
     .public-mode .avail-toggle,
     .public-mode .btn-publish,
+    .public-mode .btn-share-coach,
     .public-mode .btn-danger,
     .public-mode #generateBtn {
       display: none !important;
@@ -1457,10 +1474,11 @@
   </div>
 
   <div class="card game-info">
-    <input type="date" id="gameDate" />
-    <input type="text" id="teamName" placeholder="Team Name" />
-    <input type="text" id="opponent" placeholder="Opponent" />
-    <input type="text" id="location" placeholder="Location" />
+    <input type="date" id="gameDate" readonly />
+    <input type="text" id="teamName" placeholder="Team Name" readonly />
+    <input type="text" id="opponent" placeholder="Opponent" readonly />
+    <input type="text" id="location" placeholder="Location" readonly />
+    <input type="text" id="gameTime" placeholder="Time" readonly />
     <button class="btn home-away-toggle" id="homeAwayBtn" onclick="toggleHomeAway()">🏠 HOME</button>
   </div>
 
@@ -1474,6 +1492,7 @@
     <button class="btn btn-danger" onclick="resetGame()">Reset</button>
     <button class="btn btn-secondary" onclick="openPrintPage()">Print Lineup</button>
     <button class="btn btn-share" onclick="shareLineup()">📤 Share</button>
+    <button class="btn btn-share-coach" onclick="shareCoach()">🤝 Share Coach</button>
     <button class="btn btn-publish" onclick="publishToGitHub()">📡 Publish</button>
     <div class="current-inning-display" id="inningDisplay">Inning 1</div>
   </div>
@@ -1836,8 +1855,37 @@
         navigator.clipboard.writeText(url).then(() => {
           alert('Share link copied to clipboard!');
         }).catch(() => {
-          // Fallback: show the URL
           prompt('Copy this link to share:', url);
+        });
+      }
+    }
+
+    function shareCoach() {
+      const state = captureCurrentGameState();
+      const shareData = {
+        p: state.players.map(pl => ({
+          n: pl.num, nm: pl.name, pos: pl.positions, a: pl.active
+        })),
+        hs: state.homeScores, as: state.awayScores,
+        ho: state.homeOuts, ao: state.awayOuts,
+        ci: state.currentInning, cb: state.currentBatter,
+        hi: state.halfInning, ih: state.isHome,
+        bs: state.battingStats, gd: state.gameDate,
+        tn: state.teamName, op: state.opponent, loc: state.location
+      };
+      const json = JSON.stringify(shareData);
+      const encoded = btoa(unescape(encodeURIComponent(json)));
+      const url = window.location.origin + window.location.pathname + '?coach=1&share=' + encoded;
+
+      const shareTitle = `${state.teamName || 'Gold Padres'} vs ${state.opponent || 'TBD'} — Edit Lineup`;
+
+      if (navigator.share) {
+        navigator.share({ title: shareTitle, url: url }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(url).then(() => {
+          alert('Coach link copied! They can edit and share back to you.');
+        }).catch(() => {
+          prompt('Copy this coach link:', url);
         });
       }
     }
@@ -2656,9 +2704,10 @@
           return true;
         })
         .sort((left, right) => {
-          const prevPos = inning > 0 ? lineupPositions[playerIndex][inning - 1] : null;
-          const leftRepeat = (left === prevPos) ? 1 : 0;
-          const rightRepeat = (right === prevPos) ? 1 : 0;
+          // Count how many previous innings the player already played this position
+          const priorPositions = lineupPositions[playerIndex].slice(0, inning);
+          const leftAlreadyPlayed = priorPositions.includes(left) ? 3 : 0;
+          const rightAlreadyPlayed = priorPositions.includes(right) ? 3 : 0;
 
           // Urgent IF need: player behind on infield credits with few innings left
           const ifNeeded = Math.max(0, 2 - playerState.infieldCreditFirstFive);
@@ -2670,7 +2719,7 @@
           const rightPreferred = playerState.ofCount === 0 && canPlayOF && OUTFIELD_POSITIONS.has(right) ? -1 : 0;
           const leftInfield = inning < EARLY_INNING_LIMIT && INFIELD_POSITIONS.has(left) ? -1 : 0;
           const rightInfield = inning < EARLY_INNING_LIMIT && INFIELD_POSITIONS.has(right) ? -1 : 0;
-          return leftUrgentIF - rightUrgentIF || leftPreferred - rightPreferred || leftInfield - rightInfield || leftRepeat - rightRepeat;
+          return leftAlreadyPlayed - rightAlreadyPlayed || leftUrgentIF - rightUrgentIF || leftPreferred - rightPreferred || leftInfield - rightInfield;
         });
     }
 
@@ -2768,13 +2817,22 @@
     }
 
     // Score a lineup: higher is worse. RBLL rules weighted heavier than tier rules.
-    function scoreLineup(report) {
+    function scoreLineup(report, lineupPositions) {
       const RBLL_IDS = new Set(["3.4.1", "3.4.2", "3.4.3"]);
       let score = 0;
       for (const rule of report.rules) {
         if (!rule.passed) {
           score += RBLL_IDS.has(rule.id) ? 10 : 1; // RBLL failures cost 10x
         }
+      }
+      // Penalize position repeats: count how many times a player plays the same position
+      if (lineupPositions) {
+        lineupPositions.forEach((positions, idx) => {
+          if (!players[idx].active) return;
+          const played = positions.filter(p => p !== null);
+          const unique = new Set(played);
+          score += (played.length - unique.size) * 0.5; // Each repeat adds 0.5
+        });
       }
       return score;
     }
@@ -2792,7 +2850,7 @@
         if (!candidate) continue;
 
         const report = getMandatoryPlayReport(candidate);
-        const s = scoreLineup(report);
+        const s = scoreLineup(report, candidate);
         if (s === 0) return candidate; // Perfect — all rules pass
         if (s < bestScore) {
           bestScore = s;
@@ -2987,6 +3045,7 @@
       const teamName = document.getElementById("teamName").value || "";
       const opponent = document.getElementById("opponent").value || "";
       const location = document.getElementById("location").value || "";
+      const gameTime = document.getElementById("gameTime").value || "";
 
       // Build lineup rows (active players only, renumbered sequentially)
       let lineupRows = "";
@@ -3108,6 +3167,7 @@
     <div class="field"><div class="label">Team</div><div class="value">${teamName || "&nbsp;"}</div></div>
     <div class="field"><div class="label">Opponent</div><div class="value">${opponent || "&nbsp;"}</div></div>
     <div class="field"><div class="label">Location</div><div class="value">${location || "&nbsp;"}</div></div>
+    <div class="field"><div class="label">Time</div><div class="value">${gameTime || "&nbsp;"}</div></div>
   </div>
 
   <div class="section-title">Scoreboard</div>
@@ -3320,7 +3380,8 @@
         gameDate: document.getElementById("gameDate").value,
         teamName: document.getElementById("teamName").value,
         opponent: document.getElementById("opponent").value,
-        location: document.getElementById("location").value
+        location: document.getElementById("location").value,
+        gameTime: document.getElementById("gameTime").value
       };
     }
 
@@ -3382,6 +3443,7 @@
       document.getElementById("teamName").value = state.teamName || '';
       document.getElementById("opponent").value = state.opponent || '';
       document.getElementById("location").value = state.location || '';
+      document.getElementById("gameTime").value = state.gameTime || '';
 
       // Re-render everything
       renderLineup();
@@ -3555,32 +3617,24 @@
         oppDiv.textContent = game.opponent ? awayPrefix + game.opponent : 'TBD';
         tab.appendChild(oppDiv);
 
-        // Delete button (only if more than 1 game)
-        if (games.length > 1) {
-          const delBtn = document.createElement('button');
-          delBtn.className = 'game-tab-delete';
-          delBtn.innerHTML = '&times;';
-          delBtn.title = 'Delete game';
-          delBtn.onclick = (e) => {
-            e.stopPropagation();
-            deleteGame(game.id);
-          };
-          tab.appendChild(delBtn);
+        if (game.state && game.state.gameTime) {
+          const timeDiv = document.createElement('div');
+          timeDiv.className = 'game-tab-time';
+          timeDiv.textContent = game.state.gameTime;
+          timeDiv.style.cssText = 'font-size:10px;opacity:0.6;';
+          tab.appendChild(timeDiv);
         }
+
+        // Delete button disabled — schedule is locked in
 
         container.appendChild(tab);
       });
 
-      // Add Game button
-      const addBtn = document.createElement('div');
-      addBtn.className = 'game-tab-add';
-      addBtn.onclick = addGamePrompt;
-      addBtn.innerHTML = '<span>+</span> Add Game';
-      container.appendChild(addBtn);
+      // Add Game button removed — schedule is locked in
     }
 
     // Auto-save on field changes
-    ['gameDate', 'teamName', 'opponent', 'location'].forEach(id => {
+    ['gameDate', 'teamName', 'opponent', 'location', 'gameTime'].forEach(id => {
       const el = document.getElementById(id);
       el.addEventListener('input', () => { autoSave(); renderGameTabs(); });
       el.addEventListener('change', () => { autoSave(); renderGameTabs(); });
@@ -3685,28 +3739,33 @@
               gameDate: g.date,
               teamName: 'Gold Padres',
               opponent: g.opponent,
-              location: g.location || ''
+              location: g.location || '',
+              gameTime: g.time || ''
             }
           };
           games.push(game);
         });
 
-        // Set active game to the next upcoming game
+        // Set active game to the next upcoming (non-completed) game
         const today = new Date();
         today.setHours(0,0,0,0);
-        const nextGame = games.find(g => new Date(g.date + 'T00:00:00') >= today);
-        activeGameId = nextGame ? nextGame.id : games[0].id;
-        const activeGame = games.find(g => g.id === activeGameId);
+        const nextGame = games.find(g => !g.state?.lineupLocked && new Date(g.date + 'T00:00:00') >= today)
+                      || games.find(g => new Date(g.date + 'T00:00:00') >= today)
+                      || games[0];
+        activeGameId = nextGame.id;
+        const activeGame = nextGame;
         if (activeGame && activeGame.state) {
           restoreGameState(activeGame.state);
         }
+
+        // Save immediately so GitHub doesn't override
+        saveAllGamesToStorage();
       }
 
       renderGameTabs();
     }
 
     // Run the original init
-    document.getElementById("gameDate").value = '2026-03-15';
     renderLineup = _origRenderLineup; // Temporarily use original to avoid auto-save during init
     renderScores = _origRenderScores;
     renderOuts = _origRenderOuts;
