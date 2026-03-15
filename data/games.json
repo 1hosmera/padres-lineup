@@ -1,22 +1,22 @@
 {
-  "savedAt": "2026-03-15T03:26:34.203Z",
+  "savedAt": "2026-03-15T03:49:43.821Z",
   "games": [
     {
-      "id": "game_1773535887119_c48eze_0",
-      "date": "2026-03-07",
-      "opponent": "City Connect-Lee",
+      "id": "game_1773540916972_57v0us_0",
+      "date": "2026-04-18",
+      "opponent": "AltPin Padres-Christensen",
       "state": {
         "players": [
           {
             "num": 1,
             "name": "Oliver",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RF",
+              "SS",
+              "C",
+              "2B",
+              "RCF",
+              "LF"
             ],
             "tier": 2,
             "active": true,
@@ -37,12 +37,12 @@
             "num": 2,
             "name": "Braden",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RCF",
+              "2B",
+              "P",
+              "SS",
+              "1B",
+              "3B"
             ],
             "tier": 1,
             "active": true,
@@ -63,12 +63,12 @@
             "num": 3,
             "name": "Samuel",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "SS",
+              "P",
+              "1B",
+              "1B",
+              "RF",
+              "2B"
             ],
             "tier": 1,
             "active": true,
@@ -89,12 +89,12 @@
             "num": 4,
             "name": "Luke",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "1B",
+              "RF",
+              "2B",
+              "P",
+              "SS",
+              "1B"
             ],
             "tier": 1,
             "active": true,
@@ -115,12 +115,12 @@
             "num": 5,
             "name": "Nathan",
             "positions": [
+              "LCF",
+              "C",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "LF",
+              "P",
+              "RCF"
             ],
             "tier": 3,
             "active": true,
@@ -141,12 +141,12 @@
             "num": 6,
             "name": "Xander",
             "positions": [
+              "LF",
+              "1B",
+              "3B",
+              "LCF",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "SS"
             ],
             "tier": 2,
             "active": true,
@@ -167,11 +167,11 @@
             "num": 7,
             "name": "Jordi",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
+              "P",
+              "LCF",
+              "RCF",
+              "C",
+              "3B",
               null
             ],
             "tier": 2,
@@ -193,12 +193,12 @@
             "num": 8,
             "name": "Otis",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "C",
+              "LF",
+              "LCF",
+              "RF",
+              "2B",
+              "P"
             ],
             "tier": 2,
             "active": true,
@@ -219,12 +219,12 @@
             "num": 9,
             "name": "Julian",
             "positions": [
+              "3B",
+              "RCF",
+              "SS",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "LF",
+              "RF"
             ],
             "tier": 3,
             "active": true,
@@ -246,11 +246,11 @@
             "name": "Jacob",
             "positions": [
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "3B",
+              "RF",
+              "RCF",
+              "C",
+              "LCF"
             ],
             "tier": 3,
             "active": true,
@@ -271,12 +271,12 @@
             "num": 11,
             "name": "Liana",
             "positions": [
+              "2B",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "LF",
+              "3B",
+              "LCF",
+              "C"
             ],
             "tier": 3,
             "active": true,
@@ -310,7 +310,15 @@
           null,
           null
         ],
-        "outs": [
+        "homeOuts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "awayOuts": [
           0,
           0,
           0,
@@ -321,15 +329,64 @@
         "currentInning": 0,
         "currentBatter": 0,
         "currentPitchCount": 0,
-        "lineupLocked": true,
-        "gameDate": "2026-03-07",
+        "lineupLocked": false,
+        "battingStats": {
+          "0": {
+            "ab": 0,
+            "hits": 0
+          },
+          "1": {
+            "ab": 0,
+            "hits": 0
+          },
+          "2": {
+            "ab": 0,
+            "hits": 0
+          },
+          "3": {
+            "ab": 0,
+            "hits": 0
+          },
+          "4": {
+            "ab": 0,
+            "hits": 0
+          },
+          "5": {
+            "ab": 0,
+            "hits": 0
+          },
+          "6": {
+            "ab": 0,
+            "hits": 0
+          },
+          "7": {
+            "ab": 0,
+            "hits": 0
+          },
+          "8": {
+            "ab": 0,
+            "hits": 0
+          },
+          "9": {
+            "ab": 0,
+            "hits": 0
+          },
+          "10": {
+            "ab": 0,
+            "hits": 0
+          }
+        },
+        "halfInning": "them",
+        "isHome": true,
+        "gameDate": "2026-04-18",
         "teamName": "Gold Padres",
-        "opponent": "City Connect-Lee",
-        "location": ""
+        "opponent": "AltPin Padres-Christensen",
+        "location": "RBCP, F4",
+        "gameTime": "1:00 PM"
       }
     },
     {
-      "id": "game_1773535887119_1r7js5_1",
+      "id": "game_1773540916972_24uaid_1",
       "date": "2026-03-11",
       "opponent": "Brown Padres-Schmitt",
       "state": {
@@ -622,98 +679,52 @@
           }
         ],
         "homeScores": [
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
+          3,
+          4,
+          2,
+          3,
+          2,
+          1
         ],
         "awayScores": [
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
         ],
         "homeOuts": [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
         ],
         "awayOuts": [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
         ],
-        "currentInning": 0,
+        "currentInning": 5,
         "currentBatter": 0,
         "currentPitchCount": 0,
         "lineupLocked": true,
-        "battingStats": {
-          "0": {
-            "ab": 0,
-            "hits": 0
-          },
-          "1": {
-            "ab": 0,
-            "hits": 0
-          },
-          "2": {
-            "ab": 0,
-            "hits": 0
-          },
-          "3": {
-            "ab": 0,
-            "hits": 0
-          },
-          "4": {
-            "ab": 0,
-            "hits": 0
-          },
-          "5": {
-            "ab": 0,
-            "hits": 0
-          },
-          "6": {
-            "ab": 0,
-            "hits": 0
-          },
-          "7": {
-            "ab": 0,
-            "hits": 0
-          },
-          "8": {
-            "ab": 0,
-            "hits": 0
-          },
-          "9": {
-            "ab": 0,
-            "hits": 0
-          },
-          "10": {
-            "ab": 0,
-            "hits": 0
-          }
-        },
-        "halfInning": "them",
+        "battingStats": {},
+        "halfInning": "us",
         "isHome": true,
         "gameDate": "2026-03-11",
         "teamName": "Gold Padres",
         "opponent": "Brown Padres-Schmitt",
-        "location": "",
-        "gameTime": ""
+        "location": "RBCP, F2"
       }
     },
     {
-      "id": "game_1773535887119_xjn6h8_2",
+      "id": "game_1773540916972_rx9p3y_2",
       "date": "2026-03-14",
       "opponent": "Camo Padres-McKee",
       "state": {
@@ -722,12 +733,12 @@
             "num": 1,
             "name": "Oliver",
             "positions": [
-              "RF",
-              "2B",
-              "SS",
-              "C",
-              "LCF",
-              "LF"
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
             ],
             "tier": 2,
             "active": true,
@@ -748,12 +759,12 @@
             "num": 2,
             "name": "Braden",
             "positions": [
-              "LCF",
-              "SS",
-              "3B",
-              "P",
-              "1B",
-              "2B"
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
             ],
             "tier": 1,
             "active": true,
@@ -774,12 +785,12 @@
             "num": 3,
             "name": "Samuel",
             "positions": [
-              "2B",
-              "LCF",
-              "1B",
-              "3B",
-              "P",
-              "SS"
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
             ],
             "tier": 1,
             "active": true,
@@ -800,12 +811,12 @@
             "num": 4,
             "name": "Luke",
             "positions": [
-              "1B",
-              "1B",
-              "LF",
-              "1B",
-              "3B",
-              "1B"
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
             ],
             "tier": 1,
             "active": true,
@@ -826,12 +837,12 @@
             "num": 5,
             "name": "Nathan",
             "positions": [
-              "RCF",
-              "C",
-              "2B",
               null,
-              "RF",
-              "3B"
+              null,
+              null,
+              null,
+              null,
+              null
             ],
             "tier": 3,
             "active": true,
@@ -852,12 +863,12 @@
             "num": 6,
             "name": "Xander",
             "positions": [
-              "LF",
-              "P",
-              "C",
-              "SS",
               null,
-              "RCF"
+              null,
+              null,
+              null,
+              null,
+              null
             ],
             "tier": 2,
             "active": true,
@@ -878,12 +889,12 @@
             "num": 7,
             "name": "Jordi",
             "positions": [
-              "P",
-              "LF",
-              "RF",
-              "2B",
-              "RCF",
-              "C"
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
             ],
             "tier": 2,
             "active": true,
@@ -904,11 +915,11 @@
             "num": 8,
             "name": "Otis",
             "positions": [
-              "C",
-              "RF",
-              "P",
-              "RCF",
-              "LF",
+              null,
+              null,
+              null,
+              null,
+              null,
               null
             ],
             "tier": 2,
@@ -930,12 +941,12 @@
             "num": 9,
             "name": "Julian",
             "positions": [
-              "SS",
-              "RCF",
               null,
-              "LCF",
-              "C",
-              "RF"
+              null,
+              null,
+              null,
+              null,
+              null
             ],
             "tier": 3,
             "active": true,
@@ -956,12 +967,12 @@
             "num": 10,
             "name": "Jacob",
             "positions": [
-              "3B",
               null,
-              "LCF",
-              "RF",
-              "SS",
-              "P"
+              null,
+              null,
+              null,
+              null,
+              null
             ],
             "tier": 3,
             "active": true,
@@ -983,11 +994,11 @@
             "name": "Liana",
             "positions": [
               null,
-              "3B",
-              "RCF",
-              "LF",
-              "2B",
-              "LCF"
+              null,
+              null,
+              null,
+              null,
+              null
             ],
             "tier": 3,
             "active": true,
@@ -1006,38 +1017,38 @@
           }
         ],
         "homeScores": [
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
+          2,
+          1,
+          0,
+          2,
+          1,
+          2
         ],
         "awayScores": [
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
+          1,
+          2,
+          1,
+          0,
+          3,
+          0
         ],
         "homeOuts": [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
         ],
         "awayOuts": [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
         ],
-        "currentInning": 0,
+        "currentInning": 5,
         "currentBatter": 0,
         "currentPitchCount": 0,
         "lineupLocked": true,
@@ -1092,12 +1103,12 @@
         "gameDate": "2026-03-14",
         "teamName": "Gold Padres",
         "opponent": "Camo Padres-McKee",
-        "location": "",
+        "location": "RBCP, F2",
         "gameTime": ""
       }
     },
     {
-      "id": "game_1773535887119_77nwvg_3",
+      "id": "game_1773540916972_5rvq5k_3",
       "date": "2026-03-16",
       "opponent": "White Pinstripe-Derenne",
       "state": {
@@ -1106,12 +1117,12 @@
             "num": 1,
             "name": "Oliver",
             "positions": [
-              "LCF",
-              "SS",
-              "2B",
+              "RCF",
+              "C",
               "3B",
-              "LCF",
-              null
+              "RF",
+              null,
+              "LF"
             ],
             "tier": 2,
             "active": true,
@@ -1133,11 +1144,11 @@
             "name": "Braden",
             "positions": [
               "LF",
-              "1B",
-              "P",
               "SS",
               "2B",
-              "1B"
+              "3B",
+              "1B",
+              "P"
             ],
             "tier": 1,
             "active": true,
@@ -1158,12 +1169,12 @@
             "num": 3,
             "name": "Samuel",
             "positions": [
-              "P",
-              "RCF",
-              "3B",
+              "SS",
               "2B",
               "1B",
-              "2B"
+              "1B",
+              "LF",
+              "3B"
             ],
             "tier": 1,
             "active": true,
@@ -1184,12 +1195,12 @@
             "num": 4,
             "name": "Luke",
             "positions": [
+              "P",
               "1B",
-              "3B",
-              "1B",
-              "1B",
-              "RF",
-              "3B"
+              "LF",
+              "SS",
+              "2B",
+              "1B"
             ],
             "tier": 1,
             "active": true,
@@ -1210,12 +1221,12 @@
             "num": 5,
             "name": "Nathan",
             "positions": [
+              "LCF",
+              "3B",
               null,
-              "RF",
-              "SS",
+              "P",
               "C",
-              "LF",
-              "C"
+              "RF"
             ],
             "tier": 3,
             "active": true,
@@ -1236,12 +1247,12 @@
             "num": 6,
             "name": "Xander",
             "positions": [
+              "1B",
+              "RF",
+              "P",
+              "2B",
               "RCF",
-              "C",
-              "C",
-              "RCF",
-              "3B",
-              "P"
+              null
             ],
             "tier": 2,
             "active": true,
@@ -1264,10 +1275,10 @@
             "positions": [
               "RF",
               "P",
-              "LF",
-              "P",
-              null,
-              "LF"
+              "SS",
+              "RCF",
+              "LCF",
+              "2B"
             ],
             "tier": 2,
             "active": true,
@@ -1288,12 +1299,12 @@
             "num": 8,
             "name": "Otis",
             "positions": [
-              "2B",
+              "3B",
               "LCF",
-              "RCF",
-              "RF",
               "C",
-              "LCF"
+              "LF",
+              "RF",
+              "RCF"
             ],
             "tier": 2,
             "active": true,
@@ -1314,12 +1325,12 @@
             "num": 9,
             "name": "Julian",
             "positions": [
-              "C",
-              "LF",
-              "LCF",
               null,
-              "SS",
-              "RCF"
+              "RCF",
+              "LCF",
+              "C",
+              "P",
+              "SS"
             ],
             "tier": 3,
             "active": true,
@@ -1340,12 +1351,12 @@
             "num": 10,
             "name": "Jacob",
             "positions": [
-              "SS",
-              "2B",
-              null,
+              "C",
               "LF",
               "RCF",
-              "SS"
+              null,
+              "SS",
+              "LCF"
             ],
             "tier": 3,
             "active": true,
@@ -1366,12 +1377,12 @@
             "num": 11,
             "name": "Liana",
             "positions": [
-              "3B",
+              "2B",
               null,
               "RF",
               "LCF",
-              "P",
-              "RF"
+              "3B",
+              "C"
             ],
             "tier": 3,
             "active": true,
@@ -1424,7 +1435,7 @@
         "currentInning": 0,
         "currentBatter": 0,
         "currentPitchCount": 0,
-        "lineupLocked": true,
+        "lineupLocked": false,
         "battingStats": {
           "0": {
             "ab": 0,
@@ -1476,12 +1487,12 @@
         "gameDate": "2026-03-16",
         "teamName": "Gold Padres",
         "opponent": "White Pinstripe-Derenne",
-        "location": "",
-        "gameTime": ""
+        "location": "RBCP, F2",
+        "gameTime": "4:45 PM"
       }
     },
     {
-      "id": "game_1773535887119_ny5bx1_4",
+      "id": "game_1773540916972_q7hhje_4",
       "date": "2026-03-21",
       "opponent": "AltPin Padres-Christensen",
       "state": {
@@ -1490,12 +1501,12 @@
             "num": 1,
             "name": "Oliver",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RF",
+              "C",
+              "SS",
+              "2B",
+              "RCF",
+              "3B"
             ],
             "tier": 2,
             "active": true,
@@ -1516,12 +1527,12 @@
             "num": 2,
             "name": "Braden",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RCF",
+              "SS",
+              "3B",
+              "P",
+              "1B",
+              "2B"
             ],
             "tier": 1,
             "active": true,
@@ -1542,12 +1553,12 @@
             "num": 3,
             "name": "Samuel",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "SS",
+              "1B",
+              "LF",
+              "3B",
+              "P",
+              "1B"
             ],
             "tier": 1,
             "active": true,
@@ -1568,12 +1579,12 @@
             "num": 4,
             "name": "Luke",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "3B",
+              "P",
+              "1B",
+              "1B",
+              "LF",
+              "SS"
             ],
             "tier": 1,
             "active": true,
@@ -1594,12 +1605,12 @@
             "num": 5,
             "name": "Nathan",
             "positions": [
+              "LCF",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "2B",
+              "RF",
+              "C",
+              "P"
             ],
             "tier": 3,
             "active": true,
@@ -1620,11 +1631,11 @@
             "num": 6,
             "name": "Xander",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
+              "1B",
+              "RF",
+              "RCF",
+              "LF",
+              "SS",
               null
             ],
             "tier": 2,
@@ -1646,12 +1657,12 @@
             "num": 7,
             "name": "Jordi",
             "positions": [
+              "LF",
+              "3B",
+              "LCF",
+              "C",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RCF"
             ],
             "tier": 2,
             "active": true,
@@ -1672,12 +1683,12 @@
             "num": 8,
             "name": "Otis",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "P",
+              "RCF",
+              "C",
+              "LCF",
+              "3B",
+              "LF"
             ],
             "tier": 2,
             "active": true,
@@ -1699,11 +1710,11 @@
             "name": "Julian",
             "positions": [
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "LF",
+              "RF",
+              "SS",
+              "2B",
+              "LCF"
             ],
             "tier": 3,
             "active": true,
@@ -1724,12 +1735,12 @@
             "num": 10,
             "name": "Jacob",
             "positions": [
+              "2B",
+              "LCF",
+              "P",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RF",
+              "C"
             ],
             "tier": 3,
             "active": true,
@@ -1750,12 +1761,12 @@
             "num": 11,
             "name": "Liana",
             "positions": [
+              "C",
+              "2B",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RCF",
+              "LCF",
+              "RF"
             ],
             "tier": 3,
             "active": true,
@@ -1860,11 +1871,12 @@
         "gameDate": "2026-03-21",
         "teamName": "Gold Padres",
         "opponent": "AltPin Padres-Christensen",
-        "location": ""
+        "location": "RBCP, F2",
+        "gameTime": "2:00 PM"
       }
     },
     {
-      "id": "game_1773535887119_mpk60z_5",
+      "id": "game_1773540916972_qk13it_5",
       "date": "2026-03-23",
       "opponent": "City Connect-Lee",
       "state": {
@@ -1873,12 +1885,12 @@
             "num": 1,
             "name": "Oliver",
             "positions": [
+              "LF",
+              "3B",
+              "C",
+              "RF",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RCF"
             ],
             "tier": 2,
             "active": true,
@@ -1899,12 +1911,12 @@
             "num": 2,
             "name": "Braden",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "LCF",
+              "SS",
+              "3B",
+              "2B",
+              "1B",
+              "P"
             ],
             "tier": 1,
             "active": true,
@@ -1925,12 +1937,12 @@
             "num": 3,
             "name": "Samuel",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "3B",
+              "2B",
+              "1B",
+              "1B",
+              "LF",
+              "SS"
             ],
             "tier": 1,
             "active": true,
@@ -1951,12 +1963,12 @@
             "num": 4,
             "name": "Luke",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "1B",
+              "RF",
+              "2B",
+              "3B",
+              "P",
+              "1B"
             ],
             "tier": 1,
             "active": true,
@@ -1977,12 +1989,12 @@
             "num": 5,
             "name": "Nathan",
             "positions": [
+              "RF",
+              "C",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "P",
+              "SS",
+              "LCF"
             ],
             "tier": 3,
             "active": true,
@@ -2003,11 +2015,11 @@
             "num": 6,
             "name": "Xander",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
+              "RCF",
+              "1B",
+              "LF",
+              "SS",
+              "LCF",
               null
             ],
             "tier": 2,
@@ -2029,12 +2041,12 @@
             "num": 7,
             "name": "Jordi",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "SS",
+              "LF",
+              "P",
+              "C",
+              "RCF",
+              "RF"
             ],
             "tier": 2,
             "active": true,
@@ -2055,12 +2067,12 @@
             "num": 8,
             "name": "Otis",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "2B",
+              "RCF",
+              "LCF",
+              "LF",
+              "C",
+              "3B"
             ],
             "tier": 2,
             "active": true,
@@ -2082,11 +2094,11 @@
             "name": "Julian",
             "positions": [
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "P",
+              "RCF",
+              "LCF",
+              "2B",
+              "C"
             ],
             "tier": 3,
             "active": true,
@@ -2107,12 +2119,12 @@
             "num": 10,
             "name": "Jacob",
             "positions": [
+              "P",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RF",
+              "RCF",
+              "3B",
+              "LF"
             ],
             "tier": 3,
             "active": true,
@@ -2133,12 +2145,12 @@
             "num": 11,
             "name": "Liana",
             "positions": [
+              "C",
+              "LCF",
+              "SS",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RF",
+              "2B"
             ],
             "tier": 3,
             "active": true,
@@ -2172,7 +2184,15 @@
           null,
           null
         ],
-        "outs": [
+        "homeOuts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "awayOuts": [
           0,
           0,
           0,
@@ -2184,14 +2204,63 @@
         "currentBatter": 0,
         "currentPitchCount": 0,
         "lineupLocked": false,
+        "battingStats": {
+          "0": {
+            "ab": 0,
+            "hits": 0
+          },
+          "1": {
+            "ab": 0,
+            "hits": 0
+          },
+          "2": {
+            "ab": 0,
+            "hits": 0
+          },
+          "3": {
+            "ab": 0,
+            "hits": 0
+          },
+          "4": {
+            "ab": 0,
+            "hits": 0
+          },
+          "5": {
+            "ab": 0,
+            "hits": 0
+          },
+          "6": {
+            "ab": 0,
+            "hits": 0
+          },
+          "7": {
+            "ab": 0,
+            "hits": 0
+          },
+          "8": {
+            "ab": 0,
+            "hits": 0
+          },
+          "9": {
+            "ab": 0,
+            "hits": 0
+          },
+          "10": {
+            "ab": 0,
+            "hits": 0
+          }
+        },
+        "halfInning": "them",
+        "isHome": true,
         "gameDate": "2026-03-23",
         "teamName": "Gold Padres",
         "opponent": "City Connect-Lee",
-        "location": ""
+        "location": "RBCP, F2",
+        "gameTime": "4:45 PM"
       }
     },
     {
-      "id": "game_1773535887119_lhkw6q_6",
+      "id": "game_1773540916972_f1t3w9_6",
       "date": "2026-03-28",
       "opponent": "Brown Padres-Schmitt",
       "state": {
@@ -2200,11 +2269,11 @@
             "num": 1,
             "name": "Oliver",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
+              "LF",
+              "C",
+              "SS",
+              "2B",
+              "RF",
               null
             ],
             "tier": 2,
@@ -2226,12 +2295,12 @@
             "num": 2,
             "name": "Braden",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RF",
+              "P",
+              "2B",
+              "SS",
+              "1B",
+              "3B"
             ],
             "tier": 1,
             "active": true,
@@ -2252,12 +2321,12 @@
             "num": 3,
             "name": "Samuel",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "P",
+              "SS",
+              "1B",
+              "1B",
+              "RCF",
+              "2B"
             ],
             "tier": 1,
             "active": true,
@@ -2278,12 +2347,12 @@
             "num": 4,
             "name": "Luke",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "3B",
+              "1B",
+              "LCF",
+              "P",
+              "SS",
+              "1B"
             ],
             "tier": 1,
             "active": true,
@@ -2304,12 +2373,12 @@
             "num": 5,
             "name": "Nathan",
             "positions": [
+              "RCF",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "C",
+              "3B",
+              "LF",
+              "LCF"
             ],
             "tier": 3,
             "active": true,
@@ -2330,12 +2399,12 @@
             "num": 6,
             "name": "Xander",
             "positions": [
+              "1B",
+              "LCF",
+              "RCF",
+              "C",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RF"
             ],
             "tier": 2,
             "active": true,
@@ -2356,12 +2425,12 @@
             "num": 7,
             "name": "Jordi",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "LCF",
+              "3B",
+              "LF",
+              "RF",
+              "C",
+              "P"
             ],
             "tier": 2,
             "active": true,
@@ -2382,12 +2451,12 @@
             "num": 8,
             "name": "Otis",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "C",
+              "RCF",
+              "3B",
+              "LF",
+              "2B",
+              "SS"
             ],
             "tier": 2,
             "active": true,
@@ -2409,11 +2478,11 @@
             "name": "Julian",
             "positions": [
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "2B",
+              "RF",
+              "RCF",
+              "3B",
+              "C"
             ],
             "tier": 3,
             "active": true,
@@ -2434,12 +2503,12 @@
             "num": 10,
             "name": "Jacob",
             "positions": [
+              "2B",
+              "LF",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "LCF",
+              "P",
+              "RCF"
             ],
             "tier": 3,
             "active": true,
@@ -2460,12 +2529,12 @@
             "num": 11,
             "name": "Liana",
             "positions": [
+              "SS",
+              "RF",
+              "P",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "LCF",
+              "LF"
             ],
             "tier": 3,
             "active": true,
@@ -2499,7 +2568,15 @@
           null,
           null
         ],
-        "outs": [
+        "homeOuts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "awayOuts": [
           0,
           0,
           0,
@@ -2511,14 +2588,63 @@
         "currentBatter": 0,
         "currentPitchCount": 0,
         "lineupLocked": false,
+        "battingStats": {
+          "0": {
+            "ab": 0,
+            "hits": 0
+          },
+          "1": {
+            "ab": 0,
+            "hits": 0
+          },
+          "2": {
+            "ab": 0,
+            "hits": 0
+          },
+          "3": {
+            "ab": 0,
+            "hits": 0
+          },
+          "4": {
+            "ab": 0,
+            "hits": 0
+          },
+          "5": {
+            "ab": 0,
+            "hits": 0
+          },
+          "6": {
+            "ab": 0,
+            "hits": 0
+          },
+          "7": {
+            "ab": 0,
+            "hits": 0
+          },
+          "8": {
+            "ab": 0,
+            "hits": 0
+          },
+          "9": {
+            "ab": 0,
+            "hits": 0
+          },
+          "10": {
+            "ab": 0,
+            "hits": 0
+          }
+        },
+        "halfInning": "them",
+        "isHome": true,
         "gameDate": "2026-03-28",
         "teamName": "Gold Padres",
         "opponent": "Brown Padres-Schmitt",
-        "location": ""
+        "location": "RBCP, F4",
+        "gameTime": "1:00 PM"
       }
     },
     {
-      "id": "game_1773535887119_w9o5mx_7",
+      "id": "game_1773540916972_sclvme_7",
       "date": "2026-04-02",
       "opponent": "Camo Padres-McKee",
       "state": {
@@ -2527,11 +2653,11 @@
             "num": 1,
             "name": "Oliver",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
+              "LF",
+              "C",
+              "P",
+              "LCF",
+              "3B",
               null
             ],
             "tier": 2,
@@ -2553,12 +2679,12 @@
             "num": 2,
             "name": "Braden",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RF",
+              "P",
+              "2B",
+              "3B",
+              "1B",
+              "SS"
             ],
             "tier": 1,
             "active": true,
@@ -2579,12 +2705,12 @@
             "num": 3,
             "name": "Samuel",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "1B",
+              "LF",
+              "3B",
+              "P",
+              "2B",
+              "1B"
             ],
             "tier": 1,
             "active": true,
@@ -2605,12 +2731,12 @@
             "num": 4,
             "name": "Luke",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "P",
+              "2B",
+              "1B",
+              "1B",
+              "LCF",
+              "3B"
             ],
             "tier": 1,
             "active": true,
@@ -2632,11 +2758,11 @@
             "name": "Nathan",
             "positions": [
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RF",
+              "SS",
+              "C",
+              "LF",
+              "LCF"
             ],
             "tier": 3,
             "active": true,
@@ -2657,12 +2783,12 @@
             "num": 6,
             "name": "Xander",
             "positions": [
+              "LCF",
+              "1B",
+              "LF",
+              "2B",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RCF"
             ],
             "tier": 2,
             "active": true,
@@ -2683,12 +2809,12 @@
             "num": 7,
             "name": "Jordi",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RCF",
+              "3B",
+              "LCF",
+              "SS",
+              "C",
+              "RF"
             ],
             "tier": 2,
             "active": true,
@@ -2709,12 +2835,12 @@
             "num": 8,
             "name": "Otis",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "SS",
+              "RCF",
+              "C",
+              "LF",
+              "RF",
+              "2B"
             ],
             "tier": 2,
             "active": true,
@@ -2735,12 +2861,12 @@
             "num": 9,
             "name": "Julian",
             "positions": [
+              "2B",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RCF",
+              "RF",
+              "P",
+              "LF"
             ],
             "tier": 3,
             "active": true,
@@ -2761,12 +2887,12 @@
             "num": 10,
             "name": "Jacob",
             "positions": [
+              "3B",
+              "LCF",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RCF",
+              "SS",
+              "C"
             ],
             "tier": 3,
             "active": true,
@@ -2787,12 +2913,12 @@
             "num": 11,
             "name": "Liana",
             "positions": [
+              "C",
+              "SS",
+              "RF",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RCF",
+              "P"
             ],
             "tier": 3,
             "active": true,
@@ -2826,7 +2952,15 @@
           null,
           null
         ],
-        "outs": [
+        "homeOuts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "awayOuts": [
           0,
           0,
           0,
@@ -2838,15 +2972,64 @@
         "currentBatter": 0,
         "currentPitchCount": 0,
         "lineupLocked": false,
+        "battingStats": {
+          "0": {
+            "ab": 0,
+            "hits": 0
+          },
+          "1": {
+            "ab": 0,
+            "hits": 0
+          },
+          "2": {
+            "ab": 0,
+            "hits": 0
+          },
+          "3": {
+            "ab": 0,
+            "hits": 0
+          },
+          "4": {
+            "ab": 0,
+            "hits": 0
+          },
+          "5": {
+            "ab": 0,
+            "hits": 0
+          },
+          "6": {
+            "ab": 0,
+            "hits": 0
+          },
+          "7": {
+            "ab": 0,
+            "hits": 0
+          },
+          "8": {
+            "ab": 0,
+            "hits": 0
+          },
+          "9": {
+            "ab": 0,
+            "hits": 0
+          },
+          "10": {
+            "ab": 0,
+            "hits": 0
+          }
+        },
+        "halfInning": "them",
+        "isHome": true,
         "gameDate": "2026-04-02",
         "teamName": "Gold Padres",
         "opponent": "Camo Padres-McKee",
-        "location": ""
+        "location": "RBCP, F2",
+        "gameTime": "4:45 PM"
       }
     },
     {
-      "id": "game_1773535887119_f9rg88_8",
-      "date": "2026-04-09",
+      "id": "game_1773540916972_wqzbn8_8",
+      "date": "2026-04-16",
       "opponent": "White Pinstripe-Derenne",
       "state": {
         "players": [
@@ -2854,12 +3037,12 @@
             "num": 1,
             "name": "Oliver",
             "positions": [
+              "RCF",
+              "2B",
+              "C",
+              "LF",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RF"
             ],
             "tier": 2,
             "active": true,
@@ -2880,12 +3063,12 @@
             "num": 2,
             "name": "Braden",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "LF",
+              "1B",
+              "SS",
+              "P",
+              "2B",
+              "3B"
             ],
             "tier": 1,
             "active": true,
@@ -2906,12 +3089,12 @@
             "num": 3,
             "name": "Samuel",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "SS",
+              "RCF",
+              "P",
+              "2B",
+              "1B",
+              "1B"
             ],
             "tier": 1,
             "active": true,
@@ -2932,12 +3115,12 @@
             "num": 4,
             "name": "Luke",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "2B",
+              "P",
+              "1B",
+              "1B",
+              "LCF",
+              "SS"
             ],
             "tier": 1,
             "active": true,
@@ -2958,12 +3141,12 @@
             "num": 5,
             "name": "Nathan",
             "positions": [
+              "LCF",
+              "C",
+              "3B",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RCF",
+              "P"
             ],
             "tier": 3,
             "active": true,
@@ -2984,12 +3167,12 @@
             "num": 6,
             "name": "Xander",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "1B",
+              "LCF",
+              "RF",
+              "SS",
+              "3B",
+              "C"
             ],
             "tier": 2,
             "active": true,
@@ -3010,11 +3193,11 @@
             "num": 7,
             "name": "Jordi",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
+              "RF",
+              "SS",
+              "RCF",
+              "C",
+              "LF",
               null
             ],
             "tier": 2,
@@ -3036,12 +3219,12 @@
             "num": 8,
             "name": "Otis",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "3B",
+              "RF",
+              "2B",
+              "RCF",
+              "C",
+              "LF"
             ],
             "tier": 2,
             "active": true,
@@ -3062,12 +3245,12 @@
             "num": 9,
             "name": "Julian",
             "positions": [
+              "P",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "LCF",
+              "3B",
+              "RF",
+              "2B"
             ],
             "tier": 3,
             "active": true,
@@ -3088,12 +3271,12 @@
             "num": 10,
             "name": "Jacob",
             "positions": [
+              "C",
+              "LF",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "LCF",
+              "SS",
+              "RCF"
             ],
             "tier": 3,
             "active": true,
@@ -3115,11 +3298,11 @@
             "name": "Liana",
             "positions": [
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "3B",
+              "LF",
+              "RF",
+              "P",
+              "LCF"
             ],
             "tier": 3,
             "active": true,
@@ -3153,7 +3336,15 @@
           null,
           null
         ],
-        "outs": [
+        "homeOuts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "awayOuts": [
           0,
           0,
           0,
@@ -3165,15 +3356,64 @@
         "currentBatter": 0,
         "currentPitchCount": 0,
         "lineupLocked": false,
-        "gameDate": "2026-04-09",
+        "battingStats": {
+          "0": {
+            "ab": 0,
+            "hits": 0
+          },
+          "1": {
+            "ab": 0,
+            "hits": 0
+          },
+          "2": {
+            "ab": 0,
+            "hits": 0
+          },
+          "3": {
+            "ab": 0,
+            "hits": 0
+          },
+          "4": {
+            "ab": 0,
+            "hits": 0
+          },
+          "5": {
+            "ab": 0,
+            "hits": 0
+          },
+          "6": {
+            "ab": 0,
+            "hits": 0
+          },
+          "7": {
+            "ab": 0,
+            "hits": 0
+          },
+          "8": {
+            "ab": 0,
+            "hits": 0
+          },
+          "9": {
+            "ab": 0,
+            "hits": 0
+          },
+          "10": {
+            "ab": 0,
+            "hits": 0
+          }
+        },
+        "halfInning": "them",
+        "isHome": true,
+        "gameDate": "2026-04-16",
         "teamName": "Gold Padres",
         "opponent": "White Pinstripe-Derenne",
-        "location": ""
+        "location": "RBCP, F2",
+        "gameTime": "5:00 PM"
       }
     },
     {
-      "id": "game_1773535887119_ynonpp_9",
-      "date": "2026-04-11",
+      "id": "game_1773540916972_dxc43o_9",
+      "date": "2026-04-18",
       "opponent": "AltPin Padres-Christensen",
       "state": {
         "players": [
@@ -3480,7 +3720,15 @@
           null,
           null
         ],
-        "outs": [
+        "homeOuts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "awayOuts": [
           0,
           0,
           0,
@@ -3492,15 +3740,19 @@
         "currentBatter": 0,
         "currentPitchCount": 0,
         "lineupLocked": false,
-        "gameDate": "2026-04-11",
+        "battingStats": {},
+        "halfInning": "us",
+        "isHome": true,
+        "gameDate": "2026-04-18",
         "teamName": "Gold Padres",
         "opponent": "AltPin Padres-Christensen",
-        "location": ""
+        "location": "RBCP, F4",
+        "gameTime": "1:00 PM"
       }
     },
     {
-      "id": "game_1773535887119_lh6yl2_10",
-      "date": "2026-04-16",
+      "id": "game_1773540916972_1r1gvq_10",
+      "date": "2026-04-23",
       "opponent": "City Connect-Lee",
       "state": {
         "players": [
@@ -3508,12 +3760,12 @@
             "num": 1,
             "name": "Oliver",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "LCF",
+              "P",
+              "C",
+              "RCF",
+              "RF",
+              "SS"
             ],
             "tier": 2,
             "active": true,
@@ -3534,12 +3786,12 @@
             "num": 2,
             "name": "Braden",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "LF",
+              "3B",
+              "P",
+              "SS",
+              "1B",
+              "2B"
             ],
             "tier": 1,
             "active": true,
@@ -3560,12 +3812,12 @@
             "num": 3,
             "name": "Samuel",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "1B",
+              "RF",
+              "3B",
+              "P",
+              "SS",
+              "1B"
             ],
             "tier": 1,
             "active": true,
@@ -3586,12 +3838,12 @@
             "num": 4,
             "name": "Luke",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "P",
+              "SS",
+              "1B",
+              "1B",
+              "LCF",
+              "3B"
             ],
             "tier": 1,
             "active": true,
@@ -3612,12 +3864,12 @@
             "num": 5,
             "name": "Nathan",
             "positions": [
+              "RCF",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "SS",
+              "2B",
+              "LF",
+              "C"
             ],
             "tier": 3,
             "active": true,
@@ -3638,12 +3890,12 @@
             "num": 6,
             "name": "Xander",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RF",
+              "1B",
+              "LCF",
+              "3B",
+              "RCF",
+              "LF"
             ],
             "tier": 2,
             "active": true,
@@ -3664,11 +3916,11 @@
             "num": 7,
             "name": "Jordi",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
+              "SS",
+              "LF",
+              "2B",
+              "LCF",
+              "C",
               null
             ],
             "tier": 2,
@@ -3690,12 +3942,12 @@
             "num": 8,
             "name": "Otis",
             "positions": [
+              "3B",
+              "2B",
+              "RF",
+              "C",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RCF"
             ],
             "tier": 2,
             "active": true,
@@ -3717,11 +3969,11 @@
             "name": "Julian",
             "positions": [
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "C",
+              "LF",
+              "RF",
+              "P",
+              "LCF"
             ],
             "tier": 3,
             "active": true,
@@ -3742,12 +3994,12 @@
             "num": 10,
             "name": "Jacob",
             "positions": [
+              "2B",
+              "LCF",
+              "RCF",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "3B",
+              "P"
             ],
             "tier": 3,
             "active": true,
@@ -3768,12 +4020,12 @@
             "num": 11,
             "name": "Liana",
             "positions": [
+              "C",
+              "RCF",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "LF",
+              "2B",
+              "RF"
             ],
             "tier": 3,
             "active": true,
@@ -3807,7 +4059,15 @@
           null,
           null
         ],
-        "outs": [
+        "homeOuts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "awayOuts": [
           0,
           0,
           0,
@@ -3819,15 +4079,64 @@
         "currentBatter": 0,
         "currentPitchCount": 0,
         "lineupLocked": false,
-        "gameDate": "2026-04-16",
+        "battingStats": {
+          "0": {
+            "ab": 0,
+            "hits": 0
+          },
+          "1": {
+            "ab": 0,
+            "hits": 0
+          },
+          "2": {
+            "ab": 0,
+            "hits": 0
+          },
+          "3": {
+            "ab": 0,
+            "hits": 0
+          },
+          "4": {
+            "ab": 0,
+            "hits": 0
+          },
+          "5": {
+            "ab": 0,
+            "hits": 0
+          },
+          "6": {
+            "ab": 0,
+            "hits": 0
+          },
+          "7": {
+            "ab": 0,
+            "hits": 0
+          },
+          "8": {
+            "ab": 0,
+            "hits": 0
+          },
+          "9": {
+            "ab": 0,
+            "hits": 0
+          },
+          "10": {
+            "ab": 0,
+            "hits": 0
+          }
+        },
+        "halfInning": "them",
+        "isHome": true,
+        "gameDate": "2026-04-23",
         "teamName": "Gold Padres",
         "opponent": "City Connect-Lee",
-        "location": ""
+        "location": "RBCP, F2",
+        "gameTime": "5:00 PM"
       }
     },
     {
-      "id": "game_1773535887119_ajsyiz_11",
-      "date": "2026-04-18",
+      "id": "game_1773540916972_l4oyec_11",
+      "date": "2026-04-25",
       "opponent": "Camo Padres-McKee",
       "state": {
         "players": [
@@ -3835,12 +4144,12 @@
             "num": 1,
             "name": "Oliver",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RCF",
+              "C",
+              "2B",
+              "P",
+              "LCF",
+              "3B"
             ],
             "tier": 2,
             "active": true,
@@ -3861,12 +4170,12 @@
             "num": 2,
             "name": "Braden",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RF",
+              "2B",
+              "P",
+              "3B",
+              "1B",
+              "SS"
             ],
             "tier": 1,
             "active": true,
@@ -3887,12 +4196,12 @@
             "num": 3,
             "name": "Samuel",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "2B",
+              "3B",
+              "1B",
+              "1B",
+              "RF",
+              "P"
             ],
             "tier": 1,
             "active": true,
@@ -3913,12 +4222,12 @@
             "num": 4,
             "name": "Luke",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "1B",
+              "LF",
+              "SS",
+              "2B",
+              "3B",
+              "1B"
             ],
             "tier": 1,
             "active": true,
@@ -3940,11 +4249,11 @@
             "name": "Nathan",
             "positions": [
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "LCF",
+              "C",
+              "SS",
+              "LF",
+              "RCF"
             ],
             "tier": 3,
             "active": true,
@@ -3965,12 +4274,12 @@
             "num": 6,
             "name": "Xander",
             "positions": [
+              "LCF",
+              "1B",
+              "LF",
+              "C",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RF"
             ],
             "tier": 2,
             "active": true,
@@ -3991,11 +4300,11 @@
             "num": 7,
             "name": "Jordi",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
+              "LF",
+              "SS",
+              "RF",
+              "RCF",
+              "P",
               null
             ],
             "tier": 2,
@@ -4017,12 +4326,12 @@
             "num": 8,
             "name": "Otis",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "C",
+              "RF",
+              "3B",
+              "LF",
+              "RCF",
+              "LCF"
             ],
             "tier": 2,
             "active": true,
@@ -4043,12 +4352,12 @@
             "num": 9,
             "name": "Julian",
             "positions": [
+              "3B",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "LCF",
+              "RF",
+              "2B",
+              "LF"
             ],
             "tier": 3,
             "active": true,
@@ -4069,12 +4378,12 @@
             "num": 10,
             "name": "Jacob",
             "positions": [
+              "P",
+              "RCF",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "LCF",
+              "SS",
+              "C"
             ],
             "tier": 3,
             "active": true,
@@ -4095,12 +4404,12 @@
             "num": 11,
             "name": "Liana",
             "positions": [
+              "SS",
+              "P",
+              "RCF",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "C",
+              "2B"
             ],
             "tier": 3,
             "active": true,
@@ -4134,7 +4443,15 @@
           null,
           null
         ],
-        "outs": [
+        "homeOuts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "awayOuts": [
           0,
           0,
           0,
@@ -4146,15 +4463,64 @@
         "currentBatter": 0,
         "currentPitchCount": 0,
         "lineupLocked": false,
-        "gameDate": "2026-04-18",
+        "battingStats": {
+          "0": {
+            "ab": 0,
+            "hits": 0
+          },
+          "1": {
+            "ab": 0,
+            "hits": 0
+          },
+          "2": {
+            "ab": 0,
+            "hits": 0
+          },
+          "3": {
+            "ab": 0,
+            "hits": 0
+          },
+          "4": {
+            "ab": 0,
+            "hits": 0
+          },
+          "5": {
+            "ab": 0,
+            "hits": 0
+          },
+          "6": {
+            "ab": 0,
+            "hits": 0
+          },
+          "7": {
+            "ab": 0,
+            "hits": 0
+          },
+          "8": {
+            "ab": 0,
+            "hits": 0
+          },
+          "9": {
+            "ab": 0,
+            "hits": 0
+          },
+          "10": {
+            "ab": 0,
+            "hits": 0
+          }
+        },
+        "halfInning": "them",
+        "isHome": true,
+        "gameDate": "2026-04-25",
         "teamName": "Gold Padres",
         "opponent": "Camo Padres-McKee",
-        "location": ""
+        "location": "RBCP, F2",
+        "gameTime": "2:00 PM"
       }
     },
     {
-      "id": "game_1773535887119_xqqrry_12",
-      "date": "2026-04-22",
+      "id": "game_1773540916972_2aemrl_12",
+      "date": "2026-04-29",
       "opponent": "Brown Padres-Schmitt",
       "state": {
         "players": [
@@ -4162,12 +4528,12 @@
             "num": 1,
             "name": "Oliver",
             "positions": [
+              "LCF",
+              "P",
+              "C",
+              "RF",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "LF"
             ],
             "tier": 2,
             "active": true,
@@ -4188,12 +4554,12 @@
             "num": 2,
             "name": "Braden",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RCF",
+              "1B",
+              "2B",
+              "P",
+              "3B",
+              "SS"
             ],
             "tier": 1,
             "active": true,
@@ -4214,12 +4580,12 @@
             "num": 3,
             "name": "Samuel",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "2B",
+              "LCF",
+              "P",
+              "3B",
+              "1B",
+              "1B"
             ],
             "tier": 1,
             "active": true,
@@ -4240,12 +4606,12 @@
             "num": 4,
             "name": "Luke",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "3B",
+              "SS",
+              "1B",
+              "1B",
+              "RF",
+              "P"
             ],
             "tier": 1,
             "active": true,
@@ -4267,11 +4633,11 @@
             "name": "Nathan",
             "positions": [
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "LF",
+              "SS",
+              "LCF",
+              "P",
+              "RF"
             ],
             "tier": 3,
             "active": true,
@@ -4292,12 +4658,12 @@
             "num": 6,
             "name": "Xander",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "1B",
+              "RCF",
+              "LF",
+              "SS",
+              "C",
+              "2B"
             ],
             "tier": 2,
             "active": true,
@@ -4318,12 +4684,12 @@
             "num": 7,
             "name": "Jordi",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "LF",
+              "2B",
+              "RCF",
+              "C",
+              "LCF",
+              "3B"
             ],
             "tier": 2,
             "active": true,
@@ -4344,11 +4710,11 @@
             "num": 8,
             "name": "Otis",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
+              "RF",
+              "C",
+              "3B",
+              "2B",
+              "RCF",
               null
             ],
             "tier": 2,
@@ -4370,12 +4736,12 @@
             "num": 9,
             "name": "Julian",
             "positions": [
+              "P",
+              "RF",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RCF",
+              "2B",
+              "LCF"
             ],
             "tier": 3,
             "active": true,
@@ -4396,12 +4762,12 @@
             "num": 10,
             "name": "Jacob",
             "positions": [
+              "C",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RF",
+              "LF",
+              "SS",
+              "RCF"
             ],
             "tier": 3,
             "active": true,
@@ -4422,12 +4788,12 @@
             "num": 11,
             "name": "Liana",
             "positions": [
+              "SS",
+              "3B",
+              "LCF",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "LF",
+              "C"
             ],
             "tier": 3,
             "active": true,
@@ -4461,7 +4827,15 @@
           null,
           null
         ],
-        "outs": [
+        "homeOuts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "awayOuts": [
           0,
           0,
           0,
@@ -4473,14 +4847,63 @@
         "currentBatter": 0,
         "currentPitchCount": 0,
         "lineupLocked": false,
-        "gameDate": "2026-04-22",
+        "battingStats": {
+          "0": {
+            "ab": 0,
+            "hits": 0
+          },
+          "1": {
+            "ab": 0,
+            "hits": 0
+          },
+          "2": {
+            "ab": 0,
+            "hits": 0
+          },
+          "3": {
+            "ab": 0,
+            "hits": 0
+          },
+          "4": {
+            "ab": 0,
+            "hits": 0
+          },
+          "5": {
+            "ab": 0,
+            "hits": 0
+          },
+          "6": {
+            "ab": 0,
+            "hits": 0
+          },
+          "7": {
+            "ab": 0,
+            "hits": 0
+          },
+          "8": {
+            "ab": 0,
+            "hits": 0
+          },
+          "9": {
+            "ab": 0,
+            "hits": 0
+          },
+          "10": {
+            "ab": 0,
+            "hits": 0
+          }
+        },
+        "halfInning": "them",
+        "isHome": true,
+        "gameDate": "2026-04-29",
         "teamName": "Gold Padres",
         "opponent": "Brown Padres-Schmitt",
-        "location": ""
+        "location": "RBCP, F2",
+        "gameTime": "5:00 PM"
       }
     },
     {
-      "id": "game_1773535887119_xxxng9_13",
+      "id": "game_1773540916972_1m6srm_13",
       "date": "2026-05-02",
       "opponent": "AltPin Padres-Christensen",
       "state": {
@@ -4489,12 +4912,12 @@
             "num": 1,
             "name": "Oliver",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RCF",
+              "C",
+              "2B",
+              "RF",
+              "LF",
+              "LCF"
             ],
             "tier": 2,
             "active": true,
@@ -4515,12 +4938,12 @@
             "num": 2,
             "name": "Braden",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "LCF",
+              "3B",
+              "SS",
+              "2B",
+              "1B",
+              "P"
             ],
             "tier": 1,
             "active": true,
@@ -4541,12 +4964,12 @@
             "num": 3,
             "name": "Samuel",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "3B",
+              "2B",
+              "1B",
+              "1B",
+              "RCF",
+              "SS"
             ],
             "tier": 1,
             "active": true,
@@ -4567,12 +4990,12 @@
             "num": 4,
             "name": "Luke",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "SS",
+              "1B",
+              "RCF",
+              "3B",
+              "2B",
+              "1B"
             ],
             "tier": 1,
             "active": true,
@@ -4594,11 +5017,11 @@
             "name": "Nathan",
             "positions": [
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RCF",
+              "LF",
+              "C",
+              "SS",
+              "3B"
             ],
             "tier": 3,
             "active": true,
@@ -4619,11 +5042,11 @@
             "num": 6,
             "name": "Xander",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
+              "1B",
+              "LCF",
+              "C",
+              "P",
+              "RF",
               null
             ],
             "tier": 2,
@@ -4645,12 +5068,12 @@
             "num": 7,
             "name": "Jordi",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RF",
+              "SS",
+              "P",
+              "RCF",
+              "LCF",
+              "LF"
             ],
             "tier": 2,
             "active": true,
@@ -4671,12 +5094,12 @@
             "num": 8,
             "name": "Otis",
             "positions": [
+              "LF",
+              "P",
+              "3B",
+              "SS",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "C"
             ],
             "tier": 2,
             "active": true,
@@ -4697,12 +5120,12 @@
             "num": 9,
             "name": "Julian",
             "positions": [
+              "C",
+              "RF",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "LCF",
+              "3B",
+              "2B"
             ],
             "tier": 3,
             "active": true,
@@ -4723,12 +5146,12 @@
             "num": 10,
             "name": "Jacob",
             "positions": [
+              "P",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "LCF",
+              "LF",
+              "C",
+              "RF"
             ],
             "tier": 3,
             "active": true,
@@ -4749,12 +5172,12 @@
             "num": 11,
             "name": "Liana",
             "positions": [
+              "2B",
+              "LF",
+              "RF",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "P",
+              "RCF"
             ],
             "tier": 3,
             "active": true,
@@ -4788,7 +5211,15 @@
           null,
           null
         ],
-        "outs": [
+        "homeOuts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "awayOuts": [
           0,
           0,
           0,
@@ -4800,10 +5231,59 @@
         "currentBatter": 0,
         "currentPitchCount": 0,
         "lineupLocked": false,
+        "battingStats": {
+          "0": {
+            "ab": 0,
+            "hits": 0
+          },
+          "1": {
+            "ab": 0,
+            "hits": 0
+          },
+          "2": {
+            "ab": 0,
+            "hits": 0
+          },
+          "3": {
+            "ab": 0,
+            "hits": 0
+          },
+          "4": {
+            "ab": 0,
+            "hits": 0
+          },
+          "5": {
+            "ab": 0,
+            "hits": 0
+          },
+          "6": {
+            "ab": 0,
+            "hits": 0
+          },
+          "7": {
+            "ab": 0,
+            "hits": 0
+          },
+          "8": {
+            "ab": 0,
+            "hits": 0
+          },
+          "9": {
+            "ab": 0,
+            "hits": 0
+          },
+          "10": {
+            "ab": 0,
+            "hits": 0
+          }
+        },
+        "halfInning": "them",
+        "isHome": true,
         "gameDate": "2026-05-02",
         "teamName": "Gold Padres",
         "opponent": "AltPin Padres-Christensen",
-        "location": ""
+        "location": "RBCP, F2",
+        "gameTime": "11:15 AM"
       }
     }
   ]

@@ -2655,6 +2655,7 @@
       return players.map((player, index) => ({
         player,
         ofCount: 0,
+        firstBaseCount: 0,
         infieldCreditFirstFive: 0,
         catcherCreditedInFirstFive: false,
         catcherInnings: 0,
@@ -2686,6 +2687,9 @@
           // Full roster: only designated players play 1B; T1 never catches
           const FIRST_BASE_PLAYERS = new Set(["Braden", "Luke", "Samuel", "Xander"]);
           if (isFullRoster() && position === "1B" && !FIRST_BASE_PLAYERS.has(player.name)) return false;
+          // Cap 1B: Xander max 1x, others max 2x per game
+          const firstBaseCap = player.name === "Xander" ? 1 : 2;
+          if (position === "1B" && playerState.firstBaseCount >= firstBaseCap) return false;
           if (player.tier === 1 && catcherAvailable && position === "C") return false;
 
           // Block if this would put a 2nd Tier 1 in outfield this inning (only when full roster)
@@ -2733,6 +2737,7 @@
       const undo = {
         outfieldDelta: OUTFIELD_POSITIONS.has(position) ? 1 : 0,
         catcherDelta: position === "C" ? 1 : 0,
+        firstBaseDelta: position === "1B" ? 1 : 0,
         creditedCatcher: false,
         infieldDelta: 0,
       };
@@ -2740,6 +2745,7 @@
       lineupPositions[playerIndex][inning] = position;
       playerState.ofCount += undo.outfieldDelta;
       playerState.catcherInnings += undo.catcherDelta;
+      playerState.firstBaseCount += undo.firstBaseDelta;
 
       if (inning < EARLY_INNING_LIMIT) {
         if (position === "C" && !playerState.catcherCreditedInFirstFive) {
@@ -2761,6 +2767,7 @@
       lineupPositions[playerIndex][inning] = null;
       playerState.ofCount -= undo.outfieldDelta;
       playerState.catcherInnings -= undo.catcherDelta;
+      playerState.firstBaseCount -= undo.firstBaseDelta;
       playerState.infieldCreditFirstFive -= undo.infieldDelta;
       if (undo.creditedCatcher) playerState.catcherCreditedInFirstFive = false;
     }
