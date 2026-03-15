@@ -153,6 +153,21 @@
 
     .btn-danger:hover { background: #c0392b; color: #fff; }
 
+    .btn-lock {
+      background: transparent;
+      color: var(--sand);
+      border: 1px solid var(--brown-light);
+    }
+    .btn-lock:hover { background: var(--brown-mid); }
+    .btn-lock.locked {
+      background: rgba(46, 204, 113, 0.15);
+      color: #2ecc71;
+      border-color: rgba(46, 204, 113, 0.4);
+    }
+    .btn-lock.locked:hover {
+      background: rgba(46, 204, 113, 0.25);
+    }
+
     .current-inning-display {
       font-family: 'Bebas Neue', sans-serif;
       font-size: 24px;
@@ -1067,7 +1082,8 @@
   <!-- Controls -->
   <div class="card controls">
     <button class="btn btn-secondary" onclick="prevInning()">&larr; Prev</button>
-    <button class="btn btn-secondary" onclick="generateLineup()">Generate Lineup</button>
+    <button class="btn btn-secondary" id="generateBtn" onclick="generateLineup()">Generate Lineup</button>
+    <button class="btn btn-lock" id="lockBtn" onclick="toggleLock()">&#x1f513; Lock</button>
     <button class="btn btn-primary" onclick="nextInning()">Next Inning &rarr;</button>
     <button class="btn btn-secondary" onclick="nextBatter()">Next Batter</button>
     <button class="btn btn-danger" onclick="resetGame()">Reset</button>
@@ -1109,22 +1125,22 @@
       <tbody>
         <tr id="homeScoreRow">
           <td class="team-label">US</td>
-          <td class="score-cell" onclick="changeScore('home',0,1)" oncontextmenu="changeScore('home',0,-1);return false;">-</td>
-          <td class="score-cell" onclick="changeScore('home',1,1)" oncontextmenu="changeScore('home',1,-1);return false;">-</td>
-          <td class="score-cell" onclick="changeScore('home',2,1)" oncontextmenu="changeScore('home',2,-1);return false;">-</td>
-          <td class="score-cell" onclick="changeScore('home',3,1)" oncontextmenu="changeScore('home',3,-1);return false;">-</td>
-          <td class="score-cell" onclick="changeScore('home',4,1)" oncontextmenu="changeScore('home',4,-1);return false;">-</td>
-          <td class="score-cell" onclick="changeScore('home',5,1)" oncontextmenu="changeScore('home',5,-1);return false;">-</td>
+          <td class="score-cell" data-team="home" data-inning="0" onclick="if(!longPressTriggered)changeScore('home',0,1)" oncontextmenu="changeScore('home',0,-1);return false;">-</td>
+          <td class="score-cell" data-team="home" data-inning="1" onclick="if(!longPressTriggered)changeScore('home',1,1)" oncontextmenu="changeScore('home',1,-1);return false;">-</td>
+          <td class="score-cell" data-team="home" data-inning="2" onclick="if(!longPressTriggered)changeScore('home',2,1)" oncontextmenu="changeScore('home',2,-1);return false;">-</td>
+          <td class="score-cell" data-team="home" data-inning="3" onclick="if(!longPressTriggered)changeScore('home',3,1)" oncontextmenu="changeScore('home',3,-1);return false;">-</td>
+          <td class="score-cell" data-team="home" data-inning="4" onclick="if(!longPressTriggered)changeScore('home',4,1)" oncontextmenu="changeScore('home',4,-1);return false;">-</td>
+          <td class="score-cell" data-team="home" data-inning="5" onclick="if(!longPressTriggered)changeScore('home',5,1)" oncontextmenu="changeScore('home',5,-1);return false;">-</td>
           <td class="total-cell" id="homeTotal">0</td>
         </tr>
         <tr id="awayScoreRow">
           <td class="team-label">THEM</td>
-          <td class="score-cell" onclick="changeScore('away',0,1)" oncontextmenu="changeScore('away',0,-1);return false;">-</td>
-          <td class="score-cell" onclick="changeScore('away',1,1)" oncontextmenu="changeScore('away',1,-1);return false;">-</td>
-          <td class="score-cell" onclick="changeScore('away',2,1)" oncontextmenu="changeScore('away',2,-1);return false;">-</td>
-          <td class="score-cell" onclick="changeScore('away',3,1)" oncontextmenu="changeScore('away',3,-1);return false;">-</td>
-          <td class="score-cell" onclick="changeScore('away',4,1)" oncontextmenu="changeScore('away',4,-1);return false;">-</td>
-          <td class="score-cell" onclick="changeScore('away',5,1)" oncontextmenu="changeScore('away',5,-1);return false;">-</td>
+          <td class="score-cell" data-team="away" data-inning="0" onclick="if(!longPressTriggered)changeScore('away',0,1)" oncontextmenu="changeScore('away',0,-1);return false;">-</td>
+          <td class="score-cell" data-team="away" data-inning="1" onclick="if(!longPressTriggered)changeScore('away',1,1)" oncontextmenu="changeScore('away',1,-1);return false;">-</td>
+          <td class="score-cell" data-team="away" data-inning="2" onclick="if(!longPressTriggered)changeScore('away',2,1)" oncontextmenu="changeScore('away',2,-1);return false;">-</td>
+          <td class="score-cell" data-team="away" data-inning="3" onclick="if(!longPressTriggered)changeScore('away',3,1)" oncontextmenu="changeScore('away',3,-1);return false;">-</td>
+          <td class="score-cell" data-team="away" data-inning="4" onclick="if(!longPressTriggered)changeScore('away',4,1)" oncontextmenu="changeScore('away',4,-1);return false;">-</td>
+          <td class="score-cell" data-team="away" data-inning="5" onclick="if(!longPressTriggered)changeScore('away',5,1)" oncontextmenu="changeScore('away',5,-1);return false;">-</td>
           <td class="total-cell" id="awayTotal">0</td>
         </tr>
         <tr class="outs-row">
@@ -1265,6 +1281,38 @@
       return getActivePlayers().length >= 11;
     }
 
+    let lineupLocked = false;
+
+    function toggleLock() {
+      lineupLocked = !lineupLocked;
+      const btn = document.getElementById("lockBtn");
+      const genBtn = document.getElementById("generateBtn");
+      if (lineupLocked) {
+        btn.innerHTML = "&#x1f512; Locked";
+        btn.classList.add("locked");
+        genBtn.disabled = true;
+        genBtn.style.opacity = "0.3";
+        genBtn.style.pointerEvents = "none";
+        // Disable all availability toggles
+        document.querySelectorAll(".avail-toggle").forEach(el => {
+          el.disabled = true;
+          el.style.opacity = "0.3";
+          el.style.pointerEvents = "none";
+        });
+      } else {
+        btn.innerHTML = "&#x1f513; Lock";
+        btn.classList.remove("locked");
+        genBtn.disabled = false;
+        genBtn.style.opacity = "";
+        genBtn.style.pointerEvents = "";
+        document.querySelectorAll(".avail-toggle").forEach(el => {
+          el.disabled = false;
+          el.style.opacity = "";
+          el.style.pointerEvents = "";
+        });
+      }
+    }
+
     function getActivePlayers() {
       return players.filter(p => p.active);
     }
@@ -1274,6 +1322,7 @@
     }
 
     function togglePlayer(index) {
+      if (lineupLocked) return;
       players[index].active = !players[index].active;
       // Reset positions for inactive players
       if (!players[index].active) {
@@ -1768,6 +1817,7 @@
     }
 
     function generateLineup() {
+      if (lineupLocked) return;
       const candidate = buildValidLineup();
       if (candidate) {
         players.forEach((player, index) => {
@@ -1871,6 +1921,15 @@
       const pos = batter.positions[currentInning];
       document.getElementById("batterPos").textContent = pos || "BENCH";
       renderMandatoryPlay();
+
+      // Re-apply lock state to newly rendered toggle buttons
+      if (lineupLocked) {
+        document.querySelectorAll(".avail-toggle").forEach(el => {
+          el.disabled = true;
+          el.style.opacity = "0.3";
+          el.style.pointerEvents = "none";
+        });
+      }
     }
 
     function goToInning(i) {
@@ -2087,6 +2146,44 @@
       renderScores();
     }
 
+    function resetScore(team, inning) {
+      const scores = team === "home" ? homeScores : awayScores;
+      scores[inning] = null;
+      renderScores();
+    }
+
+    // Long-press support for score cells (mobile-friendly subtract/reset)
+    let longPressTimer = null;
+    let longPressTriggered = false;
+
+    function setupScoreLongPress(el, team, inning) {
+      const startPress = (e) => {
+        longPressTriggered = false;
+        longPressTimer = setTimeout(() => {
+          longPressTriggered = true;
+          resetScore(team, inning);
+          // Vibrate if available
+          if (navigator.vibrate) navigator.vibrate(50);
+        }, 500);
+      };
+      const endPress = (e) => {
+        clearTimeout(longPressTimer);
+        if (longPressTriggered) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      };
+      const cancelPress = () => {
+        clearTimeout(longPressTimer);
+      };
+      el.addEventListener("touchstart", startPress, { passive: true });
+      el.addEventListener("touchend", endPress);
+      el.addEventListener("touchmove", cancelPress, { passive: true });
+      el.addEventListener("mousedown", startPress);
+      el.addEventListener("mouseup", endPress);
+      el.addEventListener("mouseleave", cancelPress);
+    }
+
     function renderScores() {
       const homeRow = document.getElementById("homeScoreRow");
       const awayRow = document.getElementById("awayScoreRow");
@@ -2158,6 +2255,11 @@
     renderScores();
     renderOuts();
     renderPitches();
+
+    // Wire up long-press on all score cells
+    document.querySelectorAll(".score-cell[data-team]").forEach(el => {
+      setupScoreLongPress(el, el.dataset.team, parseInt(el.dataset.inning));
+    });
   </script>
 </body>
 </html>
