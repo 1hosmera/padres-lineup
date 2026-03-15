@@ -1128,7 +1128,9 @@
     .public-mode .tier-pill,
     .public-mode .mandatory-play-section,
     .public-mode .avail-toggle,
-    .public-mode .btn-endgame {
+    .public-mode .btn-endgame,
+    .public-mode .btn-danger,
+    .public-mode #generateBtn {
       display: none !important;
     }
 
@@ -1622,6 +1624,7 @@
     // Shared mode: ?share=<base64data> for read-only view
     const SHARE_PARAM = new URLSearchParams(window.location.search).get('share');
     const SHARED_MODE = !!SHARE_PARAM;
+    const PUBLIC_MODE = !COACH_MODE && !SHARED_MODE;
 
     const players = [
       { num: 1,  name: "Oliver", positions: ["RF", "C", "SS", "C", "RCF", "RF"],      tier: 2 },
@@ -1803,13 +1806,39 @@
       }
     }
 
+    function enterReadOnlyMode(bannerHtml) {
+      document.documentElement.classList.add('shared-mode');
+
+      const banner = document.createElement('div');
+      banner.className = 'shared-banner';
+      banner.innerHTML = bannerHtml;
+      document.querySelector('.header').after(banner);
+
+      // Disable all interactive elements
+      document.querySelectorAll('.score-cell').forEach(el => {
+        el.style.pointerEvents = 'none';
+      });
+      document.querySelectorAll('.outs-cell').forEach(el => {
+        el.style.pointerEvents = 'none';
+      });
+      document.querySelectorAll('.action-btn').forEach(el => {
+        el.style.display = 'none';
+      });
+      document.querySelectorAll('.pitch-reset').forEach(el => {
+        el.style.display = 'none';
+      });
+      document.querySelectorAll('.game-info input, .game-info button').forEach(el => {
+        el.disabled = true;
+        el.style.opacity = '0.7';
+      });
+    }
+
     function loadSharedState() {
       if (!SHARE_PARAM) return false;
       try {
         const json = decodeURIComponent(escape(atob(SHARE_PARAM)));
         const d = JSON.parse(json);
 
-        // Restore players
         d.p.forEach((sp, i) => {
           if (i < players.length) {
             players[i].positions = [...sp.pos];
@@ -1833,32 +1862,8 @@
         document.getElementById("opponent").value = d.op || '';
         document.getElementById("location").value = d.loc || '';
 
-        // Enter shared (read-only) mode
-        document.documentElement.classList.add('shared-mode');
-
-        // Add shared banner
-        const banner = document.createElement('div');
-        banner.className = 'shared-banner';
-        banner.innerHTML = `<strong>📋 ${d.tn || 'Gold Padres'}</strong> vs <strong>${d.op || 'TBD'}</strong> — ${d.gd ? new Date(d.gd + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : 'Game Day'}<br><span style="font-size:11px;color:var(--brown-light);">Read-only view · Shared by coach</span>`;
-        document.querySelector('.header').after(banner);
-
-        // Disable all interactive elements
-        document.querySelectorAll('.score-cell').forEach(el => {
-          el.style.pointerEvents = 'none';
-        });
-        document.querySelectorAll('.outs-cell').forEach(el => {
-          el.style.pointerEvents = 'none';
-        });
-        document.querySelectorAll('.action-btn').forEach(el => {
-          el.style.display = 'none';
-        });
-        document.querySelectorAll('.pitch-reset').forEach(el => {
-          el.style.display = 'none';
-        });
-        document.querySelectorAll('.game-info input, .game-info button').forEach(el => {
-          el.disabled = true;
-          el.style.opacity = '0.7';
-        });
+        const dateStr = d.gd ? new Date(d.gd + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : 'Game Day';
+        enterReadOnlyMode(`<strong>📋 ${d.tn || 'Gold Padres'}</strong> vs <strong>${d.op || 'TBD'}</strong> — ${dateStr}<br><span style="font-size:11px;color:var(--brown-light);">Read-only view · Shared by coach</span>`);
 
         renderLineup();
         renderScores();
@@ -1870,6 +1875,38 @@
         return true;
       } catch (e) {
         console.warn('Failed to load shared state:', e);
+        return false;
+      }
+    }
+
+    async function loadPublicState() {
+      if (!PUBLIC_MODE) return false;
+      try {
+        const resp = await fetch(`data/games.json?_=${Date.now()}`);
+        if (!resp.ok) return false;
+        const data = await resp.json();
+        if (!data || !data.games || data.games.length === 0) return false;
+
+        // Load all games from coach's saved data
+        games = data.games;
+
+        // Find the next upcoming or most recent game
+        const today = new Date();
+        today.setHours(0,0,0,0);
+        const nextGame = games.find(g => new Date(g.date + 'T00:00:00') >= today);
+        activeGameId = nextGame ? nextGame.id : games[0].id;
+        const activeGame = games.find(g => g.id === activeGameId);
+
+        if (activeGame && activeGame.state) {
+          restoreGameState(activeGame.state);
+          // Lock the lineup so parents can't regenerate it
+          if (!lineupLocked) toggleLock();
+        }
+
+        renderGameTabs();
+        return true;
+      } catch (e) {
+        console.warn('Failed to load public state:', e);
         return false;
       }
     }
@@ -3603,15 +3640,26 @@
       setupScoreLongPress(el, el.dataset.team, parseInt(el.dataset.inning));
     });
 
-    // Initialize: shared mode or multi-game system
-    if (!loadSharedState()) {
+    // Initialize: shared snapshot, public (cloud) view, or coach mode
+    if (SHARED_MODE) {
+      loadSharedState();
+    } else if (PUBLIC_MODE) {
+      // Public visitors: load coach's data from GitHub, interactive but lineup-locked
+      initializeGames(); // Load localStorage first (for returning parents)
+      loadPublicState().then(loaded => {
+        if (loaded) {
+          // Save to their localStorage so they don't re-fetch every time
+          saveAllGamesToStorage();
+        }
+      });
+    } else {
+      // Coach mode: full control with localStorage
       initializeGames();
 
       // Try loading from GitHub if localStorage was empty
       if (games.length === 0 || !localStorage.getItem(GAMES_STORAGE_KEY)) {
         loadFromGitHub().then(data => {
           if (data && data.games && data.games.length > 0) {
-            // Only use cloud data if we don't already have localStorage data
             if (!localStorage.getItem(GAMES_STORAGE_KEY)) {
               games = data.games;
               const today = new Date();
