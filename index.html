@@ -1674,6 +1674,29 @@
         btn.textContent = '@ AWAY';
         btn.classList.add('away');
       }
+
+      // Reorder scoreboard: away team on top, home team on bottom (baseball convention)
+      const tbody = document.querySelector('.score-table tbody');
+      const homeRow = document.getElementById('homeScoreRow');
+      const homeOuts = document.getElementById('homeOutsRow');
+      const sep = document.querySelector('.score-separator');
+      const awayRow = document.getElementById('awayScoreRow');
+      const awayOuts = document.getElementById('awayOutsRow');
+      if (isHome) {
+        // We're home (bottom): THEM on top, US on bottom
+        tbody.appendChild(awayRow);
+        tbody.appendChild(awayOuts);
+        tbody.appendChild(sep);
+        tbody.appendChild(homeRow);
+        tbody.appendChild(homeOuts);
+      } else {
+        // We're away (top): US on top, THEM on bottom
+        tbody.appendChild(homeRow);
+        tbody.appendChild(homeOuts);
+        tbody.appendChild(sep);
+        tbody.appendChild(awayRow);
+        tbody.appendChild(awayOuts);
+      }
     }
 
     function recordPitch() {
