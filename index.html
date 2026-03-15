@@ -785,6 +785,172 @@
       .tier-pill { min-width: 40px; padding: 2px 6px; font-size: 9px; }
     }
 
+    /* Game Tabs */
+    .game-tabs-container {
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .game-tabs-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 4px 2px 8px;
+      scrollbar-width: none;
+    }
+
+    .game-tabs-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .game-tab {
+      flex-shrink: 0;
+      background: var(--brown);
+      border: 2px solid var(--brown-mid);
+      border-radius: 10px;
+      padding: 10px 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      min-width: 130px;
+      position: relative;
+    }
+
+    .game-tab:hover {
+      border-color: var(--brown-light);
+      background: var(--brown-mid);
+    }
+
+    .game-tab.active {
+      border-color: var(--gold);
+      background: linear-gradient(135deg, var(--brown-mid) 0%, var(--brown) 100%);
+      box-shadow: 0 0 12px rgba(255,196,37,0.2), inset 0 0 0 1px rgba(255,196,37,0.1);
+    }
+
+    .game-tab.completed {
+      opacity: 0.7;
+    }
+
+    .game-tab.completed::after {
+      content: "FINAL";
+      position: absolute;
+      top: 4px;
+      right: 8px;
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: #55efc4;
+      background: rgba(85,239,196,0.12);
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+
+    .game-tab-date {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 18px;
+      color: var(--gold);
+      letter-spacing: 1.5px;
+      line-height: 1.2;
+    }
+
+    .game-tab.active .game-tab-date {
+      color: var(--gold);
+      text-shadow: 0 0 8px rgba(255,196,37,0.3);
+    }
+
+    .game-tab-opponent {
+      font-size: 11px;
+      color: var(--brown-light);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 120px;
+    }
+
+    .game-tab.active .game-tab-opponent {
+      color: var(--sand);
+    }
+
+    .game-tab-delete {
+      position: absolute;
+      top: 4px;
+      right: 6px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: none;
+      background: transparent;
+      color: var(--brown-light);
+      font-size: 13px;
+      line-height: 18px;
+      text-align: center;
+      cursor: pointer;
+      padding: 0;
+      transition: all 0.15s;
+      display: none;
+    }
+
+    .game-tab:hover .game-tab-delete,
+    .game-tab.active .game-tab-delete {
+      display: block;
+    }
+
+    .game-tab-delete:hover {
+      background: rgba(231,76,60,0.2);
+      color: #e74c3c;
+    }
+
+    .game-tab-add {
+      flex-shrink: 0;
+      background: transparent;
+      border: 2px dashed var(--brown-mid);
+      border-radius: 10px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-width: 100px;
+      color: var(--brown-light);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 16px;
+      letter-spacing: 1.5px;
+    }
+
+    .game-tab-add:hover {
+      border-color: var(--gold-dim);
+      color: var(--gold);
+      background: rgba(255,196,37,0.05);
+    }
+
+    .game-tab-add span {
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    @media (max-width: 600px) {
+      .game-tab { min-width: 110px; padding: 8px 12px; }
+      .game-tab-date { font-size: 15px; }
+      .game-tab-opponent { font-size: 10px; }
+      .game-tab-add { min-width: 80px; font-size: 14px; padding: 8px 14px; }
+    }
+
+    /* Public mode: hide all tier/compliance info */
+    .public-mode .tier-pill,
+    .public-mode .mandatory-play-section,
+    .public-mode .avail-toggle {
+      display: none !important;
+    }
+
+    @media print {
+      .game-tabs-container { display: none !important; }
+    }
+
     /* Smooth animations */
     @keyframes pulse-gold {
       0%, 100% { opacity: 1; }
@@ -1072,6 +1238,11 @@
     <div class="subtitle">Little League Baseball</div>
   </div>
 
+  <!-- Game Tabs -->
+  <div class="game-tabs-container">
+    <div class="game-tabs-scroll" id="gameTabsScroll"></div>
+  </div>
+
   <div class="card game-info">
     <input type="date" id="gameDate" />
     <input type="text" id="teamName" placeholder="Team Name" />
@@ -1219,6 +1390,12 @@
   </div>
 
   <script>
+    // Coach mode: add ?coach=1 to URL to see tiers and compliance details
+    const COACH_MODE = new URLSearchParams(window.location.search).has('coach');
+    if (!COACH_MODE) {
+      document.documentElement.classList.add('public-mode');
+    }
+
     const players = [
       { num: 1,  name: "Oliver", positions: ["RF", "C", "SS", "C", "RCF", "RF"],      tier: 2 },
       { num: 2,  name: "Braden", positions: ["RCF", "2B", "1B", "P", "SS", "P"],     tier: 1 },
@@ -2250,7 +2427,424 @@
       renderPitches();
     }
 
-    document.getElementById("gameDate").valueAsDate = new Date();
+    // ===== MULTI-GAME MANAGEMENT =====
+    const GAMES_STORAGE_KEY = "rbll_games";
+    const ACTIVE_GAME_KEY = "rbll_active_game";
+    let games = []; // Array of game objects
+    let activeGameId = null;
+    let _restoring = false; // Guard against re-entrant auto-save during restore
+
+    function generateGameId() {
+      return 'game_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+    }
+
+    function formatDateForTab(dateStr) {
+      if (!dateStr) return "No Date";
+      const parts = dateStr.split('-');
+      if (parts.length !== 3) return dateStr;
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      const m = parseInt(parts[1], 10) - 1;
+      const d = parseInt(parts[2], 10);
+      return months[m] + ' ' + d;
+    }
+
+    function isGameInPast(dateStr) {
+      if (!dateStr) return false;
+      const today = new Date();
+      today.setHours(0,0,0,0);
+      const gameDate = new Date(dateStr + 'T00:00:00');
+      return gameDate < today;
+    }
+
+    function captureCurrentGameState() {
+      return {
+        players: players.map(p => ({
+          num: p.num,
+          name: p.name,
+          positions: [...p.positions],
+          tier: p.tier,
+          active: p.active,
+          allowedPositions: [...p.allowedPositions]
+        })),
+        homeScores: [...homeScores],
+        awayScores: [...awayScores],
+        outs: [...outs],
+        currentInning: currentInning,
+        currentBatter: currentBatter,
+        currentPitchCount: currentPitchCount,
+        lineupLocked: lineupLocked,
+        gameDate: document.getElementById("gameDate").value,
+        teamName: document.getElementById("teamName").value,
+        opponent: document.getElementById("opponent").value,
+        location: document.getElementById("location").value
+      };
+    }
+
+    function restoreGameState(state) {
+      _restoring = true;
+      // Restore player state
+      state.players.forEach((saved, i) => {
+        if (i < players.length) {
+          players[i].positions = [...saved.positions];
+          players[i].active = saved.active;
+          if (saved.allowedPositions) {
+            players[i].allowedPositions = [...saved.allowedPositions];
+          }
+        }
+      });
+
+      homeScores = [...state.homeScores];
+      awayScores = [...state.awayScores];
+      outs = [...state.outs];
+      currentInning = state.currentInning;
+      currentBatter = state.currentBatter;
+      currentPitchCount = state.currentPitchCount;
+
+      // Restore lock state
+      if (state.lineupLocked !== lineupLocked) {
+        lineupLocked = state.lineupLocked;
+        const btn = document.getElementById("lockBtn");
+        const genBtn = document.getElementById("generateBtn");
+        if (lineupLocked) {
+          btn.innerHTML = "&#x1f512; Locked";
+          btn.classList.add("locked");
+          genBtn.disabled = true;
+          genBtn.style.opacity = "0.3";
+          genBtn.style.pointerEvents = "none";
+        } else {
+          btn.innerHTML = "&#x1f513; Lock";
+          btn.classList.remove("locked");
+          genBtn.disabled = false;
+          genBtn.style.opacity = "";
+          genBtn.style.pointerEvents = "";
+        }
+      }
+
+      // Restore game info fields
+      document.getElementById("gameDate").value = state.gameDate || '';
+      document.getElementById("teamName").value = state.teamName || '';
+      document.getElementById("opponent").value = state.opponent || '';
+      document.getElementById("location").value = state.location || '';
+
+      // Re-render everything
+      renderLineup();
+      renderScores();
+      renderOuts();
+      renderPitches();
+      _restoring = false;
+    }
+
+    function saveCurrentGameToMemory() {
+      if (!activeGameId) return;
+      const game = games.find(g => g.id === activeGameId);
+      if (!game) return;
+      game.state = captureCurrentGameState();
+      game.date = document.getElementById("gameDate").value;
+      game.opponent = document.getElementById("opponent").value;
+    }
+
+    function saveAllGamesToStorage() {
+      try {
+        localStorage.setItem(GAMES_STORAGE_KEY, JSON.stringify(games));
+        localStorage.setItem(ACTIVE_GAME_KEY, activeGameId);
+      } catch (e) {
+        console.warn("Failed to save games to localStorage:", e);
+      }
+    }
+
+    function autoSave() {
+      if (_restoring) return;
+      saveCurrentGameToMemory();
+      saveAllGamesToStorage();
+    }
+
+    function switchToGame(gameId) {
+      if (gameId === activeGameId) return;
+
+      // Save current game first
+      saveCurrentGameToMemory();
+
+      // Find and load the target game
+      const targetGame = games.find(g => g.id === gameId);
+      if (!targetGame) return;
+
+      activeGameId = gameId;
+
+      if (targetGame.state) {
+        restoreGameState(targetGame.state);
+      }
+
+      renderGameTabs();
+      saveAllGamesToStorage();
+    }
+
+    function createNewGame(date, opponent) {
+      // Save current game first
+      saveCurrentGameToMemory();
+
+      const newGame = {
+        id: generateGameId(),
+        date: date || '',
+        opponent: opponent || '',
+        state: null
+      };
+
+      // Build a fresh default state for the new game
+      const defaultState = {
+        players: players.map(p => ({
+          num: p.num,
+          name: p.name,
+          positions: [null, null, null, null, null, null],
+          tier: p.tier,
+          active: true,
+          allowedPositions: [...ALL_POSITIONS]
+        })),
+        homeScores: [null, null, null, null, null, null],
+        awayScores: [null, null, null, null, null, null],
+        outs: [0, 0, 0, 0, 0, 0],
+        currentInning: 0,
+        currentBatter: 0,
+        currentPitchCount: 0,
+        lineupLocked: false,
+        gameDate: date || '',
+        teamName: document.getElementById("teamName").value || '',
+        opponent: opponent || '',
+        location: ''
+      };
+      newGame.state = defaultState;
+
+      games.push(newGame);
+      activeGameId = newGame.id;
+
+      restoreGameState(newGame.state);
+      renderGameTabs();
+      saveAllGamesToStorage();
+
+      // Scroll the new tab into view
+      setTimeout(() => {
+        const scroll = document.getElementById("gameTabsScroll");
+        scroll.scrollLeft = scroll.scrollWidth;
+      }, 50);
+    }
+
+    function deleteGame(gameId) {
+      const game = games.find(g => g.id === gameId);
+      if (!game) return;
+
+      const label = game.opponent ? `vs ${game.opponent}` : formatDateForTab(game.date);
+      if (!confirm(`Delete game "${label}"? This cannot be undone.`)) return;
+
+      games = games.filter(g => g.id !== gameId);
+
+      // If we deleted the active game, switch to another
+      if (gameId === activeGameId) {
+        if (games.length > 0) {
+          activeGameId = games[0].id;
+          if (games[0].state) {
+            restoreGameState(games[0].state);
+          }
+        } else {
+          // Create a fresh default game
+          createNewGame(new Date().toISOString().split('T')[0], '');
+          return;
+        }
+      }
+
+      renderGameTabs();
+      saveAllGamesToStorage();
+    }
+
+    function addGamePrompt() {
+      // Compute next available game date (next day after last game)
+      let nextDate = new Date();
+      if (games.length > 0) {
+        const dates = games.map(g => g.date).filter(d => d).sort();
+        if (dates.length > 0) {
+          const lastDate = new Date(dates[dates.length - 1] + 'T00:00:00');
+          nextDate = new Date(lastDate.getTime() + 86400000);
+        }
+      }
+      const dateStr = nextDate.toISOString().split('T')[0];
+      const opponent = prompt("Opponent name (or leave blank):", "");
+      if (opponent === null) return; // cancelled
+      createNewGame(dateStr, opponent);
+    }
+
+    function renderGameTabs() {
+      const container = document.getElementById("gameTabsScroll");
+      container.innerHTML = '';
+
+      games.forEach(game => {
+        const tab = document.createElement('div');
+        tab.className = 'game-tab' + (game.id === activeGameId ? ' active' : '') + (isGameInPast(game.date) ? ' completed' : '');
+        tab.onclick = (e) => {
+          if (e.target.classList.contains('game-tab-delete')) return;
+          switchToGame(game.id);
+        };
+
+        const dateDiv = document.createElement('div');
+        dateDiv.className = 'game-tab-date';
+        dateDiv.textContent = formatDateForTab(game.date);
+        tab.appendChild(dateDiv);
+
+        const oppDiv = document.createElement('div');
+        oppDiv.className = 'game-tab-opponent';
+        oppDiv.textContent = game.opponent ? 'vs ' + game.opponent : 'TBD';
+        tab.appendChild(oppDiv);
+
+        // Delete button (only if more than 1 game)
+        if (games.length > 1) {
+          const delBtn = document.createElement('button');
+          delBtn.className = 'game-tab-delete';
+          delBtn.innerHTML = '&times;';
+          delBtn.title = 'Delete game';
+          delBtn.onclick = (e) => {
+            e.stopPropagation();
+            deleteGame(game.id);
+          };
+          tab.appendChild(delBtn);
+        }
+
+        container.appendChild(tab);
+      });
+
+      // Add Game button
+      const addBtn = document.createElement('div');
+      addBtn.className = 'game-tab-add';
+      addBtn.onclick = addGamePrompt;
+      addBtn.innerHTML = '<span>+</span> Add Game';
+      container.appendChild(addBtn);
+    }
+
+    // Auto-save on field changes
+    ['gameDate', 'teamName', 'opponent', 'location'].forEach(id => {
+      const el = document.getElementById(id);
+      el.addEventListener('input', () => { autoSave(); renderGameTabs(); });
+      el.addEventListener('change', () => { autoSave(); renderGameTabs(); });
+    });
+
+    // Auto-save periodically and on visibility change
+    setInterval(autoSave, 5000);
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') autoSave();
+    });
+
+    // Patch existing functions to trigger auto-save
+    const _origRenderLineup = renderLineup;
+    renderLineup = function() {
+      _origRenderLineup();
+      autoSave();
+    };
+
+    const _origRenderScores = renderScores;
+    renderScores = function() {
+      _origRenderScores();
+      autoSave();
+    };
+
+    const _origRenderOuts = renderOuts;
+    renderOuts = function() {
+      _origRenderOuts();
+      autoSave();
+    };
+
+    const _origToggleLock = toggleLock;
+    toggleLock = function() {
+      _origToggleLock();
+      autoSave();
+    };
+
+    // ===== INITIALIZATION =====
+    function initializeGames() {
+      let loaded = false;
+      try {
+        const stored = localStorage.getItem(GAMES_STORAGE_KEY);
+        const storedActive = localStorage.getItem(ACTIVE_GAME_KEY);
+        if (stored) {
+          games = JSON.parse(stored);
+          if (games.length > 0) {
+            activeGameId = storedActive && games.find(g => g.id === storedActive) ? storedActive : games[0].id;
+            const activeGame = games.find(g => g.id === activeGameId);
+            if (activeGame && activeGame.state) {
+              restoreGameState(activeGame.state);
+            }
+            loaded = true;
+          }
+        }
+      } catch (e) {
+        console.warn("Failed to load games from localStorage:", e);
+      }
+
+      if (!loaded) {
+        // Pre-populate with full season schedule from GameChanger
+        const schedule = [
+          { date: '2026-03-07', opponent: 'City Connect-Lee', time: '', location: '', result: 'L 4-11', completed: true },
+          { date: '2026-03-11', opponent: 'Brown Padres-Schmitt', time: '', location: '', result: 'W 15-1', completed: true },
+          { date: '2026-03-14', opponent: 'Camo Padres-McKee', time: '', location: '', result: 'W 8-7', completed: true },
+          { date: '2026-03-16', opponent: 'White Pinstripe-Derenne', time: '4:45 PM', location: '' },
+          { date: '2026-03-21', opponent: 'AltPin Padres-Christensen', time: '2:00 PM', location: '' },
+          { date: '2026-03-23', opponent: 'City Connect-Lee', time: '4:45 PM', location: '' },
+          { date: '2026-03-28', opponent: 'Brown Padres-Schmitt', time: '1:00 PM', location: '' },
+          { date: '2026-04-02', opponent: 'Camo Padres-McKee', time: '4:45 PM', location: '' },
+          { date: '2026-04-09', opponent: 'White Pinstripe-Derenne', time: '5:00 PM', location: '' },
+          { date: '2026-04-11', opponent: 'AltPin Padres-Christensen', time: '1:00 PM', location: '' },
+          { date: '2026-04-16', opponent: 'City Connect-Lee', time: '5:00 PM', location: '' },
+          { date: '2026-04-18', opponent: 'Camo Padres-McKee', time: '2:00 PM', location: '' },
+          { date: '2026-04-22', opponent: 'Brown Padres-Schmitt', time: '5:00 PM', location: '' },
+          { date: '2026-05-02', opponent: 'AltPin Padres-Christensen', time: '11:15 AM', location: '' },
+        ];
+
+        schedule.forEach((g, i) => {
+          const game = {
+            id: generateGameId() + '_' + i,
+            date: g.date,
+            opponent: g.opponent,
+            state: {
+              players: players.map(p => ({
+                num: p.num,
+                name: p.name,
+                positions: [null, null, null, null, null, null],
+                tier: p.tier,
+                active: true,
+                allowedPositions: [...ALL_POSITIONS]
+              })),
+              homeScores: [null, null, null, null, null, null],
+              awayScores: [null, null, null, null, null, null],
+              outs: [0, 0, 0, 0, 0, 0],
+              currentInning: 0,
+              currentBatter: 0,
+              currentPitchCount: 0,
+              lineupLocked: g.completed || false,
+              gameDate: g.date,
+              teamName: 'Gold Padres',
+              opponent: g.opponent,
+              location: g.location || ''
+            }
+          };
+          games.push(game);
+        });
+
+        // Set active game to the next upcoming game
+        const today = new Date();
+        today.setHours(0,0,0,0);
+        const nextGame = games.find(g => new Date(g.date + 'T00:00:00') >= today);
+        activeGameId = nextGame ? nextGame.id : games[0].id;
+        const activeGame = games.find(g => g.id === activeGameId);
+        if (activeGame && activeGame.state) {
+          restoreGameState(activeGame.state);
+        }
+      }
+
+      renderGameTabs();
+    }
+
+    // Run the original init
+    document.getElementById("gameDate").value = '2026-03-15';
+    renderLineup = _origRenderLineup; // Temporarily use original to avoid auto-save during init
+    renderScores = _origRenderScores;
+    renderOuts = _origRenderOuts;
+    toggleLock = _origToggleLock;
+
     renderLineup();
     renderScores();
     renderOuts();
@@ -2260,6 +2854,15 @@
     document.querySelectorAll(".score-cell[data-team]").forEach(el => {
       setupScoreLongPress(el, el.dataset.team, parseInt(el.dataset.inning));
     });
+
+    // Initialize the multi-game system BEFORE enabling auto-save
+    initializeGames();
+
+    // Re-wrap with auto-save
+    renderLineup = function() { _origRenderLineup(); autoSave(); };
+    renderScores = function() { _origRenderScores(); autoSave(); };
+    renderOuts = function() { _origRenderOuts(); autoSave(); };
+    toggleLock = function() { _origToggleLock(); autoSave(); };
   </script>
 </body>
 </html>
