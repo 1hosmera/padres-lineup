@@ -1314,14 +1314,24 @@
           <td class="score-cell" data-team="away" data-inning="5" onclick="if(!longPressTriggered)changeScore('away',5,1)" oncontextmenu="changeScore('away',5,-1);return false;">-</td>
           <td class="total-cell" id="awayTotal">0</td>
         </tr>
-        <tr class="outs-row">
-          <td style="font-size:11px;color:var(--brown-light);text-align:left;padding-left:8px;font-weight:700;letter-spacing:1px;">OUTS</td>
-          <td class="outs-cell" onclick="toggleOut(0)"><span class="out-dot" id="out-0-0"></span><span class="out-dot" id="out-0-1"></span><span class="out-dot" id="out-0-2"></span></td>
-          <td class="outs-cell" onclick="toggleOut(1)"><span class="out-dot" id="out-1-0"></span><span class="out-dot" id="out-1-1"></span><span class="out-dot" id="out-1-2"></span></td>
-          <td class="outs-cell" onclick="toggleOut(2)"><span class="out-dot" id="out-2-0"></span><span class="out-dot" id="out-2-1"></span><span class="out-dot" id="out-2-2"></span></td>
-          <td class="outs-cell" onclick="toggleOut(3)"><span class="out-dot" id="out-3-0"></span><span class="out-dot" id="out-3-1"></span><span class="out-dot" id="out-3-2"></span></td>
-          <td class="outs-cell" onclick="toggleOut(4)"><span class="out-dot" id="out-4-0"></span><span class="out-dot" id="out-4-1"></span><span class="out-dot" id="out-4-2"></span></td>
-          <td class="outs-cell" onclick="toggleOut(5)"><span class="out-dot" id="out-5-0"></span><span class="out-dot" id="out-5-1"></span><span class="out-dot" id="out-5-2"></span></td>
+        <tr class="outs-row" id="homeOutsRow">
+          <td style="font-size:9px;color:var(--brown-light);text-align:left;padding-left:8px;font-weight:700;letter-spacing:1px;">US<br>OUTS</td>
+          <td class="outs-cell" onclick="toggleOut('home',0)"><span class="out-dot" id="home-out-0-0"></span><span class="out-dot" id="home-out-0-1"></span><span class="out-dot" id="home-out-0-2"></span></td>
+          <td class="outs-cell" onclick="toggleOut('home',1)"><span class="out-dot" id="home-out-1-0"></span><span class="out-dot" id="home-out-1-1"></span><span class="out-dot" id="home-out-1-2"></span></td>
+          <td class="outs-cell" onclick="toggleOut('home',2)"><span class="out-dot" id="home-out-2-0"></span><span class="out-dot" id="home-out-2-1"></span><span class="out-dot" id="home-out-2-2"></span></td>
+          <td class="outs-cell" onclick="toggleOut('home',3)"><span class="out-dot" id="home-out-3-0"></span><span class="out-dot" id="home-out-3-1"></span><span class="out-dot" id="home-out-3-2"></span></td>
+          <td class="outs-cell" onclick="toggleOut('home',4)"><span class="out-dot" id="home-out-4-0"></span><span class="out-dot" id="home-out-4-1"></span><span class="out-dot" id="home-out-4-2"></span></td>
+          <td class="outs-cell" onclick="toggleOut('home',5)"><span class="out-dot" id="home-out-5-0"></span><span class="out-dot" id="home-out-5-1"></span><span class="out-dot" id="home-out-5-2"></span></td>
+          <td style="font-size:12px;color:var(--brown-mid);">-</td>
+        </tr>
+        <tr class="outs-row" id="awayOutsRow">
+          <td style="font-size:9px;color:var(--brown-light);text-align:left;padding-left:8px;font-weight:700;letter-spacing:1px;">THEM<br>OUTS</td>
+          <td class="outs-cell" onclick="toggleOut('away',0)"><span class="out-dot" id="away-out-0-0"></span><span class="out-dot" id="away-out-0-1"></span><span class="out-dot" id="away-out-0-2"></span></td>
+          <td class="outs-cell" onclick="toggleOut('away',1)"><span class="out-dot" id="away-out-1-0"></span><span class="out-dot" id="away-out-1-1"></span><span class="out-dot" id="away-out-1-2"></span></td>
+          <td class="outs-cell" onclick="toggleOut('away',2)"><span class="out-dot" id="away-out-2-0"></span><span class="out-dot" id="away-out-2-1"></span><span class="out-dot" id="away-out-2-2"></span></td>
+          <td class="outs-cell" onclick="toggleOut('away',3)"><span class="out-dot" id="away-out-3-0"></span><span class="out-dot" id="away-out-3-1"></span><span class="out-dot" id="away-out-3-2"></span></td>
+          <td class="outs-cell" onclick="toggleOut('away',4)"><span class="out-dot" id="away-out-4-0"></span><span class="out-dot" id="away-out-4-1"></span><span class="out-dot" id="away-out-4-2"></span></td>
+          <td class="outs-cell" onclick="toggleOut('away',5)"><span class="out-dot" id="away-out-5-0"></span><span class="out-dot" id="away-out-5-1"></span><span class="out-dot" id="away-out-5-2"></span></td>
           <td style="font-size:12px;color:var(--brown-mid);">-</td>
         </tr>
       </tbody>
@@ -1446,7 +1456,8 @@
     let currentPitchCount = 0;
     let homeScores = [null, null, null, null, null, null];
     let awayScores = [null, null, null, null, null, null];
-    let outs = [0, 0, 0, 0, 0, 0];
+    let homeOuts = [0, 0, 0, 0, 0, 0];
+    let awayOuts = [0, 0, 0, 0, 0, 0];
 
     players.forEach((player) => {
       player.allowedPositions = [...ALL_POSITIONS]; // Every player can play every position
@@ -2400,17 +2411,21 @@
       document.getElementById("awayTotal").textContent = awayScores.reduce((s, v) => s + (v || 0), 0);
     }
 
-    function toggleOut(inning) {
+    function toggleOut(team, inning) {
+      const outs = team === 'home' ? homeOuts : awayOuts;
       outs[inning] = (outs[inning] + 1) % 4;
       renderOuts();
     }
 
     function renderOuts() {
-      for (let i = 0; i < 6; i++) {
-        for (let j = 0; j < 3; j++) {
-          document.getElementById("out-" + i + "-" + j).classList.toggle("filled", j < outs[i]);
+      ['home', 'away'].forEach(team => {
+        const outs = team === 'home' ? homeOuts : awayOuts;
+        for (let i = 0; i < 6; i++) {
+          for (let j = 0; j < 3; j++) {
+            document.getElementById(team + "-out-" + i + "-" + j).classList.toggle("filled", j < outs[i]);
+          }
         }
-      }
+      });
     }
 
     function resetGame() {
@@ -2419,7 +2434,8 @@
       currentBatter = 0;
       homeScores = [null, null, null, null, null, null];
       awayScores = [null, null, null, null, null, null];
-      outs = [0, 0, 0, 0, 0, 0];
+      homeOuts = [0, 0, 0, 0, 0, 0];
+      awayOuts = [0, 0, 0, 0, 0, 0];
       currentPitchCount = 0;
       renderLineup();
       renderScores();
@@ -2468,7 +2484,8 @@
         })),
         homeScores: [...homeScores],
         awayScores: [...awayScores],
-        outs: [...outs],
+        homeOuts: [...homeOuts],
+        awayOuts: [...awayOuts],
         currentInning: currentInning,
         currentBatter: currentBatter,
         currentPitchCount: currentPitchCount,
@@ -2495,7 +2512,8 @@
 
       homeScores = [...state.homeScores];
       awayScores = [...state.awayScores];
-      outs = [...state.outs];
+      homeOuts = [...(state.homeOuts || state.outs || [0,0,0,0,0,0])];
+      awayOuts = [...(state.awayOuts || [0,0,0,0,0,0])];
       currentInning = state.currentInning;
       currentBatter = state.currentBatter;
       currentPitchCount = state.currentPitchCount;
@@ -2601,7 +2619,8 @@
         })),
         homeScores: [null, null, null, null, null, null],
         awayScores: [null, null, null, null, null, null],
-        outs: [0, 0, 0, 0, 0, 0],
+        homeOuts: [0, 0, 0, 0, 0, 0],
+        awayOuts: [0, 0, 0, 0, 0, 0],
         currentInning: 0,
         currentBatter: 0,
         currentPitchCount: 0,
@@ -2810,7 +2829,8 @@
               })),
               homeScores: [null, null, null, null, null, null],
               awayScores: [null, null, null, null, null, null],
-              outs: [0, 0, 0, 0, 0, 0],
+              homeOuts: [0, 0, 0, 0, 0, 0],
+        awayOuts: [0, 0, 0, 0, 0, 0],
               currentInning: 0,
               currentBatter: 0,
               currentPitchCount: 0,
