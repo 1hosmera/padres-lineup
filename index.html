@@ -398,6 +398,13 @@
       box-shadow: 0 0 6px rgba(255,196,37,0.4);
     }
 
+    .score-separator td {
+      height: 3px;
+      padding: 0;
+      background: var(--brown-light);
+      opacity: 0.3;
+    }
+
     /* Lineup Table */
     .lineup-table {
       width: 100%;
@@ -1304,6 +1311,17 @@
           <td class="score-cell" data-team="home" data-inning="5" onclick="if(!longPressTriggered)changeScore('home',5,1)" oncontextmenu="changeScore('home',5,-1);return false;">-</td>
           <td class="total-cell" id="homeTotal">0</td>
         </tr>
+        <tr class="outs-row" id="homeOutsRow">
+          <td style="font-size:9px;color:var(--brown-light);text-align:left;padding-left:8px;font-weight:700;letter-spacing:1px;">OUTS</td>
+          <td class="outs-cell" onclick="toggleOut('home',0)"><span class="out-dot" id="home-out-0-0"></span><span class="out-dot" id="home-out-0-1"></span><span class="out-dot" id="home-out-0-2"></span></td>
+          <td class="outs-cell" onclick="toggleOut('home',1)"><span class="out-dot" id="home-out-1-0"></span><span class="out-dot" id="home-out-1-1"></span><span class="out-dot" id="home-out-1-2"></span></td>
+          <td class="outs-cell" onclick="toggleOut('home',2)"><span class="out-dot" id="home-out-2-0"></span><span class="out-dot" id="home-out-2-1"></span><span class="out-dot" id="home-out-2-2"></span></td>
+          <td class="outs-cell" onclick="toggleOut('home',3)"><span class="out-dot" id="home-out-3-0"></span><span class="out-dot" id="home-out-3-1"></span><span class="out-dot" id="home-out-3-2"></span></td>
+          <td class="outs-cell" onclick="toggleOut('home',4)"><span class="out-dot" id="home-out-4-0"></span><span class="out-dot" id="home-out-4-1"></span><span class="out-dot" id="home-out-4-2"></span></td>
+          <td class="outs-cell" onclick="toggleOut('home',5)"><span class="out-dot" id="home-out-5-0"></span><span class="out-dot" id="home-out-5-1"></span><span class="out-dot" id="home-out-5-2"></span></td>
+          <td style="font-size:12px;color:var(--brown-mid);">-</td>
+        </tr>
+        <tr class="score-separator"><td colspan="8"></td></tr>
         <tr id="awayScoreRow">
           <td class="team-label">THEM</td>
           <td class="score-cell" data-team="away" data-inning="0" onclick="if(!longPressTriggered)changeScore('away',0,1)" oncontextmenu="changeScore('away',0,-1);return false;">-</td>
@@ -1314,18 +1332,8 @@
           <td class="score-cell" data-team="away" data-inning="5" onclick="if(!longPressTriggered)changeScore('away',5,1)" oncontextmenu="changeScore('away',5,-1);return false;">-</td>
           <td class="total-cell" id="awayTotal">0</td>
         </tr>
-        <tr class="outs-row" id="homeOutsRow">
-          <td style="font-size:9px;color:var(--brown-light);text-align:left;padding-left:8px;font-weight:700;letter-spacing:1px;">US<br>OUTS</td>
-          <td class="outs-cell" onclick="toggleOut('home',0)"><span class="out-dot" id="home-out-0-0"></span><span class="out-dot" id="home-out-0-1"></span><span class="out-dot" id="home-out-0-2"></span></td>
-          <td class="outs-cell" onclick="toggleOut('home',1)"><span class="out-dot" id="home-out-1-0"></span><span class="out-dot" id="home-out-1-1"></span><span class="out-dot" id="home-out-1-2"></span></td>
-          <td class="outs-cell" onclick="toggleOut('home',2)"><span class="out-dot" id="home-out-2-0"></span><span class="out-dot" id="home-out-2-1"></span><span class="out-dot" id="home-out-2-2"></span></td>
-          <td class="outs-cell" onclick="toggleOut('home',3)"><span class="out-dot" id="home-out-3-0"></span><span class="out-dot" id="home-out-3-1"></span><span class="out-dot" id="home-out-3-2"></span></td>
-          <td class="outs-cell" onclick="toggleOut('home',4)"><span class="out-dot" id="home-out-4-0"></span><span class="out-dot" id="home-out-4-1"></span><span class="out-dot" id="home-out-4-2"></span></td>
-          <td class="outs-cell" onclick="toggleOut('home',5)"><span class="out-dot" id="home-out-5-0"></span><span class="out-dot" id="home-out-5-1"></span><span class="out-dot" id="home-out-5-2"></span></td>
-          <td style="font-size:12px;color:var(--brown-mid);">-</td>
-        </tr>
         <tr class="outs-row" id="awayOutsRow">
-          <td style="font-size:9px;color:var(--brown-light);text-align:left;padding-left:8px;font-weight:700;letter-spacing:1px;">THEM<br>OUTS</td>
+          <td style="font-size:9px;color:var(--brown-light);text-align:left;padding-left:8px;font-weight:700;letter-spacing:1px;">OUTS</td>
           <td class="outs-cell" onclick="toggleOut('away',0)"><span class="out-dot" id="away-out-0-0"></span><span class="out-dot" id="away-out-0-1"></span><span class="out-dot" id="away-out-0-2"></span></td>
           <td class="outs-cell" onclick="toggleOut('away',1)"><span class="out-dot" id="away-out-1-0"></span><span class="out-dot" id="away-out-1-1"></span><span class="out-dot" id="away-out-1-2"></span></td>
           <td class="outs-cell" onclick="toggleOut('away',2)"><span class="out-dot" id="away-out-2-0"></span><span class="out-dot" id="away-out-2-1"></span><span class="out-dot" id="away-out-2-2"></span></td>
