@@ -637,6 +637,30 @@
       gap: 8px;
     }
 
+    .inning-view-toggle {
+      display: flex;
+      gap: 0;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid var(--brown-light);
+    }
+    .inning-view-btn {
+      padding: 4px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      background: var(--brown-dark);
+      color: var(--brown-light);
+      border: none;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .inning-view-btn.active {
+      background: var(--gold);
+      color: var(--brown-dark);
+    }
+
     .avg-header, .avg-cell {
       text-align: center;
       font-size: 11px;
@@ -1556,7 +1580,13 @@
 
   <!-- Lineup -->
   <div class="card lineup-section">
-    <div class="section-title">Lineup & Positions</div>
+    <div class="section-title" style="display:flex;align-items:center;justify-content:space-between;">
+      <span>Lineup & Positions</span>
+      <div class="inning-view-toggle" id="inningViewToggle">
+        <button class="inning-view-btn active" id="btnCurrentInn" onclick="setInningView('current')">Current</button>
+        <button class="inning-view-btn" id="btnAllInn" onclick="setInningView('all')">All</button>
+      </div>
+    </div>
     <div class="table-scroll">
       <table class="lineup-table">
         <thead>
@@ -1698,6 +1728,14 @@
     // Half-inning: 'us' = our team batting, 'them' = their team batting (we're fielding)
     let halfInning = 'us';
     let isHome = true;
+    let inningView = 'current'; // 'current' or 'all'
+
+    function setInningView(view) {
+      inningView = view;
+      document.getElementById('btnCurrentInn').classList.toggle('active', view === 'current');
+      document.getElementById('btnAllInn').classList.toggle('active', view === 'all');
+      renderLineup();
+    }
 
     function initBattingStats() {
       players.forEach((p, i) => {
@@ -2856,7 +2894,8 @@
         tr.appendChild(avgTd);
 
         for (let i = 0; i < 6; i++) {
-          if (SHARED_MODE && i !== currentInning) continue;
+          const showSingleInning = (SHARED_MODE || inningView === 'current');
+          if (showSingleInning && i !== currentInning) continue;
           const td = document.createElement("td");
           if (!p.active) {
             td.className = "position-cell inactive";
@@ -2879,11 +2918,10 @@
         tbody.appendChild(tr);
       });
 
+      const showSingle = (SHARED_MODE || inningView === 'current');
       document.querySelectorAll(".inning-header").forEach((th, i) => {
         th.classList.toggle("active", i === currentInning);
-        if (SHARED_MODE) {
-          th.style.display = (i === currentInning) ? '' : 'none';
-        }
+        th.style.display = (showSingle && i !== currentInning) ? 'none' : '';
       });
 
       document.getElementById("inningDisplay").textContent = "Inning " + (currentInning + 1);
