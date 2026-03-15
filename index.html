@@ -797,7 +797,9 @@
     }
 
     .tier-pill {
-      display: inline-flex;
+      display: none !important;
+      /* Hidden from all views */
+      /*display: inline-flex;*/
       align-items: center;
       justify-content: center;
       min-width: 44px;
@@ -1576,7 +1578,7 @@
     </div>
   </div>
 
-  <div class="card mandatory-play-section">
+  <div class="card mandatory-play-section" style="display:none !important;">
     <div class="section-title">Mandatory Play & Tiers</div>
     <div class="mandatory-note">Rule 3.4 and the tier plan are calculated from the lineup below. Tier 3 players bench first, then Tier 2, while Tier 1 players stay off the bench, get exactly one outfield inning, and do not catch. Catcher counts toward only one inning of infield credit under 3.4.2.</div>
     <div class="mandatory-grid" id="mandatorySummary"></div>
