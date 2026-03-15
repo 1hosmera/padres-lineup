@@ -1543,6 +1543,11 @@
       const idx = currentBatter;
       if (!battingStats[idx]) battingStats[idx] = { ab: 0, hits: 0 };
       battingStats[idx].ab++;
+      // Increment the US outs for the current inning
+      if (homeOuts[currentInning] < 3) {
+        homeOuts[currentInning]++;
+        renderOuts();
+      }
       updateBatterStat();
       nextBatter();
     }
