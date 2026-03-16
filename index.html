@@ -1678,17 +1678,17 @@
     const PUBLIC_MODE = !COACH_MODE && !SHARED_MODE;
 
     const players = [
-      { num: 1,  name: "Oliver", positions: ["RF", "C", "SS", "C", "RCF", "RF"],      tier: 2 },
-      { num: 2,  name: "Braden", positions: ["RCF", "2B", "1B", "P", "SS", "P"],     tier: 1 },
-      { num: 3,  name: "Samuel", positions: ["3B", "1B", "LF", "SS", "1B", "SS"],    tier: 1 },
-      { num: 4,  name: "Luke",   positions: ["1B", "SS", "P", "1B", "LF", "1B"],     tier: 1 },
-      { num: 5,  name: "Nathan", positions: ["LCF", "3B", "C", null, "RF", "2B"],    tier: 3 },
-      { num: 6,  name: "Xander", positions: ["LF", "P", "3B", "2B", null, "RCF"],    tier: 2 },
-      { num: 7,  name: "Jordi",  positions: ["P", "RF", "2B", "LF", "LCF", null],    tier: 2 },
-      { num: 8,  name: "Otis",   positions: ["2B", "RCF", "RF", "LCF", "C", "LCF"],  tier: 2 },
-      { num: 9,  name: "Julian", positions: ["C", "LF", null, "RCF", "2B", "LF"],    tier: 3 },
-      { num: 10, name: "Jacob",  positions: ["SS", null, "LCF", "RF", "3B", "C"],     tier: 3 },
-      { num: 11, name: "Liana",  positions: [null, "LCF", "RCF", "3B", "P", "3B"],   tier: 3 },
+      { num: 1,  name: "Oliver", positions: ["2B",  "LCF", "C",   "SS",  "LF",  "C"],    tier: 2 },
+      { num: 2,  name: "Braden", positions: ["LF",  "C",   "P",   "2B",  null,  "1B"],   tier: 1 },
+      { num: 3,  name: "Samuel", positions: ["1B",  "P",   "LF",  null,  "LCF", "SS"],   tier: 1 },
+      { num: 4,  name: "Luke",   positions: ["3B",  "1B",  "RCF", "LCF", "1B",  "RF"],   tier: 1 },
+      { num: 5,  name: "Nathan", positions: ["RF",  "3B",  null,  "P",   "C",   "2B"],   tier: 3 },
+      { num: 6,  name: "Xander", positions: ["P",   "RCF", "1B",  "LF",  "SS",  "3B"],   tier: 2 },
+      { num: 7,  name: "Jordi",  positions: ["RCF", "SS",  "3B",  "RCF", "RF",  null],   tier: 2 },
+      { num: 8,  name: "Otis",   positions: ["LCF", null,  "2B",  "3B",  "P",   "LF"],   tier: 2 },
+      { num: 9,  name: "Julian", positions: ["C",   "LF",  "RF",  "1B",  "2B",  "P"],    tier: 3 },
+      { num: 10, name: "Jacob",  positions: [null,  "RF",  "SS",  "C",   "3B",  "RCF"],  tier: 3 },
+      { num: 11, name: "Liana",  positions: ["SS",  "2B",  "LCF", "RF",  "RCF", "LCF"],  tier: 3 },
     ];
 
     const INFIELD_POSITIONS = new Set(["P", "C", "1B", "2B", "3B", "SS"]);
@@ -1864,7 +1864,7 @@
       const state = captureCurrentGameState();
       const shareData = {
         p: state.players.map(pl => ({
-          n: pl.num, nm: pl.name, pos: pl.positions, a: pl.active
+          n: pl.num, nm: pl.name, pos: pl.positions, a: true // Always share as active — coach can mark OUT themselves
         })),
         hs: state.homeScores, as: state.awayScores,
         ho: state.homeOuts, ao: state.awayOuts,
@@ -3729,7 +3729,25 @@
           { date: '2026-05-02', opponent: 'AltPin Padres-Christensen', time: '11:15 AM', location: 'RBCP, F2' },
         ];
 
+        // Pre-set lineups from head coach
+        const presetLineups = {
+          '2026-03-16': {
+            'Oliver':  ["2B",  "LCF", "C",     "SS",   "LF",  "C"],
+            'Braden':  ["LF",  "C",   "P",     "2B",   null,  "1B"],
+            'Samuel':  ["1B",  "P",   "LF",    null,   "LCF", "SS"],
+            'Luke':    ["3B",  "1B",  "RCF",   "LCF",  "1B",  "RF"],
+            'Nathan':  ["RF",  "3B",  null,    "P",    "C",   "2B"],
+            'Xander':  ["P",   "RCF", "1B",    "LF",   "SS",  "3B"],
+            'Jordi':   ["RCF", "SS",  "3B",    "RCF",  "RF",  null],
+            'Otis':    ["LCF", null,  "2B",    "3B",   "P",   "LF"],
+            'Julian':  ["C",   "LF",  "RF",    "1B",   "2B",  "P"],
+            'Jacob':   [null,  "RF",  "SS",    "C",    "3B",  "RCF"],
+            'Liana':   ["SS",  "2B",  "LCF",   "RF",   "RCF", "LCF"]
+          }
+        };
+
         schedule.forEach((g, i) => {
+          const preset = presetLineups[g.date];
           const game = {
             id: generateGameId() + '_' + i,
             date: g.date,
@@ -3738,7 +3756,7 @@
               players: players.map(p => ({
                 num: p.num,
                 name: p.name,
-                positions: [null, null, null, null, null, null],
+                positions: preset && preset[p.name] ? [...preset[p.name]] : [null, null, null, null, null, null],
                 tier: p.tier,
                 active: true,
                 allowedPositions: [...ALL_POSITIONS]
@@ -3750,7 +3768,7 @@
               currentInning: 0,
               currentBatter: 0,
               currentPitchCount: 0,
-              lineupLocked: g.completed || false,
+              lineupLocked: g.completed || !!preset || false,
               battingStats: {},
               halfInning: 'us',
               isHome: true,
