@@ -3690,7 +3690,7 @@
     };
 
     // ===== INITIALIZATION =====
-    const DATA_VERSION = 2; // Bump this to force localStorage refresh
+    const DATA_VERSION = 3; // Bump this to force localStorage refresh
     function initializeGames() {
       let loaded = false;
       try {
@@ -3741,17 +3741,17 @@
         // Pre-set lineups from head coach
         const presetLineups = {
           '2026-03-16': {
-            'Oliver':  ["2B",  "LCF", "C",     "SS",   "LF",  "C"],
-            'Braden':  ["LF",  "C",   "P",     "2B",   null,  "1B"],
-            'Samuel':  ["1B",  "P",   "LF",    null,   "LCF", "SS"],
-            'Luke':    ["3B",  "1B",  "RCF",   "LCF",  "1B",  "RF"],
-            'Nathan':  ["RF",  "3B",  null,    "P",    "C",   "2B"],
-            'Xander':  ["P",   "RCF", "1B",    "LF",   "SS",  "3B"],
-            'Jordi':   ["RCF", "SS",  "3B",    "RCF",  "RF",  null],
-            'Otis':    ["LCF", null,  "2B",    "3B",   "P",   "LF"],
-            'Julian':  ["C",   "LF",  "RF",    "1B",   "2B",  "P"],
-            'Jacob':   [null,  "RF",  "SS",    "C",    "3B",  "RCF"],
-            'Liana':   ["SS",  "2B",  "LCF",   "RF",   "RCF", "LCF"]
+            'Oliver':  ["LCF", "C",    "2B",   "RF",   "RCF", "LF"],
+            'Braden':  ["RCF", "2B",   "SS",   "P",    "1B",  "3B"],
+            'Samuel':  ["1B",  "LCF",  "P",    "SS",   "2B",  "1B"],
+            'Luke':    ["2B",  "P",    "1B",   "1B",   "LF",  "SS"],
+            'Nathan':  [null,  "LF",   "3B",   "C",    "RF",  "RCF"],
+            'Xander':  ["LF",  "1B",   "LCF",  "3B",   "C",   "RF"],
+            'Jordi':   ["RF",  "3B",   "C",    "LCF",  "SS",  null],
+            'Otis':    ["3B",  "RF",   "RCF",  "2B",   null,  "P"],
+            'Julian':  ["SS",  "RCF",  null,   "LF",   "P",   "LCF"],
+            'Jacob':   ["P",   null,   "RF",   "RCF",  "3B",  "C"],
+            'Liana':   ["C",   "SS",   "LF",   null,   "LCF", "2B"]
           }
         };
 
