@@ -1,8 +1,8 @@
 {
-  "savedAt": "2026-03-16T22:13:16.128Z",
+  "savedAt": "2026-03-16T23:59:50.599Z",
   "games": [
     {
-      "id": "game_1773699127846_r20pt0_0",
+      "id": "game_1773702823933_kd6h98_0",
       "date": "2026-03-07",
       "opponent": "City Connect-Lee",
       "state": {
@@ -341,7 +341,7 @@
       }
     },
     {
-      "id": "game_1773699127850_exupqj_1",
+      "id": "game_1773702823933_j8yds0_1",
       "date": "2026-03-11",
       "opponent": "Brown Padres-Schmitt",
       "state": {
@@ -680,7 +680,7 @@
       }
     },
     {
-      "id": "game_1773699127850_d0n3a8_2",
+      "id": "game_1773702823933_p6dcwz_2",
       "date": "2026-03-14",
       "opponent": "Camo Padres-McKee",
       "state": {
@@ -1019,7 +1019,7 @@
       }
     },
     {
-      "id": "game_1773699127850_h72wu2_3",
+      "id": "game_1773702823933_8pgnaq_3",
       "date": "2026-03-16",
       "opponent": "White Pinstripe-Derenne",
       "state": {
@@ -1312,7 +1312,7 @@
           }
         ],
         "homeScores": [
-          null,
+          1,
           null,
           null,
           null,
@@ -1320,7 +1320,7 @@
           null
         ],
         "awayScores": [
-          null,
+          2,
           null,
           null,
           null,
@@ -1328,7 +1328,7 @@
           null
         ],
         "homeOuts": [
-          0,
+          3,
           0,
           0,
           0,
@@ -1336,36 +1336,36 @@
           0
         ],
         "awayOuts": [
-          0,
+          3,
           0,
           0,
           0,
           0,
           0
         ],
-        "currentInning": 0,
-        "currentBatter": 0,
-        "currentPitchCount": 0,
+        "currentInning": 1,
+        "currentBatter": 4,
+        "currentPitchCount": 2,
         "lineupLocked": true,
         "battingStats": {
           "0": {
-            "ab": 0,
+            "ab": 1,
             "hits": 0
           },
           "1": {
-            "ab": 0,
-            "hits": 0
+            "ab": 1,
+            "hits": 1
           },
           "2": {
-            "ab": 0,
+            "ab": 1,
             "hits": 0
           },
           "3": {
-            "ab": 0,
-            "hits": 0
+            "ab": 1,
+            "hits": 1
           },
           "4": {
-            "ab": 0,
+            "ab": 1,
             "hits": 0
           },
           "5": {
@@ -1403,7 +1403,7 @@
       }
     },
     {
-      "id": "game_1773699127850_vp3xc6_4",
+      "id": "game_1773702823933_sj0de7_4",
       "date": "2026-03-21",
       "opponent": "AltPin Padres-Christensen",
       "state": {
@@ -1742,7 +1742,7 @@
       }
     },
     {
-      "id": "game_1773699127850_useccg_5",
+      "id": "game_1773702823933_19daaj_5",
       "date": "2026-03-23",
       "opponent": "City Connect-Lee",
       "state": {
@@ -2081,7 +2081,7 @@
       }
     },
     {
-      "id": "game_1773699127850_0tf9np_6",
+      "id": "game_1773702823933_duyya8_6",
       "date": "2026-03-28",
       "opponent": "Brown Padres-Schmitt",
       "state": {
@@ -2420,7 +2420,7 @@
       }
     },
     {
-      "id": "game_1773699127850_0hdj6d_7",
+      "id": "game_1773702823933_qfbyib_7",
       "date": "2026-04-02",
       "opponent": "Camo Padres-McKee",
       "state": {
@@ -2759,7 +2759,7 @@
       }
     },
     {
-      "id": "game_1773699127850_qbpobb_8",
+      "id": "game_1773702823933_pte4gc_8",
       "date": "2026-04-16",
       "opponent": "White Pinstripe-Derenne",
       "state": {
@@ -3098,7 +3098,7 @@
       }
     },
     {
-      "id": "game_1773699127850_lqlrot_9",
+      "id": "game_1773702823933_buq32y_9",
       "date": "2026-04-18",
       "opponent": "AltPin Padres-Christensen",
       "state": {
@@ -3437,7 +3437,7 @@
       }
     },
     {
-      "id": "game_1773699127850_y8mntf_10",
+      "id": "game_1773702823933_sb35rg_10",
       "date": "2026-04-23",
       "opponent": "City Connect-Lee",
       "state": {
@@ -3776,7 +3776,7 @@
       }
     },
     {
-      "id": "game_1773699127850_2lcgnw_11",
+      "id": "game_1773702823933_mjyu38_11",
       "date": "2026-04-25",
       "opponent": "Camo Padres-McKee",
       "state": {
@@ -4115,7 +4115,7 @@
       }
     },
     {
-      "id": "game_1773699127850_x8li47_12",
+      "id": "game_1773702823933_fc1yw0_12",
       "date": "2026-04-29",
       "opponent": "Brown Padres-Schmitt",
       "state": {
@@ -4454,7 +4454,7 @@
       }
     },
     {
-      "id": "game_1773699127850_20a2sj_13",
+      "id": "game_1773702823933_dh7ex9_13",
       "date": "2026-05-02",
       "opponent": "AltPin Padres-Christensen",
       "state": {
