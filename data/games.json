@@ -1,5 +1,5 @@
 {
-  "savedAt": "2026-03-16T18:34:08.630Z",
+  "savedAt": "2026-03-16T18:35:04.820Z",
   "games": [
     {
       "id": "game_1773535887119_c48eze_0",
@@ -1424,7 +1424,7 @@
         "currentInning": 0,
         "currentBatter": 0,
         "currentPitchCount": 0,
-        "lineupLocked": false,
+        "lineupLocked": true,
         "battingStats": {
           "0": {
             "ab": 0,
