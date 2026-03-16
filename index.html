@@ -3782,10 +3782,11 @@
           games.push(game);
         });
 
-        // Set active game to the next upcoming (non-completed) game
+        // Set active game to today's game, or next upcoming game
         const today = new Date();
         today.setHours(0,0,0,0);
-        const nextGame = games.find(g => !g.state?.lineupLocked && new Date(g.date + 'T00:00:00') >= today)
+        const todayStr = today.toISOString().split('T')[0];
+        const nextGame = games.find(g => g.date === todayStr)
                       || games.find(g => new Date(g.date + 'T00:00:00') >= today)
                       || games[0];
         activeGameId = nextGame.id;
