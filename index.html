@@ -2844,6 +2844,12 @@
           const played = positions.filter(p => p !== null);
           const unique = new Set(played);
           score += (played.length - unique.size) * 0.5; // Each repeat adds 0.5
+          // Heavy penalty for same position in consecutive innings
+          for (let i = 1; i < positions.length; i++) {
+            if (positions[i] && positions[i] === positions[i - 1]) {
+              score += 5; // Strong penalty for back-to-back same position
+            }
+          }
         });
       }
       return score;
