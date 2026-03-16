@@ -3690,9 +3690,18 @@
     };
 
     // ===== INITIALIZATION =====
+    const DATA_VERSION = 2; // Bump this to force localStorage refresh
     function initializeGames() {
       let loaded = false;
       try {
+        const storedVersion = parseInt(localStorage.getItem('rbll_data_version') || '0');
+        if (storedVersion < DATA_VERSION) {
+          // Data version changed — clear old data to load fresh schedule
+          localStorage.removeItem(GAMES_STORAGE_KEY);
+          localStorage.removeItem(ACTIVE_GAME_KEY);
+          localStorage.setItem('rbll_data_version', DATA_VERSION);
+          console.log('Data version upgraded, loading fresh schedule');
+        }
         const stored = localStorage.getItem(GAMES_STORAGE_KEY);
         const storedActive = localStorage.getItem(ACTIVE_GAME_KEY);
         if (stored) {
