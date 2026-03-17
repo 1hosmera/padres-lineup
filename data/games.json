@@ -1,5 +1,5 @@
 {
-  "savedAt": "2026-03-16T23:59:50.599Z",
+  "savedAt": "2026-03-17T00:02:23.470Z",
   "games": [
     {
       "id": "game_1773702823933_kd6h98_0",
@@ -1337,7 +1337,7 @@
         ],
         "awayOuts": [
           3,
-          0,
+          2,
           0,
           0,
           0,
@@ -1345,7 +1345,7 @@
         ],
         "currentInning": 1,
         "currentBatter": 4,
-        "currentPitchCount": 2,
+        "currentPitchCount": 4,
         "lineupLocked": true,
         "battingStats": {
           "0": {
