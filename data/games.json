@@ -1,5 +1,5 @@
 {
-  "savedAt": "2026-03-17T01:13:25.161Z",
+  "savedAt": "2026-03-17T01:39:07.812Z",
   "games": [
     {
       "id": "game_1773702823933_kd6h98_0",
@@ -1341,11 +1341,11 @@
           3,
           3,
           3,
-          2
+          3
         ],
         "currentInning": 5,
         "currentBatter": 5,
-        "currentPitchCount": 4,
+        "currentPitchCount": 0,
         "lineupLocked": true,
         "battingStats": {
           "0": {
@@ -1393,7 +1393,7 @@
             "hits": 0
           }
         },
-        "halfInning": "them",
+        "halfInning": "us",
         "isHome": true,
         "gameDate": "2026-03-16",
         "teamName": "Gold Padres",
