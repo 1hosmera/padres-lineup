@@ -1629,7 +1629,7 @@
 
   <div class="card mandatory-play-section" style="display:none !important;">
     <div class="section-title">Mandatory Play & Tiers</div>
-    <div class="mandatory-note">Rule 3.4 and the tier plan are calculated from the lineup below. Tier 3 players bench first, then Tier 2, while Tier 1 players stay off the bench, get exactly one outfield inning, and do not catch. Catcher counts toward only one inning of infield credit under 3.4.2.</div>
+    <div class="mandatory-note">Rule 3.4 and the tier plan are calculated from the lineup below. Tier 3 players bench first, then Tier 2, while Tier 1 players stay off the bench and get exactly one outfield inning. Samuel catches once per game. Catcher counts toward only one inning of infield credit under 3.4.2.</div>
     <div class="mandatory-grid" id="mandatorySummary"></div>
     <div class="table-scroll">
       <table class="compliance-table">
@@ -1714,7 +1714,7 @@
     }
     const TIER_LABELS = { 1: "T1", 2: "T2", 3: "T3" };
     const TIER_NOTES = {
-      1: "Tier 1 target met: 1 OF, 0 C, 0 bench.",
+      1: "Tier 1 target met: 1 OF, 0 bench. Samuel catches 1x.",
       2: "Tier 2 picks up bench after Tier 3.",
       3: "Tier 3 takes the first bench turns.",
     };
@@ -1735,7 +1735,7 @@
       player.active = true;
     });
 
-    // When full roster: only T1 plays 1B, T1 never catches
+    // When full roster: only T1 plays 1B, T1 never catches (except Samuel catches 1x)
     function isFullRoster() {
       return getActivePlayers().length >= 11;
     }
@@ -2420,7 +2420,8 @@
       if (player.tier === 1) {
         if (playerCanPlayOF && outfieldInnings !== 1) tierIssues.push(`Tier 1 should have exactly 1 OF inning; has ${outfieldInnings}`);
         if (!playerCanPlayOF && outfieldInnings > 0) tierIssues.push(`Tier 1 unexpected OF inning`);
-        if (catcherAvailable && catcherInnings > 0) tierIssues.push("Tier 1 should not play catcher");
+        if (catcherAvailable && catcherInnings > 0 && player.name !== "Samuel") tierIssues.push("Tier 1 should not play catcher");
+        if (player.name === "Samuel" && catcherAvailable && catcherInnings !== 1) tierIssues.push(`Samuel should catch exactly 1 inning; has ${catcherInnings}`);
         if (benchInnings > 0) tierIssues.push("Tier 1 should not take a bench inning");
       }
 
@@ -2605,11 +2606,11 @@
           },
           {
             id: "Tier 1",
-            title: "Tier 1 players stay out of catcher, stay off bench, and only log one OF inning",
+            title: "Tier 1 players stay off bench, log one OF inning; Samuel catches once",
             passed: tierOneIssues.length === 0,
             detail: tierOneIssues.length
               ? `${tierOneIssues.map((player) => player.name).join(", ")} are outside the Tier 1 plan.`
-              : "All Tier 1 players are at exactly one outfield inning, zero catcher innings, and zero bench innings.",
+              : "All Tier 1 players are at exactly one outfield inning and zero bench innings. Samuel catches once per game.",
           },
           {
             id: "T1 Split",
@@ -2690,7 +2691,9 @@
           // Cap 1B: Xander max 1x, others max 2x per game
           const firstBaseCap = player.name === "Xander" ? 1 : 2;
           if (position === "1B" && playerState.firstBaseCount >= firstBaseCap) return false;
-          if (player.tier === 1 && catcherAvailable && position === "C") return false;
+          if (player.tier === 1 && catcherAvailable && position === "C" && player.name !== "Samuel") return false;
+          // Samuel: cap at 1 catcher inning per game
+          if (player.name === "Samuel" && position === "C" && playerState.catcherInnings >= 1) return false;
 
           // Block if this would put a 2nd Tier 1 in outfield this inning (only when full roster)
           if (isT1SplitEnforced() && player.tier === 1 && OUTFIELD_POSITIONS.has(position) && tierOneInOFThisInning >= 1) return false;
