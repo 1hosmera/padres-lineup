@@ -2818,12 +2818,31 @@
       // Use dynamic position list based on active count
       const positionsThisInning = getActivePositions();
 
+      // Pre-assign Samuel to catcher in a random inning (if catcher is active)
+      const samuelIndex = players.findIndex(p => p.name === "Samuel" && p.active);
+      const catcherActive = positionsThisInning.includes("C");
+      let samuelCatcherInning = -1;
+      if (samuelIndex !== -1 && catcherActive) {
+        // Pick a random inning where Samuel is not benched
+        const eligible = [];
+        for (let i = 0; i < 6; i++) {
+          if (benchOrder[i] !== samuelIndex) eligible.push(i);
+        }
+        samuelCatcherInning = eligible[Math.floor(Math.random() * eligible.length)];
+        applyPosition(samuelIndex, samuelCatcherInning, "C", lineupPositions, state);
+      }
+
       for (let inning = 0; inning < 6; inning++) {
         const benchedIndex = benchOrder[inning];
         const availablePlayers = activeIndices
-          .filter((index) => index !== benchedIndex || benchedIndex === -1);
+          .filter((index) => index !== benchedIndex || benchedIndex === -1)
+          .filter((index) => !(index === samuelIndex && inning === samuelCatcherInning));
 
-        if (!assignInningPositions(inning, availablePlayers, positionsThisInning, lineupPositions, state, benchOrder)) {
+        const remainingPos = inning === samuelCatcherInning
+          ? positionsThisInning.filter(p => p !== "C")
+          : positionsThisInning;
+
+        if (!assignInningPositions(inning, availablePlayers, remainingPos, lineupPositions, state, benchOrder)) {
           return null;
         }
       }
