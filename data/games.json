@@ -1,5 +1,5 @@
 {
-  "savedAt": "2026-03-17T01:39:07.812Z",
+  "savedAt": "2026-03-21T17:10:15.621Z",
   "games": [
     {
       "id": "game_1773702823933_kd6h98_0",
@@ -1412,12 +1412,12 @@
             "num": 1,
             "name": "Oliver",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "LF",
+              "SS",
+              "2B",
+              "RCF",
+              "3B",
+              "C"
             ],
             "tier": 2,
             "active": true,
@@ -1438,12 +1438,12 @@
             "num": 2,
             "name": "Braden",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RF",
+              "P",
+              "SS",
+              "2B",
+              "1B",
+              "3B"
             ],
             "tier": 1,
             "active": true,
@@ -1464,12 +1464,12 @@
             "num": 3,
             "name": "Samuel",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "P",
+              "1B",
+              "C",
+              "1B",
+              "RF",
+              "SS"
             ],
             "tier": 1,
             "active": true,
@@ -1490,12 +1490,12 @@
             "num": 4,
             "name": "Luke",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "2B",
+              "LCF",
+              "1B",
+              "P",
+              "SS",
+              "1B"
             ],
             "tier": 1,
             "active": true,
@@ -1516,12 +1516,12 @@
             "num": 5,
             "name": "Nathan",
             "positions": [
+              "LCF",
+              "2B",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "3B",
+              "RCF",
+              "LF"
             ],
             "tier": 3,
             "active": true,
@@ -1542,12 +1542,12 @@
             "num": 6,
             "name": "Xander",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "1B",
+              "LF",
+              "3B",
+              "C",
+              "LCF",
+              "RCF"
             ],
             "tier": 2,
             "active": true,
@@ -1568,11 +1568,11 @@
             "num": 7,
             "name": "Jordi",
             "positions": [
-              null,
-              null,
-              null,
-              null,
-              null,
+              "RCF",
+              "C",
+              "LF",
+              "RF",
+              "P",
               null
             ],
             "tier": 2,
@@ -1594,12 +1594,12 @@
             "num": 8,
             "name": "Otis",
             "positions": [
+              "3B",
+              "RCF",
+              "P",
+              "LF",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "2B"
             ],
             "tier": 2,
             "active": true,
@@ -1621,11 +1621,11 @@
             "name": "Julian",
             "positions": [
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RF",
+              "LCF",
+              "SS",
+              "C",
+              "P"
             ],
             "tier": 3,
             "active": true,
@@ -1646,12 +1646,12 @@
             "num": 10,
             "name": "Jacob",
             "positions": [
+              "C",
+              "3B",
+              "RF",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "LF",
+              "LCF"
             ],
             "tier": 3,
             "active": true,
@@ -1672,12 +1672,12 @@
             "num": 11,
             "name": "Liana",
             "positions": [
+              "SS",
               null,
-              null,
-              null,
-              null,
-              null,
-              null
+              "RCF",
+              "LCF",
+              "2B",
+              "RF"
             ],
             "tier": 3,
             "active": true,
@@ -1730,9 +1730,54 @@
         "currentInning": 0,
         "currentBatter": 0,
         "currentPitchCount": 0,
-        "lineupLocked": false,
-        "battingStats": {},
-        "halfInning": "us",
+        "lineupLocked": true,
+        "battingStats": {
+          "0": {
+            "ab": 0,
+            "hits": 0
+          },
+          "1": {
+            "ab": 0,
+            "hits": 0
+          },
+          "2": {
+            "ab": 0,
+            "hits": 0
+          },
+          "3": {
+            "ab": 0,
+            "hits": 0
+          },
+          "4": {
+            "ab": 0,
+            "hits": 0
+          },
+          "5": {
+            "ab": 0,
+            "hits": 0
+          },
+          "6": {
+            "ab": 0,
+            "hits": 0
+          },
+          "7": {
+            "ab": 0,
+            "hits": 0
+          },
+          "8": {
+            "ab": 0,
+            "hits": 0
+          },
+          "9": {
+            "ab": 0,
+            "hits": 0
+          },
+          "10": {
+            "ab": 0,
+            "hits": 0
+          }
+        },
+        "halfInning": "them",
         "isHome": true,
         "gameDate": "2026-03-21",
         "teamName": "Gold Padres",
